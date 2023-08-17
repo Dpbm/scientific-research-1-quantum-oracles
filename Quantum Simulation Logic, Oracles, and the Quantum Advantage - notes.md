@@ -30,5 +30,7 @@ $HXH = Z$
 ## Quantum oracle
 * is a quantum version of the classical oracle that implements a reversible logical function into it using a computational basis.
 * It needs to be reversible in all possible ways, since its ancillas as its relative phases
-* the most powerful thing about quantum oracles are the phases. In contrast with the classical oracle, using the phase is possible to carry much more information and, consequently, can give us a speed up.
+* the most powerful thing about quantum oracles are the phases. In contrast with the classical oracle, using the phase is possible to carry much more information and, consequently, can give us a speed up
+* In most part of the algorithms, just doing a quantum circuit by itself could be extremely hard and, in some cases, give wrong results
+* the construction of different functions in an oracle modifies the phase behavior
 
