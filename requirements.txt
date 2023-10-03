@@ -4,3 +4,4 @@ numpy
 qiskit
 pylatexenc
 qiskit-aer
+pandas
