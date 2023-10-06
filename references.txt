@@ -1,0 +1,42 @@
+*Author(s). "Title of the PDF Document." Source Type. URL or Source Information, Publication Date (if available), Access Date.
+Ryan O’Donnell, Linus Hamilton. "Lecture 5: Quantum Query Complexity". PDF Document. https://www.cs.cmu.edu/~odonnell/quantum15/lecture05.pdf, Setembro 23, 2015, Acesso em: 
+Ryan O’Donnell, Kumail Jaffer. "Lecture 13: Lower Bounds using the Adversary Method". PDF Document. https://www.cs.cmu.edu/~odonnell/quantum15/lecture13.pdf, Outubro 21, 2015, Acesso em: 
+Laurel Brodkorb. "The Entscheidungsproblem and Alan Turing". PDF Document. https://www.gcsu.edu/sites/files/page-assets/node-808/attachments/brodkorb.pdf, Dezembro 18, 2019, Acesso em: 
+Michael Sipser. "Reductions". PDF Document. https://courses.grainger.illinois.edu/cs373/fa2013/Lectures/lec23.pdf, Novembro 19, 2013, Acesso em:
+
+
+
+
+
+*Author(s). "Title of the Article." Title of the Journal, volume(issue), page numbers, year.
+Robert I. Soare. "Turing oracle machines, online computing, and three displacements in computability theory" Annals of Pure and Applied Logic, 160, 32, 2009.
+
+
+*Author(s). "Title of the Article." arXiv Identifier. Source Type. URL.
+Robin Kothari. "An optimal quantum algorithm for the oracle identification problem" arXiv:1311.7685. Preprint. https://arxiv.org/abs/1311.7685
+
+
+
+
+*Author(s). "Title of the Presentation." Event Information (if applicable). Source Type. URL or Source Information, Access Date.
+Sadika Amreen, Reazul Hoque . "Oracle Turing Machines". PowerPoint presentation. https://web.eecs.utk.edu/~bmaclenn/Classes/494-594-UC-F15/presentations/OTM.pdf, Acesso em:
+
+
+
+
+
+*Issuing Entity. "Title or Subject of the Notice." Notice or Announcement. Publication Date. [URL or Source Information, if applicable].
+American Mathematical Society. "What is.. Turing Reducibility?". Notice. Novembro 2006. https://www.ams.org/notices/200610/whatis-davis.pdf.
+
+
+
+
+
+*Video Creator(s). "Title of the Video." Video. Source Information (YouTube Channel Name), Publication Date, URL.
+Subrahmanyam Kalyanasundaram. "mod04lec23 - Oracle Turing Machines" Video. NPTEL-NOC IITM, Setembro 24, 2021, https://youtu.be/ElSExH4Xolc.
+
+
+
+*Author(s) or Website Name. "Title of the Webpage." Website Name, Publication Date (if available), URL.
+stackexchange. "What does it mean to be Turing reducible?". stackexchange, Março 18, 2016, https://cs.stackexchange.com/questions/54576/what-does-it-mean-to-be-turing-reducible.
+
