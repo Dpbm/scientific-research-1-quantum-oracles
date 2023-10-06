@@ -5,3 +5,6 @@ qiskit
 pylatexenc
 qiskit-aer
 pandas
+qiskit-algorithms
+tqdm
+ipywidgets
