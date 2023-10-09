@@ -1,17 +1,17 @@
-O’DONNELL, R. Lecture 5: Quantum Query Complexity. [s.l: s.n.]. Disponível em: <https://www.cs.cmu.edu/~odonnell/quantum15/lecture05.pdf>. Acesso em: 9 out. 2023.
-O’DONNELL, R. Lecture 13: Lower Bounds using the Adversary Method. [s.l: s.n.]. Disponível em: <https://www.cs.cmu.edu/~odonnell/quantum15/lecture13.pdf>. Acesso em: 9 out. 2023.
+O’DONNELL, R. Lecture 5: Quantum Query Complexity. [s.l: s.n.]. Disponível em: <https://www.cs.cmu.edu/~odonnell/quantum15/lecture05.pdf>. Acesso em: 4 set. 2023.
+O’DONNELL, R. Lecture 13: Lower Bounds using the Adversary Method. [s.l: s.n.]. Disponível em: <https://www.cs.cmu.edu/~odonnell/quantum15/lecture13.pdf>. Acesso em: 5 set. 2023.
 SOARE, R. I. Turing oracle machines, online computing, and three displacements in computability theory. Annals of Pure and Applied Logic, v. 160, n. 3, p. 368–399, set. 2009.
-BRODKORB, L.; EPSTEIN, R. The Entscheidungsproblem and Alan Turing. [s.l: s.n.]. Disponível em: <https://www.gcsu.edu/sites/files/page-assets/node-808/attachments/brodkorb.pdf>. Acesso em: 19 set. 2023.
-AMREEN, S.; HOQUE, R. Oracle Turing Machines. [s.l: s.n.]. Disponível em: <https://web.eecs.utk.edu/~bmaclenn/Classes/494-594-UC-F15/presentations/OTM.pdf>. Acesso em: 9 out. 2023.
-KALYANASUNDARAM, S. mod04lec23 - Oracle Turing Machines. Disponível em: <https://www.youtube.com/watch?v=ElSExH4Xolc>. Acesso em: 9 out. 2023. 
-DAVIS, M. Turing Reducibility? [s.l: s.n.]. Disponível em: <https://www.ams.org/notices/200610/whatis-davis.pdf>. Acesso em: 9 out. 2023.
-SIPSER, M. Reductions 1.1 Introduction Reductions. [s.l: s.n.]. Disponível em: <https://courses.grainger.illinois.edu/cs373/fa2013/Lectures/lec23.pdf>.
-What does it mean to be Turing reducible? Disponível em: <https://cs.stackexchange.com/questions/54576/what-does-it-mean-to-be-turing-reducible>. Acesso em: 9 out. 2023.
+BRODKORB, L.; EPSTEIN, R. The Entscheidungsproblem and Alan Turing. [s.l: s.n.]. Disponível em: <https://www.gcsu.edu/sites/files/page-assets/node-808/attachments/brodkorb.pdf>. Acesso em: 7 set. 2023.
+AMREEN, S.; HOQUE, R. Oracle Turing Machines. [s.l: s.n.]. Disponível em: <https://web.eecs.utk.edu/~bmaclenn/Classes/494-594-UC-F15/presentations/OTM.pdf>. Acesso em: 9 set. 2023.
+KALYANASUNDARAM, S. mod04lec23 - Oracle Turing Machines. Disponível em: <https://www.youtube.com/watch?v=ElSExH4Xolc>. Acesso em: 12 set. 2023. 
+DAVIS, M. Turing Reducibility? [s.l: s.n.]. Disponível em: <https://www.ams.org/notices/200610/whatis-davis.pdf>. Acesso em: 12 set. 2023.
+SIPSER, M. Reductions 1.1 Introduction Reductions. [s.l: s.n.]. Disponível em: <https://courses.grainger.illinois.edu/cs373/fa2013/Lectures/lec23.pdf>. Acesso em: 14 set. 2023.
+What does it mean to be Turing reducible? Disponível em: <https://cs.stackexchange.com/questions/54576/what-does-it-mean-to-be-turing-reducible>. Acesso em: 15 set. 2023.
 KOTHARI, R. An optimal quantum algorithm for the oracle identification problem. arXiv (Cornell University), 29 nov. 2013.
-FAN, Y. A Generalization of the Deutsch-Jozsa Algorithm to Multi-Valued Quantum Logic. Disponível em: <https://arxiv.org/abs/0809.0932>. Acesso em: 10 dez. 2022.
-SUNDARAPPAN, K. How to build oracles for Quantum Algorithms. Disponível em: <https://www.youtube.com/watch?v=R0LYfPMElJg>. Acesso em: 9 out. 2023.
-YAMAKAWA, T.; ZHANDRY, M. Classical vs Quantum Random Oracles. Disponível em: <https://eprint.iacr.org/2020/1270>. Acesso em: 9 out. 2023.
-BACON, D. CSE 599d -Quantum Computing Simon’s Algorithm. [s.l: s.n.]. Disponível em: <https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes8.pdf>. Acesso em: 9 out. 2023.
+FAN, Y. A Generalization of the Deutsch-Jozsa Algorithm to Multi-Valued Quantum Logic. Disponível em: <https://arxiv.org/abs/0809.0932>. Acesso em: 20 set. 2023.
+SUNDARAPPAN, K. How to build oracles for Quantum Algorithms. Disponível em: <https://www.youtube.com/watch?v=R0LYfPMElJg>. Acesso em: 24 set. 2023.
+YAMAKAWA, T.; ZHANDRY, M. Classical vs Quantum Random Oracles. Disponível em: <https://eprint.iacr.org/2020/1270>. Acesso em: 27 set. 2023.
+BACON, D. CSE 599d -Quantum Computing Simon’s Algorithm. [s.l: s.n.]. Disponível em: <https://courses.cs.washington.edu/courses/cse599d/06wi/lecturenotes8.pdf>. Acesso em: 29 set. 2023.
 BUHRMAN, H.; CLEVE, R.; WIGDERSON, A. Quantum vs. Classical Communication and Computation. arXiv (Cornell University), 14 fev. 1998.
 SANCHEZ-RIVERO, J. et al. Some Initial Guidelines for Building Reusable Quantum Oracles. arXiv (Cornell University), 27 mar. 2023.
 GILLIAM, A.; PISTOIA, M.; GONCIULEA, C. Canonical Construction of Quantum Oracles. arXiv (Cornell University), 18 jun. 2020.
