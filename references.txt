@@ -18,3 +18,4 @@ GILLIAM, A.; PISTOIA, M.; GONCIULEA, C. Canonical Construction of Quantum Oracle
 JOHANSSON, N.; LARSSON, J.-Å. Quantum Simulation Logic, Oracles, and the Quantum Advantage. Entropy, v. 21, n. 8, p. 800, 15 ago. 2019.
 O.D. PRIMQULOV. The role of quantum algorithms in the solution of important problems. Zenodo (CERN European Organization for Nuclear Research), v. 2, n. 1, 31 ago. 2022.
 WONG, T. G. Introduction to classical and quantum computing. Omaha: Rooted Groove. Copyright, 2022.
+KANG, H. Quantum Phase Estimation. Disponível em: <https://learn.qiskit.org/course/ch-algorithms/quantum-phase-estimation>.
