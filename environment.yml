@@ -2,4 +2,18 @@ name: quantum-oracles
 channels: 
         - conda-forge
 dependencies:
+        - pip
         - python=3.8.15
+        - pip:
+          - jupyterlab
+          - matplotlib
+          - numpy
+          - qiskit
+          - pylatexenc
+          - qiskit-aer
+          - pandas
+          - qiskit-algorithms
+          - tqdm
+          - ipywidgets
+          - python-dotenv
+          - qiskit-ibm-provider
