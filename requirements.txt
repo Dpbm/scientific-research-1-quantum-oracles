@@ -8,3 +8,5 @@ pandas
 qiskit-algorithms
 tqdm
 ipywidgets
+python-dotenv
+qiskit-ibm-provider
