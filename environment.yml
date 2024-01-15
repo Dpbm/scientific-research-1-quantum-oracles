@@ -19,3 +19,6 @@ dependencies:
           - qiskit-ibm-provider
           - seaborn
           - qiskit-ibm-runtime
+          - rustworkx
+          - cirq
+          - scikit-learn
