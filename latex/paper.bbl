@@ -1,0 +1,199 @@
+\begin{thebibliography}{10}
+
+\bibitem{SOARE2009368}
+Robert~I. Soare.
+\newblock Turing oracle machines, online computing, and three displacements in
+  computability theory.
+\newblock {\em Annals of Pure and Applied Logic}, 160(3):368--399, 2009.
+\newblock Computation and Logic in the Real World: CiE 2007.
+
+\bibitem{odonnell_2015_lecture}
+Ryan O’Donnell.
+\newblock Lecture 5: Quantum query complexity, 09 2015.
+
+\bibitem{bacon_2006_cse}
+Dave Bacon.
+\newblock Cse 599d -quantum computing simon's algorithm, 2006.
+
+\bibitem{lipics_stacs}
+Robin Kothari.
+\newblock An optimal quantum algorithm for the oracle identification problem.
+\newblock Schloss Dagstuhl – Leibniz-Zentrum für Informatik, 2014.
+
+\bibitem{odonnell_2015_lecture_2}
+Ryan O’Donnell.
+\newblock Lecture 13: Lower bounds using the adversary method, 10 2015.
+
+\bibitem{brodkorb_2019_the}
+Laurel Brodkorb and Rachel Epstein.
+\newblock The entscheidungsproblem and alan turing, 12 2019.
+
+\bibitem{amreen_oracle}
+Sadika Amreen and Reazul Hoque.
+\newblock Oracle turing machines.
+
+\bibitem{kalyanasyndaram_2021_mod04lec23}
+Subrahmanyam Kalyanasyndaram.
+\newblock mod04lec23 - oracle turing machines, 09 2021.
+
+\bibitem{davis_2006_turing}
+Martin Davis.
+\newblock Turing reducibility?, 11 2006.
+
+\bibitem{viswanathan_2013_reductions}
+Mahesh Viswanathan.
+\newblock Reductions 1.1 introduction reductions, 2013.
+
+\bibitem{a2016_what}
+What does it mean to be turing reducible?, 03 2016.
+
+\bibitem{Fan_2007}
+Yale Fan.
+\newblock A generalization of the deutsch-jozsa algorithm to multi-valued
+  quantum logic.
+\newblock In {\em 37th International Symposium on Multiple-Valued Logic
+  (ISMVL’07)}. IEEE, May 2007.
+
+\bibitem{cryptoeprint:2020/1270}
+Takashi Yamakawa and Mark Zhandry.
+\newblock Classical vs quantum random oracles.
+\newblock Cryptology ePrint Archive, Paper 2020/1270, 2020.
+\newblock \url{https://eprint.iacr.org/2020/1270}.
+
+\bibitem{buhrman1998quantum}
+Harry Buhrman, Richard Cleve, and Avi Wigderson.
+\newblock Quantum vs. classical communication and computation, 1998.
+
+\bibitem{sanchezrivero2023initial}
+Javier Sanchez-Rivero, Daniel Talaván, Jose Garcia-Alonso, Antonio
+  Ruiz-Cortés, and Juan~Manuel Murillo.
+\newblock Some initial guidelines for building reusable quantum oracles, 2023.
+
+\bibitem{gilliam2020canonical}
+Austin Gilliam, Marco Pistoia, and Constantin Gonciulea.
+\newblock Canonical construction of quantum oracles, 2020.
+
+\bibitem{Kashefi_2002}
+Elham Kashefi, Adrian Kent, Vlatko Vedral, and Konrad Banaszek.
+\newblock Comparison of quantum oracles.
+\newblock {\em Physical Review A}, 65(5), May 2002.
+
+\bibitem{e21080800}
+Niklas Johansson and Jan-Åke Larsson.
+\newblock Quantum simulation logic, oracles, and the quantum advantage.
+\newblock {\em Entropy}, 21(8), 2019.
+
+\bibitem{Zeng_2014}
+William Zeng and Jamie Vicary.
+\newblock Abstract structure of unitary oracles for quantum algorithms.
+\newblock {\em Electronic Proceedings in Theoretical Computer Science},
+  172:270–284, December 2014.
+
+\bibitem{atici2004comparative}
+Alp Atici.
+\newblock Comparative computational strength of quantum oracles, 2004.
+
+\bibitem{sundarappan_2022_how}
+Kathiresan Sundarappan.
+\newblock How to build oracles for quantum algorithms, 04 2022.
+
+\bibitem{dai_view}
+Zhifei Dai, Robin Choudhury, Jinming Gao, Andrei Iagaru, Alexander V~Kabanov,
+  Twan Lammers, and Richard J.~Price.
+\newblock View of the role of quantum algorithms in the solution of important
+  problems.
+
+\bibitem{sep-game-theory}
+Don Ross.
+\newblock {Game Theory}.
+\newblock In Edward~N. Zalta and Uri Nodelman, editors, {\em The {Stanford}
+  Encyclopedia of Philosophy}. Metaphysics Research Lab, Stanford University,
+  {S}pring 2024 edition, 2024.
+
+\bibitem{Giovannetti_2008}
+Vittorio Giovannetti, Seth Lloyd, and Lorenzo Maccone.
+\newblock Quantum random access memory.
+\newblock {\em Physical Review Letters}, 100(16), April 2008.
+
+\bibitem{jaques2023qram}
+Samuel Jaques and Arthur~G. Rattew.
+\newblock Qram: A survey and critique, 2023.
+
+\bibitem{PythonEWL2022}
+Tomasz Zawadzki and Piotr Kotara.
+\newblock A python tool for symbolic analysis of quantum games in ewl protocol
+  with ibm q integration.
+\newblock \url{https://github.com/tomekzaw/ewl}.
+
+\bibitem{frackiewicz2011application}
+Piotr Frackiewicz.
+\newblock Application of the ewl protocol to decision problems with imperfect
+  recall, 2011.
+
+\bibitem{Eisert_1999}
+Jens Eisert, Martin Wilkens, and Maciej Lewenstein.
+\newblock Quantum games and quantum strategies.
+\newblock {\em Physical Review Letters}, 83(15):3077–3080, October 1999.
+
+\bibitem{usman_2019_kilometres}
+Muhammad Usman.
+\newblock Kilometres to miles conversion — approximation of fibonacci series,
+  09 2019.
+
+\bibitem{ldiaandr_2021_tower}
+Lídia André.
+\newblock Tower of hanoi – lídia andré, 03 2021.
+
+\bibitem{diptokarmakar47_2019_how}
+diptokarmakar47.
+\newblock How to solve the tower of hanoi problem - an illustrated algorithm
+  guide, 01 2019.
+
+\bibitem{a2020_towers}
+Towers of hanoi: A complete recursive visualization, 05 2020.
+
+\bibitem{geeksforgeeks_2014_program}
+GeeksforGeeks.
+\newblock Program for tower of hanoi, 05 2014.
+
+\bibitem{khan_2021_quantum}
+Faisal~Shah Khan and Ning Bao.
+\newblock Quantum prisoner’s dilemma and high frequency trading on the
+  quantum cloud.
+\newblock {\em Frontiers in Artificial Intelligence}, 4, 11 2021.
+
+\bibitem{legn_2022_dilemma}
+Alexis~R. Legón and Ernesto Medina.
+\newblock Dilemma breaking in quantum games by joint probabilities approach.
+\newblock {\em Scientific Reports}, 12, 08 2022.
+
+\bibitem{siegelwax_2022_quantum}
+Brian Siegelwax.
+\newblock Quantum memory: Qram. what is it and why do we need it? making
+  quantum algorithms thrive., 01 2022.
+
+\bibitem{landi_density}
+Gabriel Landi.
+\newblock Density matrices and composite systems.
+
+\bibitem{vijayakrishnan_2019_role}
+V.~Vijayakrishnan and S.~Balakrishnan.
+\newblock Role of two-qubit entangling operators in the modified
+  eisert–wilkens–lewenstein approach of quantization.
+\newblock {\em Quantum Information Processing}, 18, 03 2019.
+
+\bibitem{python_scientific}
+Real Python.
+\newblock Scientific python: Using scipy for optimization – real python.
+
+\bibitem{scipyoptimizeminimize_scalar}
+scipy optimize minimize scalar - scipy v1.12.0 manual.
+
+\bibitem{davis_optimization}
+Matt Davis.
+\newblock Optimization (scipy.optimize) — scipy v0.19.0 reference guide.
+
+\bibitem{scipyoptimizeminimize}
+scipy.optimize.minimize — scipy v1.6.0 reference guide.
+
+\end{thebibliography}

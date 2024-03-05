@@ -207,7 +207,6 @@ code/files-test/**
 .pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
-*.bbl
 *.bcf
 *.blg
 *-blx.aux
