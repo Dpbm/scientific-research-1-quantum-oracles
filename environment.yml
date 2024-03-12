@@ -8,7 +8,7 @@ dependencies:
           - jupyterlab
           - matplotlib
           - numpy
-          - qiskit
+          - qiskit==1.0.0
           - pylatexenc
           - qiskit-aer
           - pandas
