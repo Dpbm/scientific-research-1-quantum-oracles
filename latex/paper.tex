@@ -402,7 +402,7 @@ Nessa primeira rodada temos 3 vidas, 2 balas falsas e 1 bala verdadeira.
 A dinamica funciona da seguinte forma: você começa jogando,tendo duas possíveis escolhas, atirar em você mesmo ou no dealer. Caso você atire em você mesmo e a bala for real, você perde uma vida, mas você joga novamente na próxima rodada, caso a bala seja falsa você joga novamente. Agora, caso a escolha seja atirar no dealer, se a bala for real você ganha, se não o dealer joga.
 
 
-\subsubsection{Desenvolvimento}
+\subsubsection{Versão clássica}
 
 Antes de crair o circuito, foi feita a modelagem do jogo usando a estrutura em árvore.
 
@@ -424,6 +424,9 @@ Seguindo essa estrutura, podemos tentar encontrar o melhor caminho dentre a àrv
 \end{center}
 
 Após testar os possíveis caminhso, o melhor resultado obtido foi esse apresentado acima em \ref{fig:classical-model-bckr-optimal-strategy}. Com um pouco de investigação, foi possível entender que a melhor estratégia encontrada foi o player começar atirando no dealer. Isso pois ao seguir tal caminho, ele tem uma chance a menos de perder a rodada, já que a chance de perder logo no começo é eliminada.
+
+
+
 
 \begin{table}[!h]
 	\begin{center}
@@ -454,8 +457,55 @@ Após testar os possíveis caminhso, o melhor resultado obtido foi esse apresent
 	\end{center}
 \end{table}
 
+\subsubsection{Versão quântica}
 
-\subsection{QRAM}
+A partir dessa ideia, um circuito quântico foi modelado imitando o primeiro round, e um oracle foi usado para cada jogador implementando sua estratégia em seu interior.
+
+\begin{center}
+	\includegraphics[scale=0.3]{quantum_buckshot_roulette.png}
+	\captionof{figure}{Circuito para o buckshot roulette}
+	\label{fig:bckr-circuit}
+\end{center}
+
+Além disso, para encontrarmos a melhor estratégia para o player, foi inserido dois parâmetros dentro do oracle, sendo possível inserir qualquer valor $\theta$ e $\phi$ para encontrar a melhor rotação na bloch sphere. 
+
+Após verificar uma grande variedade de valores possíveis, a rotação que entregou o melhor resultado foi $\theta = 3.0853981633974477, \phi=5.685398163397447$.
+Usando essa estratégia, os resultados foram semelhantes a versão clássica usando o simulador Aer:
+
+\begin{center}
+	\includegraphics[scale=0.6]{final_buckshot_roulette_quantum_optimal_strategy.png}
+	\captionof{figure}{Resultado Buckshot Roulette quântico}
+	\label{fig:bckr-circuit-result}
+\end{center}
+
+Observando a bloch sphere do estado gerado por essa rotação, é possível ver também que a estratégia de fato se assemelha a versão classica, com o player preferindo atirar no dealer a maior parte do tempo (o valor 1 aqui representa atirar no outro jogador e 0 atirar em si mesmo).
+
+\begin{center}
+	\includegraphics[scale=0.6]{player_optimal_strategy_bloch.png}
+	\captionof{figure}{Melhor estratégia Buckshot Roulette quântico - Bloch Sphere}
+	\label{fig:bckr-bloch-sphere-best-strategy}
+\end{center}
+
+\subsubsection{Conclusões}
+
+Para esse problema, não há uma competição certa entre as duas versões, uma vez que uma é diretamente inspirada na outra.
+
+Além disso, a versão quântica possui ainda a possibilidade de explorar mais valores do que a versão clássica, deixando o player mais aberto a escolha de estratégias.
+
+Em relação a erros providos pelo hardware não afeta diretamente os resultados, uma vez que mesmo com os erros a proporção se mantém.
+
+
+ \begin{center}
+ 	\includegraphics[scale=0.6]{final_buckshot_roulette_quantum_optimal_strategy_fake_melbourne.png}
+ 	\captionof{figure}{Resultados Buckshot Roulette usando o fake backend Melbourne da IBM}
+ 	\label{fig:bckr-fake-melbourne}
+ \end{center}
+
+Note também que o total de partidas ganhas não chega ao total jogado, 1000 partidas no total, isso pois, pelo design do circuito, não é possível verificar a jogada do player anterior, sendo possível continuar jogando mesmo que um dos players já tenham perdido, o que foi necessário correções usando pós processamento após a simulação.
+
+Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar aqui o quantum oracle como uma representação de um player dentro do circuito.
+
+%\subsection{QRAM}
 
 \begin{center}
 \end{center}
