@@ -17,12 +17,15 @@
 \usepackage{caption}
 \usepackage{braket}
 \usepackage{amsmath}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{mathtools}
 
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 \newcommand{\tens}[1]{%
 	\mathbin{\mathop{\otimes}\limits_{#1}}%
 }
-
 
 \title{Quantum Oracles - Como transformar problemas clássicos em quânticos}
 
@@ -242,9 +245,216 @@ Mesmo perante os testes clássicos feitos durante o desenvolvimento, esse protoc
 Sendo assim, o algoritmo de Grover deve ser pensando para casos do qual a versão clássica possui complexidade $\ge O(n)$.
 
 
-\subsection{Miles to Kilometers}
-\subsection{Hanoi Tower}
+\subsection{Milhas para quilômetros}
+
+O segundo problema testado foi a conversão de milhas para Km. Essa idéia se deu a após a descoberta de um algoritmo capaz de calcular fibonacci com circuitos quânticos.
+
+\subsubsection{algoritmo de Fibonacci}
+
+A versão quântica usada para calcular fibonacci apresentada em \cite{gilliam2020canonical}, demonstra que utilizando um circuito que coloca em superposição todas as bit strings com $n$ qubits que não possuem valores uns consecutivos, é possivel encontrar o valor $n$ de fibonacci.
+
+Sua implementação se dá da seguinte maneira:
+
+\begin{center}
+	\includegraphics[scale=0.3]{fibonacci-circuit.png}
+	\captionof{figure}{Exemplo Algoritmo de Fibonacci}
+	\label{fig:fibonacci-circuit}
+\end{center}
+
+Tendo como resultado:
+
+\begin{center}
+	\includegraphics[scale=0.5]{fibonacci-4.png}
+	\captionof{figure}{Resultado exemplo Fibonacci - F(4)}
+	\label{fig:fibonacci-circuit-result}
+\end{center}
+
+Essa implementação inicia a cadeia partir do valor $2$, sendo assim: $2, 3, 5, 8, 13, 21, ...$. 
+Repare que na figura \ref{fig:fibonacci-circuit-result}, a quantidade de número de valores encontrados (nesse caso $8$) é o mesmo do que o 4º valor da sequência. Ou seja, para esse circuito, o valor de qubits $n$ representa o valor $n$ de fibonacci que queremos encontrar. Sendo assim, podemos pensar em um oracle implementado $F(n)$ do qual a entrada $n$ é igual a $\ket{0}^{\tens^n}$.
+
+\subsubsection{Implementação}
+
+Para aproximar o valor de milhas para quilômetros, podemos utilizar a relação de fibonacci da seguinte forma:
+
+$F_{km} = F_{milhas}(n+1)$, sendo assim, para conseguir o valor relativo em quilômetros, basta pegar o próximo valor na sequência.
+
+
+\begin{table}[!h]
+	\begin{center}
+		\begin{tabular}{ |c|c| } 
+			\hline
+			milhas & km \\
+			\hline
+			1 & 2 \\
+			\hline
+			2 & 3 \\
+			\hline
+			3 & 5 \\
+			\hline
+			5 & 8 \\
+			\hline
+		\end{tabular}
+	\caption{valores aproximados de milhas para Km}
+	\end{center}
+\end{table}
+
+No entanto, dessa forma, temos um problema, a quantidade necessária de qubits. Para entradas $n$ tendendo ao infinito, precisaremos de infinitos qubits. Para resolver isso, foi criado um algoritmo clássico simples para quebrar numero desejado em partes menores que podem ser calculadas em um circuito com menos qubits, $ f: (n) \to ((n_1, i), (n_2, i), ...)$, mapeando então a entrada $n$ para uma lista de tuplas contendo o número base e a quantidade de aplicações necessária $i$.
+
+Com isso, o circuito final é apresentado da seguinte forma:
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\For{cada número base n}
+		
+			Aplique o oracle F(n)
+			
+			Faça as medições nos qubits
+			
+			reset os qubits usados
+			
+		\EndFor\\
+		
+		verifique o resultado de cada bit string\\
+		
+		multplique cada resultado com o valor i correspondente
+		
+	\end{algorithmic}
+	\caption{Algoritmo quântico para a conversão}
+	\label{alg:miles-to-km-quantum-algortihm}
+\end{algorithm}
+
+\begin{center}
+	\includegraphics[scale=0.15]{number_breakdown_circuit.png}
+	\captionof{figure}{Circuito de conversão implementado}
+	\label{fig:miles-km-circuit}
+\end{center}
+
+\subsubsection{Resultados}
+
+Usando esse método é possível alcançar os valores esperados. Contudo existem alguns pontos que torna esse método pior do que a versão clássica:
+
+\begin{enumerate}
+\item{Quantidade necessária de mediçoes e tempo de execução}\\
+Para cada vez que medirmos o circuito, precisamos de uma quantidade alta de shots para alcançar um resultado melhor, aumentando também o tempo necessário para executar desse versão.
+
+\begin{center}
+	\includegraphics[scale=0.6]{comparison_miles_to_km.png}
+	\captionof{figure}{Comparação tempos de execução}
+	\label{fig:comparasion-miles-km-time}
+\end{center}
+
+Como é possivel ver em \ref{fig:comparasion-miles-km-time}, o tempo das versões clássicas com e sem memoization possuem tempo praticamente constante de execução em comparação com as versões quânticas em simuladores e hardwares reais.
+
+
+\item{Erros}\\
+Como a maioria dos algoritmos quanticos da era NISQ(noisy intermediate-scale quantum), os erros também estão presentes, e por utilizarmos muitos gates de dois qubits, esses erros podem se intensificar dependendo do hardware usado.
+
+\item{Imprecisão conforme a entrada cresce ao infinito}\\
+
+\begin{center}
+	\includegraphics[scale=0.2]{miles_to_km_defiance.png}
+	\captionof{figure}{Comparação resultados versão clássica e quântica}
+	\label{fig:values-miles-km-quantum}
+\end{center}
+
+Como é possível ver em \ref{fig:values-miles-km-quantum}, valores pequenos possuem uma boa precisão com os números esperados(em azul), mas apartir de certo ponto eles começam a se distanciar.
+
+
+\item{necessidade de intervenção clássica}
+
+Por fim, esse algoritmo requer que seja primeiro verificado quais são os valores de fibonacci necessários para cada parte, além de ser necessário pós processamento após as medições.
+
+Para amenizar tal problema, é necessário criar outros algoritmos capazes de encodar o valor requerdio diretamente no circuito sem maiores intervenções clásssicas, necessitando apenas de pós processamento (em certos casos).
+
+\end{enumerate}
+
+\subsection{Torres de Hanoi Hanoi}
+
+Para o terceiro teste, foi implementado uma versão das torres de Hanoi usando os Oracles como meio de encoding.
+
+\subsubsection{Implementação}
+
+Para implementar as torres de hanoi em um oracle, são necessários $(\floor{\log_2{x}}} + 1) * 3$ qubits, sendo $x$ o número de discos com a seguinte ordem $\ket{t_n t_{n-1} t_{n-2} ... t_0}\ket{a_n a_{n-1} a_{n-2} ... a_0}\ket{s_n s_{n-1} s_{n-2} ... s_0}$, sendo $t$ a ultima torre, $a$ a torre do meio e $s$ a primeira torre, e $n = {{n \space qubits} \over 3}$.
+
+Com essa configuração, os numeros de $1$ à $x$ são codificados em um phase oracle, e em seguida são realizadas operaçoes de $swap$ para modificar a posição dos valores binários e mover os valores do $n$ qubits menos significativos, para os $n$ qubits mais significativos.
+
+\begin{center}
+	\includegraphics[scale=0.2]{hanoi_4_discs.png}
+	\captionof{figure}{Torre de hanoi com 4 discos}
+	\label{fig:hanoi}
+\end{center}
+
+Nesse formato, é possível utilizar o unitário gerado pelo oracle, assim como o algoritmo de Grover para verificar o resultado.
+
+\subsubsection{Resultados}
+
+Nessa implementação, o algoritmo segue o mesmo padrão da versão clássica, sendo o melhor ou pior desempenho dependendo estritamente do hardware usado.
+
+
 \subsection{Buckshot Roulette}
+
+Buckshot Roulette é um jogo feito pelo desenvolvedor \href{https://mikeklubnika.itch.io/}{Mike Klubnika} para computador que toma como base a premissa de reinventar a infame roleta russa. No jogo, você é desafiado por um demônio (dealer), e caso você ganhe você ganha uma recompensa, mas caso contrário o jogo reinicia.
+
+Para esse projeto, tomamos como base a primeira rodada do jogo buscando encontrar a melhor estrategia para maximizar os ganhos.
+
+Nessa primeira rodada temos 3 vidas, 2 balas falsas e 1 bala verdadeira.
+
+A dinamica funciona da seguinte forma: você começa jogando,tendo duas possíveis escolhas, atirar em você mesmo ou no dealer. Caso você atire em você mesmo e a bala for real, você perde uma vida, mas você joga novamente na próxima rodada, caso a bala seja falsa você joga novamente. Agora, caso a escolha seja atirar no dealer, se a bala for real você ganha, se não o dealer joga.
+
+
+\subsubsection{Desenvolvimento}
+
+Antes de crair o circuito, foi feita a modelagem do jogo usando a estrutura em árvore.
+
+\begin{center}
+	\includegraphics[scale=0.2]{buckshot-roulette-diagram.png}
+	\captionof{figure}{Buckshot Roulette diagrama}
+	\label{fig:classical-model-bckr}
+\end{center}
+
+Note que nessa estrutura, o dealer na ultima bala, ainda pode escolher atirar ou não nele mesmo, isso acontence pois o jogo implementa ações randomicas para o dealer.
+
+Seguindo essa estrutura, podemos tentar encontrar o melhor caminho dentre a àrvore e simular os resultados da partida.
+
+
+\begin{center}
+	\includegraphics[scale=0.6]{optimal_player_strategy.png}
+	\captionof{figure}{Buckshot Roulette clássico - melhor estratégia}
+	\label{fig:classical-model-bckr-optimal-strategy}
+\end{center}
+
+Após testar os possíveis caminhso, o melhor resultado obtido foi esse apresentado acima em \ref{fig:classical-model-bckr-optimal-strategy}. Com um pouco de investigação, foi possível entender que a melhor estratégia encontrada foi o player começar atirando no dealer. Isso pois ao seguir tal caminho, ele tem uma chance a menos de perder a rodada, já que a chance de perder logo no começo é eliminada.
+
+\begin{table}[!h]
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| } 
+			\hline
+			rodada & ação & resultado da ação & resultado da partida \\
+			\hline
+			1 & player atira no dealer  & real & player ganha\\
+			\hline
+			1 & player atira no dealer  & fake & -\\
+			\hline
+			2 & dealer atira no player  & real & dealer ganha\\
+			\hline
+			2 & dealer atira no player  & fake & -\\
+			\hline
+			2 & dealer atira nele mesmo  & real & player ganha\\
+			\hline
+			2 & dealer atira nele mesmo  & fake & -\\
+			\hline
+			3 & player atira no dealer  & real & player ganha\\
+			\hline
+			3 & dealer atira no player & real & dealer ganha\\
+			\hline
+			3 & dealer atira nele mesmo  & real & player ganha\\
+			\hline
+		\end{tabular}
+		\caption{melhor estratégia - possíveis resultados}
+	\end{center}
+\end{table}
+
+
 \subsection{QRAM}
 
 \begin{center}
