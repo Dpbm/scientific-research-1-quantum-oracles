@@ -374,7 +374,7 @@ Para o terceiro teste, foi implementado uma versão das torres de Hanoi usando o
 
 \subsubsection{Implementação}
 
-Para implementar as torres de hanoi em um oracle, são necessários $(\floor{\log_2{x}}} + 1) * 3$ qubits, sendo $x$ o número de discos com a seguinte ordem $\ket{t_n t_{n-1} t_{n-2} ... t_0}\ket{a_n a_{n-1} a_{n-2} ... a_0}\ket{s_n s_{n-1} s_{n-2} ... s_0}$, sendo $t$ a ultima torre, $a$ a torre do meio e $s$ a primeira torre, e $n = {{n \space qubits} \over 3}$.
+Para implementar as torres de hanoi em um oracle, são necessários $(\floor{\log_2{x}}} + 1) * 3$ qubits, sendo $x$ o número de discos com a seguinte ordem $\ket{t_{n-1} t_{n-2} ... t_0}\ket{a_{n-1} a_{n-2} ... a_0}\ket{s_{n-1} s_{n-2} ... s_0}$, sendo $t$ a ultima torre, $a$ a torre do meio e $s$ a primeira torre, e $n = {{n \space qubits} \over 3}$.
 
 Com essa configuração, os numeros de $1$ à $x$ são codificados em um phase oracle, e em seguida são realizadas operaçoes de $swap$ para modificar a posição dos valores binários e mover os valores do $n$ qubits menos significativos, para os $n$ qubits mais significativos.
 
@@ -505,7 +505,17 @@ Note também que o total de partidas ganhas não chega ao total jogado, 1000 par
 
 Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar aqui o quantum oracle como uma representação de um player dentro do circuito.
 
-%\subsection{QRAM}
+\subsection{QRAM}
+Por fim, o último projeto realizado foi o de uma QRAM utilizando os oracles para encodar os valores desejados. Nessa versão, foi testado maneiras de criar QROMs (com dados estaticos dentro), e uma possível maneira de utilizar uma QRAM habil para escrita.
+
+Neste, foi levado em consideração o armazenamento de estados quânticos, e não de bitstrings clássicas.
+
+\subsubsection{QROM}
+
+Primeiro, foi feita uma versão de QROM, do qual utiliza $n$ qubits para endereços e $m$ qubits para a criação dos estados. Não necessáriamente os valores precisam estar correlacionados, podemos ter $n=3, m=10$. Isso pois, nesse formato, podemos mapear diversas superposições diferentes e aplicálas quando certo endereço for chamado. Sendo assim, o algoritmo aqui mostrado armazena os valores a partir da configuração de gates controlados interiores ao oracle, criando uma superposição apenas quando certo valor de entrada é inserido.
+
+A entrada do circuito segue o seguinte formato: ${\ket{0}^{\tens^m}} {\ket{a_{n-1} a_{n-2} ... a_0}}$
+
 
 \begin{center}
 \end{center}
