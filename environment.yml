@@ -19,3 +19,4 @@ dependencies:
           - qiskit-ibm-provider
           - seaborn
           - qiskit-ibm-runtime
+          - qutip
