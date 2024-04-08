@@ -55,22 +55,23 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-	A partir do uso de quantum Oracles e outros fatores quânticos, como a superposição. Foram feitos 5 mini projetos, tentando responder se é possível transformar certos problemas em quânticos, e se realmente tal transformação vale a pena. Após os testes foi possível ver que há casos em que é possível explorar os efeitos quânticos e ter um aproveitamento igual ou um pouco superior em certos casos, contudo ainda será necessário o uso de computadores clássicos para conseguir melhores resultados.
+	A partir do uso de quantum Oracles e outros fatores quânticos, como a superposição, foram feitos \emph{5 mini-projetos}. O objetivo desses projetos foi tentar responder se é possível transformar certos problemas em quânticos e se realmente tal transformação vale a pena. Após os testes foi possível ver que, há casos em que a versão quântica apresenta um aproveitamento igual ou um pouco superior em alguns casos, contudo ainda é necessário o uso de computadores clássicos para conseguir melhores resultados.
 \end{abstract}
 
 
 \section{Introdução}
-Hoje, não é difícil ver alguém falando sobre computação quântica e como essas máquinas vão mudar o futuro. Contudo, muitas dessas frases acabam se levando por extrapolações e/ou usos indevidos de ficção. Neste artigo, mostrarei que nem tudo é possível ser feito com um computador quântico atual, assim como existem pequenas áreas que se beneficiam ao máximo dessa nova tecnologia.\\
-Para esse feito, serão mostrado alguns testes feitos usando o \href{https://www.ibm.com/quantum/qiskit}{qiskit}, um framework open source da IBM para computação quântica, além de alguns resultados obtidos após executar os algoritmos em simuladores e máquinas reais, assim como seus relativos em computação clássica. Algoritmos dos quais tomam proveito dos quantum oracles, modelos ideias de função que não ajudam a descrever o algoritmo matematicamente, também tomam proveito de alguns efeitos quânticos, como superposição e interferência, para se sobressair à algumas estratégias clássicas.\\
-Com isso, o projeto foi desenvolvido em cima de cinco pequenos problemas, sendo eles: conversão de milhas para quilômetros, torre de Hanoi, explorador de arquivos, Buckshot Roulette e QRAM. Todas as implementações e materiais utilizados podem ser encontrados \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{nesse repositório do GitHub}.
+Hoje, não é difícil ver alguém falando sobre computação quântica e como essas máquinas vão mudar o nosso futuro. Contudo, muitas dessas frases acabam se levando por extrapolações e/ou usos indevidos de ficção. Neste artigo, mostrarei que nem tudo é possível ser feito com um computador quântico atual, assim como existem pequenas áreas que se beneficiam ao máximo dessa nova tecnologia.\\
+Para esse feito, serão mostrados \emph{5 mini-projetos} usando o \href{https://www.ibm.com/quantum/qiskit}{qiskit}, \emph{framework open source} da \href{https://www.ibm.com/}{IBM} para computação quântica, e resultados obtidos após executar os algoritmos quânticos e seus relativos em computação clássica.\\
+Tais mini-projetos foram os seguintes: Explorador de Arquivos \ref{file-explorer}, conversão de milhas para quilômetros \ref{conversion}, Torres de Hanoi \ref{hanoi}, BuckshotRoulette \ref{buckshot} e QRAM \ref{qram}. Todas as implementações podem ser encontradas nesse  \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{repositório do GitHub}.
+Para a criação desses algoritmos, foram usados os quantum oracles explorando alguns efeitos quânticos para cada caso específico. 
 
-
-\section{Início do projeto}
-Para dar início a pesquisa, foi necessário entender quais os tipos de oracles existem e como eles podem ser usados.\\
-Em computação clássica, temos as Oracle Machines, as quais são maquinas de Turing, das quais implementam alguma função em seu interior, e ao ser chamado/invocado o resultado correto é retornado em tempo constante $O(1)$, podendo ser vista como uma caixa preta, abstraindo completamente o seu funcionamento. Devido a essa definição, as OMs são ideias matemáticos, sendo assim usados apenas para formalismo matemático.\\
-Contudo em computação quântica, podemos de fato implementar certos modelos de Oracles e adiciona-los a um circuito maior, executando certas funções como: encoding de dados, aplicação de $f(x)$, abstração de partes do circuito, etc.
+\section{Oracles}
+Partindo da ideia das \emph{Oracle Turing Machines} \cite{SOARE2009368}\cite{amreen_oracle}\cite{kalyanasyndaram_2021_mod04lec23}\cite{e21080800}, os Oracles são modelos matemáticos ideiais, usados para abstrair certas partes de um algoritmo principal, em formato de caixa preta, facilitando a análise do algoritmo, assim como sua descrição matemática. Tais máquinas podem ser vistas também como uma função, recebendo entradas $x$ e retornando $f(x)$ em tempo $O(1)$. Em computação clássica, esse modelo não possui implementação real, sendo usado apenas descrições formais para problemas de decisão.\\
+Contudo, em computação quântica, é possível implementar esses componenetes e tomar proveito de sua estrutura e efeitos quânticos para conseguir um \emph{speed-up} em relação aos algoritmos clássicos, como mostrado pelo algoritmo de Deutsch–Jozsa \cite{Fan_2007}. Além disso, os Oracles possuem um papel importate ao demonstrar a complexidade de um circuito, alguns dos meios utilizados são: profundidade (\emph{depth}), calculando o maior caminho que uma informação percorre no circuito, ou ainda a quantiade de gates aplicados. No entanto, essas maneiras acabam se prejudicando ao \emph{transpilar} o circuito para uma outra máquina, variando então a complexidade de acordo com a topologia e com os gates fisicamente implementados. Para solucionar isso, outra maneira de calcular é inserir partes do circuito em um oracle, e descrever sua complexidade a partir da quantidade de vezes que ele chamado, também conhecido como \emph{query complexity} \cite{odonnell_2015_lecture} \cite{e21080800}.
 
 \subsection{Tipos de Oracles}
+
+A partir da definição dos Quatum Oracles, podemos classificá-los em relação a suas estruturas e maneiras de computar os dados.
 
 \subsubsection{Phase Oracle}
 Um dos primeiros tipos de Oracles usados para a criação de algoritmos como os de: \href{https://en.wikipedia.org/wiki/Grover%27s_algorithm}{Grover} e \href{https://en.wikipedia.org/wiki/Deutsch%E2%80%93Jozsa_algorithm}{Deutsch–Jozsa}; é comummente conhecido como \emph{Phase Oracle}.\\
@@ -154,7 +155,7 @@ Por fim, o Oracle QFT aplica a versão quântica da transformada de Fourier, pro
 
 
 \section{Desenvolvimento}
-\subsection{File Explorer}
+\subsection{File Explorer} \label{file-explorer}
 
 Imagine um computador quântico com um sistema operacional quântico (semelhante aos computadores convencionais, mas dessa vez seguindo as leis da mecânica quântica). Pensando nas partes desse sistema operacional, como seria possível pegar arquivos da memória usando a computação quântica?
 
@@ -245,7 +246,7 @@ Mesmo perante os testes clássicos feitos durante o desenvolvimento, esse protoc
 Sendo assim, o algoritmo de Grover deve ser pensando para casos do qual a versão clássica possui complexidade $\ge O(n)$.
 
 
-\subsection{Milhas para quilômetros}
+\subsection{Milhas para quilômetros} \label{conversion}
 
 O segundo problema testado foi a conversão de milhas para Km. Essa idéia se deu a após a descoberta de um algoritmo capaz de calcular fibonacci com circuitos quânticos.
 
@@ -368,7 +369,7 @@ Para amenizar tal problema, é necessário criar outros algoritmos capazes de en
 
 \end{enumerate}
 
-\subsection{Torres de Hanoi Hanoi}
+\subsection{Torres de Hanoi Hanoi} \label{hanoi}
 
 Para o terceiro teste, foi implementado uma versão das torres de Hanoi usando os Oracles como meio de encoding.
 
@@ -391,7 +392,7 @@ Nesse formato, é possível utilizar o unitário gerado pelo oracle, assim como 
 Nessa implementação, o algoritmo segue o mesmo padrão da versão clássica, sendo o melhor ou pior desempenho dependendo estritamente do hardware usado.
 
 
-\subsection{Buckshot Roulette}
+\subsection{Buckshot Roulette} \label{buckshot}
 
 Buckshot Roulette é um jogo feito pelo desenvolvedor \href{https://mikeklubnika.itch.io/}{Mike Klubnika} para computador que toma como base a premissa de reinventar a infame roleta russa. No jogo, você é desafiado por um demônio (dealer), e caso você ganhe você ganha uma recompensa, mas caso contrário o jogo reinicia.
 
@@ -505,7 +506,7 @@ Note também que o total de partidas ganhas não chega ao total jogado, 1000 par
 
 Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar aqui o quantum oracle como uma representação de um player dentro do circuito.
 
-\subsection{QRAM}
+\subsection{QRAM} \label{qram}
 Por fim, o último projeto realizado foi o de uma QRAM utilizando os oracles para encodar os valores desejados. Nessa versão, foi testado maneiras de criar QROMs (com dados estaticos dentro), e uma possível maneira de utilizar uma QRAM habil para escrita.
 
 Neste, foi levado em consideração o armazenamento de estados quânticos, e não de bitstrings clássicas.
