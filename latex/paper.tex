@@ -27,6 +27,15 @@
 	\mathbin{\mathop{\otimes}\limits_{#1}}%
 }
 
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\makeatletter
+\renewcommand\subsubsubsection{\@startsection{paragraph}{4}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
+\newcommand\subsubsubsubsection{\@startsection{subparagraph}{5}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
+\makeatother
+
+
 \title{Quantum Oracles - Como transformar problemas clássicos em quânticos}
 
 \date{}
@@ -62,48 +71,53 @@
 \section{Introdução}
 Hoje, não é difícil ver alguém falando sobre computação quântica e como essas máquinas vão mudar o nosso futuro. Contudo, muitas dessas frases acabam se levando por extrapolações e/ou usos indevidos de ficção. Neste artigo, mostrarei que nem tudo é possível ser feito com um computador quântico atual, assim como existem pequenas áreas que se beneficiam ao máximo dessa nova tecnologia.\\
 Para esse feito, serão mostrados \emph{5 mini-projetos} usando o \href{https://www.ibm.com/quantum/qiskit}{qiskit}, \emph{framework open source} da \href{https://www.ibm.com/}{IBM} para computação quântica, e resultados obtidos após executar os algoritmos quânticos e seus relativos em computação clássica.\\
-Tais mini-projetos foram os seguintes: Explorador de Arquivos \ref{file-explorer}, conversão de milhas para quilômetros \ref{conversion}, Torres de Hanoi \ref{hanoi}, BuckshotRoulette \ref{buckshot} e QRAM \ref{qram}. Todas as implementações podem ser encontradas nesse  \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{repositório do GitHub}.
-Para a criação desses algoritmos, foram usados os quantum oracles explorando alguns efeitos quânticos para cada caso específico. 
+Tais mini-projetos foram os seguintes: Explorador de Arquivos \ref{file-explorer}, conversão de milhas para quilômetros \ref{conversion}, Torres de Hanoi \ref{hanoi}, Buckshot Roulette \ref{buckshot} e QRAM \ref{qram}. Todas as implementações podem ser encontradas nesse  \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{repositório do GitHub}.
+Para a criação desses algoritmos, foram usados os Quantum Oracles explorando alguns efeitos quânticos para cada caso específico. 
 
 \section{Oracles}
-Partindo da ideia das \emph{Oracle Turing Machines} \cite{SOARE2009368}\cite{amreen_oracle}\cite{kalyanasyndaram_2021_mod04lec23}\cite{e21080800}, os Oracles são modelos matemáticos ideiais, usados para abstrair certas partes de um algoritmo principal, em formato de caixa preta, facilitando a análise do algoritmo, assim como sua descrição matemática. Tais máquinas podem ser vistas também como uma função, recebendo entradas $x$ e retornando $f(x)$ em tempo $O(1)$. Em computação clássica, esse modelo não possui implementação real, sendo usado apenas descrições formais para problemas de decisão.\\
-Contudo, em computação quântica, é possível implementar esses componenetes e tomar proveito de sua estrutura e efeitos quânticos para conseguir um \emph{speed-up} em relação aos algoritmos clássicos, como mostrado pelo algoritmo de Deutsch–Jozsa \cite{Fan_2007}. Além disso, os Oracles possuem um papel importate ao demonstrar a complexidade de um circuito, alguns dos meios utilizados são: profundidade (\emph{depth}), calculando o maior caminho que uma informação percorre no circuito, ou ainda a quantiade de gates aplicados. No entanto, essas maneiras acabam se prejudicando ao \emph{transpilar} o circuito para uma outra máquina, variando então a complexidade de acordo com a topologia e com os gates fisicamente implementados. Para solucionar isso, outra maneira de calcular é inserir partes do circuito em um oracle, e descrever sua complexidade a partir da quantidade de vezes que ele chamado, também conhecido como \emph{query complexity} \cite{odonnell_2015_lecture} \cite{e21080800}.
+Partindo da ideia das \emph{Oracle Turing Machines} \cite{SOARE2009368}\cite{amreen_oracle}\cite{kalyanasyndaram_2021_mod04lec23}\cite{e21080800}, os Oracles são modelos matemáticos ideais, usados para abstrair certas partes de um algoritmo principal, em formato de caixa preta, facilitando a análise do algoritmo, assim como sua descrição matemática. Tais máquinas podem ser vistas também como uma função, recebendo entradas $x$ e retornando $f(x)$ em tempo $O(1)$. Em computação clássica, esse modelo não possui implementação real, sendo usado apenas descrições formais para problemas de decisão.\\
+Contudo, em computação quântica, é possível implementar esses componentes e tomar proveito de sua estrutura e efeitos quânticos para conseguir um \emph{Speed-up} em relação aos algoritmos clássicos, como mostrado pelo algoritmo de Deutsch–Jozsa \cite{Fan_2007}. Além disso, os Oracles possuem um papel importante ao demonstrar a complexidade de um circuito, alguns dos meios utilizados são: profundidade (\emph{depth}), calculando o maior caminho que uma informação percorre no circuito, ou ainda a quantidade de gates aplicados. No entanto, essas maneiras acabam se prejudicando ao \emph{transpilar} o circuito para uma outra máquina, variando então a complexidade de acordo com a topologia e com os gates fisicamente implementados. Para solucionar isso, outra maneira de calcular é inserir partes do circuito em um Oracle, e descrever sua complexidade a partir da quantidade de vezes que ele chamado, também conhecido como \emph{query complexity} \cite{odonnell_2015_lecture} \cite{e21080800}.
 
 \subsection{Tipos de Oracles}
 
-A partir da definição dos Quatum Oracles, podemos classificá-los em relação a suas estruturas e maneiras de computar os dados.
+A partir da definição dos Quantum Oracles, podemos classificá-los em relação a suas estruturas e maneiras de computar os dados.
 
 \subsubsection{Phase Oracle}
-Um dos primeiros tipos de Oracles usados para a criação de algoritmos como os de: \href{https://en.wikipedia.org/wiki/Grover%27s_algorithm}{Grover} e \href{https://en.wikipedia.org/wiki/Deutsch%E2%80%93Jozsa_algorithm}{Deutsch–Jozsa}; é comummente conhecido como \emph{Phase Oracle}.\\
-Tal dispositivo, é usado para atribuir uma fase ao circuito, sendo muito usado para configurar valores, explorar a interferência ou se aproveitar de outros efeitos como o \textit{Phase Kickback}. Matematicamente poderiamos descrever ele da seguinte forma: $\ket{x}\ket{-} \to (-1)^{f(x)}\ket{x}\ket{-}$, do qual $\ket{x}$ é a entrada do oracle e $\ket{-}$ é a ancilla que prove a fase.
+
+O Phase Oracle, é o formato mais conhecido e usado em circuitos quânticos. Algoritmos como os de  Deutsch–Jozsa, Grover, Simon e Bernstein–Vazirani, tomam proveito desse artificio para se sobressair em relação às soluções clássicas. 
+
+\subsubsubsection{Funcionamento Padrão}
+
+Seu funcionamento, se baseia em atribuir uma fase global ao circuito, tomando proveito de fatores como \emph{Phase Kickback} (fase passa do target do CNOT e é aplicado no qubit de controle), para  conseguir modificar valores em superposição.
 
 \begin{center}
 	\includegraphics[scale=0.3]{phase_oracle_1.png}
-	\captionof{figure}{Exemplo de phase oracle usado para o algoritmo de Deutsch–Jozsa}
+	\captionof{figure}{Exemplo - Phase Oracle}
 	\label{fig:phase-oracle-1}
 \end{center}
 
-No exemplo acima, utilizamos o \textit{Phase Kickback} para adicionar uma fase nos qubits 0 e 1, transformando seus estados de $\ket{+}$ para $\ket{-}$, fazendo com que ao serem colapsados o resultado $\ket{1}$ apareça na saída.\\
+Na Imagem \ref{fig:phase-oracle-1}, foi introduzida uma fase $\pi$ no qubit auxiliar ($q3$) através do estado  $\ket{-}$. Essa fase será responsável pode modificar os valores na matriz unitária do circuito. Nessa configuração, os CNOTs agem de uma forma um tanto diferente do convencional, aqui,  ao invés de apenas inverter o valor do qubit no target quando o qubit no control for $1$, devido a fase, ele também agirá como um gate $Z$ no control. Sendo assim, ao aplicar $CNOT\ket{-}\ket{+}$ (qubit menos significativo à direita), o estado se torna ${\frac{1}{\sqrt{2}}}{(\ket{0}\ket{-} - \ket{1}\ket{-})}$, e ao remover a superposição com o $H$, a saída se torna: ${\frac{1}{\sqrt{2}}}{(\ket{+}\ket{1} - \ket{-}\ket{1})}$. Dessa forma, o qubit que antes estava como controle do gate, sofre a ação do \emph{Phase Kickback}, e seu estado padrão $\ket{0}$ é modificado pela fase e se torna $\ket{1}$. A partir disso, é possível encodar um certo valor binário dentro do Oracle e utilizá-lo para cálculos. 
 
-É possível também criar um phase oracle removendo o qubit adicional (nesse exemplo o Q3), uma vez que podemos utilizar outros gates para introduzir a fase e manter ainda natureza unitária.
+\subsubsubsection{Versão Minimal Oracle}
 
+Além disso, esse não é o único formato possível de Phase Oracle. Por apenas aplicar uma fase em certas bit-strings, o qubit auxiliar pode ser removido e a fase pode ser adicionada através de gates $Z$controlados (ou outro gate capaz de aplicar uma fase $\pi$ para certa bit-string), mas ainda assim mantendo a natureza unitária, podendo ser visto também como um Minimal Oracle.
+\\
 \begin{center}
 	\includegraphics[scale=0.3]{phase_oracle_2.png}
-	\captionof{figure}{Exemplo fase Oracle sem a Ancilla}
+	\captionof{figure}{Exemplo Phase Oracle como um Minimal Oracle}
 	\label{fig:phase-oracle-2}
 \end{center}
 
 
-Dessa vez, utilizamos o $MCP$ gate para adicionar uma fase global $\pi$ e dois gates $X$ para dizer quais qubits queremos q tenham o valor 0, codificando assim o valor $011$ ou $3$ na base decimal.
+No exemplo da imagem \ref{fig:phase-oracle-2}, foi adicionado um gate $MCP$ com a fase global $\pi$ e dois gates $X$ para inverter quais qubits queremos que tenham o valor $0$, codificando assim o valor $011_{2}$ ou $3_{10}$.
 
 \begin{center}
 	\includegraphics[scale=0.5]{phase_oracle_unitary.png}
-	\captionof{figure}{Matriz unitária do Phase oracle}
+	\captionof{figure}{Matriz unitária do Phase Oracle da imagem \ref{fig:phase-oracle-2}}
 	\label{fig:phase-oracle-unitary}
 \end{center}
 
-É possível verificar então que ao criarmos esse circuito, matemos a matriz identidade e adicionamos a fase $-1$ no valor da coluna relativa ao $011$. \\
-Essa versão pode ser considerada como um minimal oracle, uma vez que a própria função interna se mantém unitária, sem a necessidade de ancilla.
+É possível verificar então que ao criar esse circuito, é mantida a matriz identidade mas com a fase ($-1$) no valor $1$ na coluna relativa à $011_{2}$. 
 
 
 \subsection{Boolean Oracle}
