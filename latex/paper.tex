@@ -122,57 +122,56 @@ No exemplo da imagem \ref{fig:phase-oracle-2}, foi adicionado um gate $MCP$ com 
 
 \subsection{Boolean Oracle}
 
-O Boolean Oracle, por sua vez, apresenta um funcionamento semelhante ao do Phase Oracle. Contudo, dessa vez não é provida uma fase. Dessa forma, o Oracle age como uma função Booleana convencional, mapeando as entradas para valores de saída.
+O Boolean Oracle, por sua vez, apresenta um funcionamento semelhante ao do Phase Oracle. Contudo, neste não é provida uma fase. Dessa forma, o Oracle age como uma função Booleana convencional, mapeando as entradas para valores de saída.
 
 \begin{center}
 	\includegraphics[scale=0.3]{balanced-oracle.png}
 	\captionof{figure}{Exemplo de Oracle Booleano}
-	\label{fig:boolean_oracle}
+	\label{fig:boolean-oracle}
 \end{center}
 
-O Oracle implementado na figura \ref{fig:boolean_oracle}, pode ser reutilizado para o algoritmo de Deutsch-Jozsa, basta apenas introduzir uma fase, e o Boolean Oracle se comportará como um Phase Oracle.
+O Oracle implementado na figura \ref{fig:boolean-oracle}, pode ser reutilizado para o algoritmo de Deutsch-Jozsa. Basta apenas introduzir uma fase, e o Boolean Oracle se comportará como um Phase Oracle.
 
-\subsection{Minimal oracle}
+\subsection{Minimal Oracle}
 
-Como já citado anteriormente, o minimal oracle possui uma função que em sua essência é unitária, não requerendo qubits adicionais $\ket{x} \to \ket{f(x)}$.
+Como já citado anteriormente, o Minimal Oracle possui uma função que, em sua essência, é unitária, não requerendo qubits adicionais. Sendo assim, este pode ser tanto Booleano como um Phase Oracle dependendo de sua implementação.
 
 \begin{center}
 	\includegraphics[scale=0.3]{minimal-oracle.png}
-	\captionof{figure}{Exemplo de minimal oracle}
+	\captionof{figure}{Exemplo de Minimal Oracle}
 	\label{fig:minimal-oracle}
 \end{center}
 
-Lembrando que este pode também adicionar fases ao circuito.
-
-\subsection{Simon's Oracle}
-
-O Oracle de Simon, é uma instância do Boolean Oracle. Neste visamos encontrar os períodos da função implementada, ou seja, dado $x$ e $f(x) = y$ existe ao menos uma função em que $f(y) = x$ ?
+No exemplo da figura \ref{fig:minimal-oracle}, foram utilizados dois $SWAP$ para inverter a ordem dos valores. Com isso, a matriz final ainda se mantém unitária, com apenas valores invertidos em certas posições.
 
 
-\begin{center}
-	\includegraphics[scale=0.3]{simons.png}
-	\captionof{figure}{Exemplo do algoritmo de Simon}
-	\label{fig:simons-oracle}
-\end{center}
+\subsection{QFT(Quantum Fourier Transform)}
 
-Nesse algoritmo, configuramos uma chave $s$ dentro do oracle, e ao executar o algoritmo temos os possíveis períodos da função, sendo necessário rotinas de pós processamento para identificar o valor correto.
-
-\subsection{QFT(Quantum Fourier Transformation) Oracle}
-
-Por fim, o Oracle QFT aplica a versão quântica da transformada de Fourier, projetando os valores de entrada na base $X$ (também conhecido como base de Fourier).
-
+O QFT, em suma, é um algoritmo quântico usado para projetar os valores da base computacional para a base $X$ (ou também conhecido como base de Fourier), ou vice-versa usando sua função inversa $QFT^{-1}$. Esse algoritmo, toma como base a transformada discreta de Fourier e aplica essa transformação em estados quânticos.\\
+Mesmo sendo um algoritmo por si só, sua aplicação em circuitos se dá seguindo o formato de Oracles.
 
 \begin{center}
-	\includegraphics[scale=0.4]{QFT_1.png}
-	\captionof{figure}{Exemplo do algoritmo de QFT}
+	\includegraphics[scale=0.5]{QFT_1.png}
+	\captionof{figure}{Exemplo do uso de QFT}
 	\label{fig:QFT}
 \end{center}
 
 \begin{center}
-	\includegraphics[scale=0.3]{QFT_1_bloch.png}
+	\includegraphics[scale=0.5]{QFT_1_transpiled.png}
+	\captionof{figure}{Exemplo do Oracle de QFT transpilado usando o simulador AER do Qiskit}
+	\label{fig:QFT-transpiled}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=0.5]{QFT_1_bloch.png}
 	\captionof{figure}{Valores mapeados na base de Fourier}
 	\label{fig:QFT-bloch}
 \end{center}
+
+
+\subsection{Outros Oracles}
+
+Além dos Oracles citados, é possível encontrar na literatura citações descrevendo o Oracle de Simon, o Oracle de Deutsch-Jozsa, etc. No entanto, esses são implementações de Oracles já citados e, além disso, para o desenvolvimento deste projeto, os Oracles mais relevantes são o Phase Oracle e o Boolean Oracle. Portanto, não há a necessidade de profundas investigações para essas subcategorias de Oracles.
 
 
 \section{Desenvolvimento}
