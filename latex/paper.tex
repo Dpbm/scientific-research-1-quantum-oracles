@@ -122,8 +122,15 @@ No exemplo da imagem \ref{fig:phase-oracle-2}, foi adicionado um gate $MCP$ com 
 
 \subsection{Boolean Oracle}
 
-O Boolean oracle, por sua vez, representa uma função booleana, sem qualquer adição de fases.\\
-Nesse caso, $\ket{x}$ representa a entrada do oracle e $\ket{y}$ represetam os qubits auxiliares que receberam a resposta, $\ket{x}\ket{y} \to \ket{x}\ket{y \oplus f(x)}$.
+O Boolean Oracle, por sua vez, apresenta um funcionamento semelhante ao do Phase Oracle. Contudo, dessa vez não é provida uma fase. Dessa forma, o Oracle age como uma função Booleana convencional, mapeando as entradas para valores de saída.
+
+\begin{center}
+	\includegraphics[scale=0.3]{balanced-oracle.png}
+	\captionof{figure}{Exemplo de Oracle Booleano}
+	\label{fig:boolean_oracle}
+\end{center}
+
+O Oracle implementado na figura \ref{fig:boolean_oracle}, pode ser reutilizado para o algoritmo de Deutsch-Jozsa, basta apenas introduzir uma fase, e o Boolean Oracle se comportará como um Phase Oracle.
 
 \subsection{Minimal oracle}
 
