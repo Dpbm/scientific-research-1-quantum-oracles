@@ -397,28 +397,38 @@ Por fim, esse algoritmo requer que primeiro seja verificado quais são os valore
 
 Sendo assim, esse algoritmo não consegue se sair bem como a versão clássica, além de ser mais custoso na maioria dos casos. Para de fato evoluir essa implementação, será necessário remodelá-lo para um versão independente ou ainda com pouca computação clássica, priorizando a maneira como dados podem ser encodados e transformados no circuito.
 
-\subsection{Torres de Hanoi Hanoi} \label{hanoi}
+\subsection{Torres de Hanoi} \label{hanoi}
 
-Para o terceiro teste, foi implementado uma versão das torres de Hanoi usando os Oracles como meio de encoding.
+Para a criação das torres de Hanoi, foi pensado em uma maneira de encodar a posição dos discos na torre utilizando seus valores binários e o Phase Oracle como meio de armazenamento.
 
 \subsubsection{Implementação}
 
-Para implementar as torres de hanoi em um oracle, são necessários $(\floor{\log_2{x}}} + 1) * 3$ qubits, sendo $x$ o número de discos com a seguinte ordem $\ket{t_{n-1} t_{n-2} ... t_0}\ket{a_{n-1} a_{n-2} ... a_0}\ket{s_{n-1} s_{n-2} ... s_0}$, sendo $t$ a ultima torre, $a$ a torre do meio e $s$ a primeira torre, e $n = {{n \space qubits} \over 3}$.
+Para esse projeto, são necessários $(\floor{\log_2{x}} + 1) * 3$ qubits, sendo $x$ o número de discos. Estes seguem a ordem, $\ket{t_{n-1} t_{n-2} ... t_0}\ket{a_{n-1} a_{n-2} ... a_0}\ket{s_{n-1} s_{n-2} ... s_0}$, sendo $s$,$a$,$t$ a primeira, segunda e última torre respectivamente, e $n = {{n \space qubits} \over 3}$.
 
-Com essa configuração, os numeros de $1$ à $x$ são codificados em um phase oracle, e em seguida são realizadas operaçoes de $swap$ para modificar a posição dos valores binários e mover os valores do $n$ qubits menos significativos, para os $n$ qubits mais significativos.
+Com essa configuração, os números de $1$ à $x$ são codificados em seu formato binário nos qubits $s$, utilizando a fase global $\pi$. Em seguida, são realizadas operações de $swap$ bit-a-bit para mover os valores do $n$ $ls-$qubits  para os $n$ $ms-$qubits.
+
+Para realizar essas operações, é necessário pré-calcular a sequência de movimentos usados  \cite{ldiaandr_2021_tower} \cite{diptokarmakar47_2019_how} \cite{a2020_towers}  \cite{geeksforgeeks_2014_program}. Dessa forma, essa versão quântica age como um jogador com uma lista de passos a serem seguidos, executando-os um-a-um.
 
 \begin{center}
-	\includegraphics[scale=0.2]{hanoi_4_discs.png}
-	\captionof{figure}{Torre de hanoi com 4 discos}
+	\includegraphics[scale=0.3]{hanoi_3_discs.png}
+	\captionof{figure}{Torre de Hanoi com 3 discos}
 	\label{fig:hanoi}
 \end{center}
 
-Nesse formato, é possível utilizar o unitário gerado pelo oracle, assim como o algoritmo de Grover para verificar o resultado.
+Nesse formato, pode-se utilizar outras partes no circuito, como o algoritmo de Grover, para verificar o resultado ou executar outras operações nos valores.
+
+\begin{center}
+	\includegraphics[scale=0.5]{result_hanoi_3_discs.png}
+	\captionof{figure}{Resultado usando Grover - Torre de Hanoi com 3 discos}
+	\label{fig:hanoi-result}
+\end{center}
+
+Em \ref{fig:hanoi-result}, os $3$ maiores resultados obtidos são as bit-strings com $01$, $10$ e $11$ nos bits mais significativos. Sendo assim, o resultado esperado para uma torre com 3 discos, foi atingido.
 
 \subsubsection{Resultados}
 
-Nessa implementação, o algoritmo segue o mesmo padrão da versão clássica, sendo o melhor ou pior desempenho dependendo estritamente do hardware usado.
-
+Nessa versão, é seguida a mesma sequência do algoritmo clássico, necessitando, inclusive, de pré-processamento para conseguir a sequência de ações.\\
+Em uma versão clássica, o movimento de retirar um disco de uma torre e move-lo para a próxima torre requer também esse pré-processamento, podendo ser realizado um-a-um ou tudo de uma vez antes da partida. Dessa forma, a versão clássica e quântica se igualam, não tendo ganhos ou perdas expressivas. 
 
 \subsection{Buckshot Roulette} \label{buckshot}
 
