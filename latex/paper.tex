@@ -557,13 +557,14 @@ Note também, que o total de partidas ganhas não chega ao total jogado, nesse c
 Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar o quantum Oracle como uma representação de um player dentro do circuito.
 
 \subsection{QRAM} \label{qram}
-Por fim, o último projeto realizado foi o de uma QRAM utilizando os oracles para encodar os valores desejados. Nessa versão, foi testado maneiras de criar QROMs (com dados estaticos dentro), e uma possível maneira de utilizar uma QRAM habil para escrita.
 
-Neste, foi levado em consideração o armazenamento de estados quânticos, e não de bitstrings clássicas.
+Por fim, o último projeto realizado foi o de uma \emph{QRAM} utilizando os Oracles. Nessa versão, foi testado a criação de \emph{QROMs} (com dados estáticos dentro), e uma possível maneira de utilizar uma QRAM hábil para escrita.
 
-\subsubsection{QROM implementação}
+Neste projeto, foi tido como objetivo o armazenamento de estados quânticos(superposições), e não apenas de bit-strings clássicas. Isso pois, para garantir a real eficiência da computação quântica, a superposição é indispensável, e seu armazenamento pode ser um ponto chave para algoritmos melhores.
 
-Primeiro, foi feita uma versão de QROM, do qual utiliza $n$ qubits para endereços e $m$ qubits para a criação dos estados. Não necessáriamente os valores precisam estar correlacionados, podemos ter $n=3, m=10$. Isso pois, nesse formato, podemos mapear diversas superposições diferentes e aplicálas quando certo endereço for chamado. Sendo assim, o algoritmo aqui mostrado armazena os valores a partir da configuração de gates controlados interiores ao oracle, criando uma superposição apenas quando certo valor de entrada é inserido.
+\subsubsection{QROM}
+
+Para a QROM, são utilizados $n$ qubits para o barramento de endereços e $m$ qubits para a o barramento de dados, sem a necessidade desses valores estarem correlacionados, podendo assim ser utilizado $n=3, m=10$. Nessa estrutura, podemos mapear diversas superposições diferentes e aplicá-las quando certo endereço for chamado. Sendo assim, o algoritmo armazena os valores a partir da configuração de gates controlados interiores ao Oracle, criando uma superposição apenas quando certo valor de entrada é inserido.
 
 A entrada do circuito segue o seguinte formato: ${\ket{0}^{\tens^m}} {\ket{a_{n-1} a_{n-2} ... a_0}}$
 
@@ -573,7 +574,10 @@ A entrada do circuito segue o seguinte formato: ${\ket{0}^{\tens^m}} {\ket{a_{n-
 	\label{fig:qrom}
 \end{center}
 
-A partir desse circuito, podemos abristrair para um oracle e utilizar em um circuito maior, chamando-o novamente sempre que for necessário um certo estado ou ainda colocar os endereços em superposição e ter uma mistura de superposições na saída.
+
+Em \ref{fig:qrom}, $q_{0}$ age como o barramento de endereços, enquanto $q_{1}$ como o barramento de dados. Aqui configuramos para mapear o endereço $0 \to RY({\pi\over{3}})$ e $1 \to H$. Sendo assim, para $n$ qubits no barramento de endereços é possível mapear para $2^{n}$ estados, e com os $m$ qubits é possível criar estados mais complexos aumentando sua quantidade e utilizando outros gates para isso.
+
+A partir desse circuito, basta abstrai-lo para um Oracle e utilizar em um circuito maior, chamando-o novamente sempre que for necessário um certo estado ou ainda colocar os endereços em superposição e ter uma mistura de estados na saída.
 
 \begin{center}
 	\includegraphics[scale=0.5]{qrom_1_usage.png}
@@ -581,14 +585,14 @@ A partir desse circuito, podemos abristrair para um oracle e utilizar em um circ
 	\label{fig:qrom-usage}
 \end{center}
 
-Nessa configuração, os estados em superposição serã colocados no qubit denominado \emph{out}, sendo possível se aproveitar dela em outros qubits, como nesse caso o qubit \emph{q}.
+Nesse exemplo \ref{fig:qrom-usage}, os estados em superposição serão colocados no qubit denominado \emph{out}, sendo possível se aproveitar dela em outros qubits, como nesse caso o qubit \emph{q}.
 
-Contudo, devido ao no cloning theorem, não é possível copiar esse estado para outro qubit, então só é possível aqui se aproveitar dos qubits de saída, ou utilizada do teleporte de estados para destruir o estado interno do oracle e mover para outros qubits desejados.
+Contudo, devido ao no-cloning-theorem, não é possível copiar esse estado para outro qubit alvo, então, dessa forma, não é possível ter dois qubits com o mesmo estado a partir do armazenado. Uma opção para isso, é utilizar do teleporte quântico para destruir o estado interno do Oracle e mover para outros qubits desejados, contudo isso influenciária nos estados já aplicados no circuito.
 
 
-\subsubsection{QRAM read and write - implementação}
+\subsubsection{QRAM}
 
-Para criar uma QRAM com a possibilidade de escrever também, podemos exploarar o teleporte quântico já citado antes. Com isso, podemos ter $n$ qubits, sendo cada qubit um endereço único, e utilizar do teleporte para mover um estado que estava no circuito, para o dominio da QRAM.
+Para criar uma QRAM com a habilidade de escrita, o teleporte quântico já citado antes é um caminho para isso. Com ele, podemos ter $n$ qubits, sendo cada qubit um endereço único, e utilizar do teleporte para mover um estado que estava no circuito, para o domínio da QRAM.
 
  \begin{center}
  	\includegraphics[scale=0.4]{qram.png}
@@ -596,16 +600,18 @@ Para criar uma QRAM com a possibilidade de escrever também, podemos exploarar o
  	\label{fig:qram}
  \end{center}
 
-Aqui é necessário $n$ qubits para $n$ endereços (cada endereço aqui é um qubit de \emph{data}) e $n$ qubits para o teleporte (qubits nomeados como \emph{t}). Mesmo crescendo linearmente, podemos aqui utilizar sobreescrever valores nas posições desejadas, assim como interferir com outras superposições apenas teleportando novos valores para o qubit $i$.
+Aqui, são necessários $n$ qubits para $n$ endereços (\emph{data}) também agindo como qubits de data, e $n$ qubits para o teleporte (\emph{t}), crescendo então de forma linear à capacidade de armazenamento de dados deste. 
+Também é possível sobre-escrever valores, assim como interferir com outras superposições apenas teleportando novos valores para o qubit $i$. Dessa forma, podemos criar uma memória menor, e, conforme necessário, remover e adicionar outros valores.
 
 \subsubsection{Conclusões}
 
-Com esse projeto e com a literatura usada \cite{jaques2023qram}\cite{Giovannetti_2008}, é possível entender que versões quânticas de memória são dificeis de ser implementadas e ainda não foi possível tomar proveito do todo o seu pontecial usando as superposições e estados de outras bases a não ser a base computacional $({0,1})$.
+Com esse projeto, e com a literatura usada \cite{jaques2023qram}\cite{Giovannetti_2008}, é possível entender que criar versões quânticas de memória é uma tarefa desafiadora, e ainda não é possível tomar proveito do todo o seu potencial usando as superposições e estados de outras bases a não ser a base computacional $({0,1})$. Fatores como, complexidade de mapear dados, complexidade de utilizar a memória (já que é necessário reaplica-lá toda vez que for requisitado seu uso), no-cloning-theorem, decorrência, etc. Influenciam diretamente na possibilidade de sua criação.
 
-Após as implementações, foi possível entender que, criar tais memórias pode parecer uma tarefa simples, mas devido a fatores como, complexidade de mapear dados, complexidade de utilizar a memória (já que é necessário reaplica-lá toda vez que for requisitado seu uso), no cloning, etc. Foi possível entender que tal modelo não é ainda viavel, sendo necessário mais pesquisadas focadas no tema, asim como possíveis implementações em um Hardware futuro.
+Mesmo sendo possível implementar pequenos circuitos que agem como memória, como os mostrados aqui, ainda não é usual e muito menos universal para qualquer tipo de máquina quântica.
 
-Em suma, utilizar tais circuitos agora não é das tarefas mais faceis, assim como não necessariamente trará resultados no momento.
+Assim como mostrado na literatura, o melhor approach para a sua implementação, é a utilização de um hardware especifico para isso, sem a intervenção de circuitos quânticos, mantendo depth do algoritmo implementado constante ajudando assim a manter a coerência do circuito. 
 
+Em suma, mesmo sendo possível criar pequenos circuitos para implementar uma memória, seu uso está longe de se comparar as versões clássicas.
 
 \subsection{Conclusão}
 
