@@ -23,10 +23,6 @@
 
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
-\newcommand{\tens}[1]{%
-	\mathbin{\mathop{\otimes}\limits_{#1}}%
-}
-
 \setcounter{secnumdepth}{5}
 \setcounter{tocdepth}{5}
 
@@ -38,16 +34,25 @@
 
 \title{Quantum Oracles - Como transformar problemas clássicos em quânticos}
 
-\date{}
+\date{\today}
 
 
-\author{ \href{https://orcid.org/0009-0008-9134-5974}{\includegraphics[scale=0.06]{orcid.pdf}\hspace{1mm}Alexandre Silva}\\
+
+\author{ 
+	\href{https://orcid.org/0009-0008-9134-5974}{\includegraphics[scale=0.06]{orcid.pdf}\hspace{1mm}Alexandre Silva}\\
 	Ciências da Computação\\
 	UNIVEM - Centro Universitário Eurípides de Marília\\
+	\And
+	\href{http://lattes.cnpq.br/5170103189904688}{\hspace{1mm}Luis Hilário Tobler Garcia} \\
+	Ciências da Computação\\
+	UNIVEM - Centro Universitário Eurípides de Marília\\
+	\And
+	\href{http://lattes.cnpq.br/7265559606596355}{\hspace{1mm}Maúricio Duarte} \\
+	Tecnologia da Informação \\
+	Fatec Garça – Deputado Julio Julinho Marcondes de Moura\\
 }
 
 \graphicspath{ {../images/} }
-
 
 \renewcommand{\headeright}{}
 \renewcommand{\undertitle}{}
@@ -176,26 +181,18 @@ Além dos Oracles citados, é possível encontrar na literatura citações descr
 
 \section{Desenvolvimento}
 
-Com alguns algoritmos testados, e com o uso dos Oracles em mente, os 5 mini-projetos foram desenvolvidos da seguinte forma:
+Com alguns algoritmos testados e com o uso dos Oracles em mente, os 5 mini-projetos foram desenvolvidos.
 
 \subsection{Explorador de Arquivos} \label{file-explorer}
 
-Imagine um computador quântico com um sistema operacional quântico (semelhante aos computadores convencionais, mas dessa vez seguindo as leis da mecânica quântica). Pensando nas partes desse sistema operacional, como seria possível pegar arquivos da memória usando a computação quântica?
-
+Imagine um computador quântico, utilizando um sistema operacional quântico (semelhante aos computadores convencionais, mas dessa vez seguindo as leis da mecânica quântica). Pensando nas partes desse sistema operacional, como seria possível pegar arquivos da memória usando a computação quântica?
 
 \subsubsection{Algoritmos usados}
 
 \subsubsection{Grover}
-Um dos algoritmos mais comuns para a área é o algoritmo de Grover. Esse algoritmo realiza buscas em "bancos de dados"(bit strings) desorganizados em tempo $O(\sqrt{2^n})$ onde $n$ é o número de qubits usados. Nele, usamos um circuito do qual amplifica-se a probabilidade de encontrar os valores marcados no Oracle na saída.
-Tal algoritmo segue o seguinte padrão: \
-\begin{enumerate}
-	\item{Configuramos todas as possíveis bit strings, ou seja aplicamos uma superposição uniforme $H^{\tens{^n}}$}
-	\item{aplicamos o phase oracle $Uf$ do qual implementa uma função que marca os valores que desejamos encontrar}
-	\item{aplicamos o operador de Grover Diffuser, $\mathbb{I} - 2 \ket{s}\bra{s}$}, sendo $s$ o estado com o valor que queremos
-\end{enumerate}
 
-Convertendo para um circuito temos algo semelhante a:
-
+O algoritmo evidente para esse problema é o algoritmo de Grover. Este realiza buscas em "bancos de dados" (bit strings) desorganizados em tempo $O(\sqrt{2^n})$ onde $n$ é o número de qubits usados. 
+Nele, usamos um circuito do qual amplifica-se as probabilidades de encontrar os valores marcados no Oracle.
 
 \begin{center}
 	\includegraphics[scale=0.3]{Grover.png}
@@ -203,7 +200,35 @@ Convertendo para um circuito temos algo semelhante a:
 	\label{fig:grover-default-circuit}
 \end{center}
 
-Para 1 ou 2 valores, podemos usar a configuração acima. Mas maiores quantidade de valores, precisamos adcionar o conjunto Oracle + Diffuser $k$ vezes, sendo $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, sendo $a$ o numero de valores marcados.
+Há ainda uma relação para determinar a quantidade $k$ de vezes necessárias para adicionar o conjunto $Oracle + Diffuser$ sendo essa: $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, do qual $a$ representa o número de valores marcados pelo Oracle. Contudo, para esse projeto, não há necessidade, uma vez que queremos procurar um arquivo único em meio aos inúmeros armazenados na memória.
+
+Mesmo sendo o melhor algoritmo conhecido para buscas em computação quântica, foi testado também hipóteses para possíveis maneiras de melhor os valores das distribuições finais. Para isso, foram testadas inúmeras combinações de rotações $RY$ e comparadas com o convencional usado pelo algoritmo $H$.
+
+
+%add images here
+
+Com isso, é possível ver que na maior parte das vezes, utilizar ângulos próprios para cada bit-string se sobressai ao valor padrão. No entanto, ao utilizar esses valores com outras bit-strings, os resultados não conseguem alcançar tal limiar.
+
+
+% add images here
+
+
+Além disso, para bit-strings de dois bits, oo valor convencional se saí invicto.
+
+
+% add images here
+
+
+
+Com isso, para ter o melhor dos dois mundos, foi usado uma versão hibrida do algoritmo. Assim, ao criar o circuito, passado o valor a ser encodado por uma Look-up-table e pegando o melhor angulo para encontrar o valor desejado. Dessa forma, é possível maximizar as probabilidades.
+
+% add images here
+
+
+
+
+
+
 
 \subsubsection{Diferença de conjuntos}
 
@@ -566,7 +591,7 @@ Neste projeto, foi tido como objetivo o armazenamento de estados quânticos(supe
 
 Para a QROM, são utilizados $n$ qubits para o barramento de endereços e $m$ qubits para a o barramento de dados, sem a necessidade desses valores estarem correlacionados, podendo assim ser utilizado $n=3, m=10$. Nessa estrutura, podemos mapear diversas superposições diferentes e aplicá-las quando certo endereço for chamado. Sendo assim, o algoritmo armazena os valores a partir da configuração de gates controlados interiores ao Oracle, criando uma superposição apenas quando certo valor de entrada é inserido.
 
-A entrada do circuito segue o seguinte formato: ${\ket{0}^{\tens^m}} {\ket{a_{n-1} a_{n-2} ... a_0}}$
+A entrada do circuito segue o seguinte formato: ${\ket{0}^{\otimes m}} {\ket{a_{n-1} a_{n-2} ... a_0}}$
 
 \begin{center}
 	\includegraphics[scale=0.5]{qrom_1.png}
