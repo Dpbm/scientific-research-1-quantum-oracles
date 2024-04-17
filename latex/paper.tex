@@ -187,6 +187,8 @@ Com alguns algoritmos testados e com o uso dos Oracles em mente, os 5 mini-proje
 
 Imagine um computador quântico, utilizando um sistema operacional quântico (semelhante aos computadores convencionais, mas dessa vez seguindo as leis da mecânica quântica). Pensando nas partes desse sistema operacional, como seria possível pegar arquivos da memória usando a computação quântica?
 
+É importante salientar que nesse suposto computador quântico, temos também acesso à uma máquina clássica, assim como a maioria dos computadores quânticos atuais.
+
 \subsubsection{Algoritmos usados}
 
 \subsubsection{Grover}
@@ -204,43 +206,51 @@ Há ainda uma relação para determinar a quantidade $k$ de vezes necessárias p
 
 Mesmo sendo o melhor algoritmo conhecido para buscas em computação quântica, foi testado também hipóteses para possíveis maneiras de melhor os valores das distribuições finais. Para isso, foram testadas inúmeras combinações de rotações $RY$ e comparadas com o convencional usado pelo algoritmo $H$.
 
+\begin{center}
+	\includegraphics[scale=0.5]{improvement-grover-algorithm-4bits-0-to-2pi.png}
+	\captionof{figure}{Comparação usando o algoritmo de Grover convencional e o algoritmo modificado usando o melhor ângulo $[0, 2\pi]$ para cada bit-string de quatro bits}
+	\label{fig:best-angle-grover}
+\end{center}
 
-%add images here
+Com isso, é possível ver que na maior parte das vezes, utilizar ângulos próprios para cada bit-string se sobressai ao valor padrão.
 
-Com isso, é possível ver que na maior parte das vezes, utilizar ângulos próprios para cada bit-string se sobressai ao valor padrão. No entanto, ao utilizar esses valores com outras bit-strings, os resultados não conseguem alcançar tal limiar.
+\begin{center}
+	\includegraphics[scale=0.4]{new-grover-test-different-bit-strings-with-optimal-angles.png}
+	\captionof{figure}{Teste utilizando os melhores ângulos de cada bit-string em bit-strings diferentes}
+	\label{fig:best-angles-diff-bit-strings-grover}
+\end{center}
+
+No entanto, ao utilizar esses valores com outras bit-strings, os resultados não conseguem alcançar tal limiar, sendo a rotação padrão  melhor na maioria das vezes.
+
+Além disso, para bit-strings de dois bits, utilizar a superposição dada por $H$ é a melhor alternativa.
+
+\begin{center}
+	\includegraphics[scale=0.5]{classical_grover_for_1_bit_strings_l2_outcomes.png}
+	\captionof{figure}{Resultado Grover padrão encodado uma bit-string de 2 bits}
+	\label{fig:l2-grover-classical-outcomes}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=0.5]{new_grover_for_1_bit_strings_l2_outcomes.png}
+	\captionof{figure}{Resultado Grover modificado encodado uma bit-string de 2 bits}
+	\label{fig:l2-grover-new-outcomes}
+\end{center}
 
 
-% add images here
 
-
-Além disso, para bit-strings de dois bits, oo valor convencional se saí invicto.
-
-
-% add images here
-
-
-
-Com isso, para ter o melhor dos dois mundos, foi usado uma versão hibrida do algoritmo. Assim, ao criar o circuito, passado o valor a ser encodado por uma Look-up-table e pegando o melhor angulo para encontrar o valor desejado. Dessa forma, é possível maximizar as probabilidades.
-
-% add images here
-
-
-
-
-
-
+Com isso, para ter o melhor dos dois mundos, foi usado uma versão hibrida do algoritmo. Assim, para criar o circuito, é passado o valor a ser encodado por uma Look-Up-Table com os ângulos otimizados. Dessa forma, é possível maximizar as probabilidades.
 
 \subsubsection{Diferença de conjuntos}
 
-Utilizando os phase oracles, podemos criar dois Oracles distintis com ranges de valores diferentes e sobrepor seus valores, realizando a operação de diferença de conjuntos.
+Utilizando dois Phase Oracles distintos, com ranges de valores diferentes, ao serem sobrepostos, é realizada a operação de diferença de conjuntos \cite{sanchezrivero2023initial}.
 
 \begin{center}
 	\includegraphics[scale=0.3]{less_than.png}
-	\captionof{figure}{Exemplo de diferença de conjuntos}
+	\captionof{figure}{Exemplo - diferença de conjuntos}
 	\label{fig:less-than-circuit}
 \end{center}
 
-Nesse exemplo foi encodado no primeiro oracle o set $\{000, 001, 010, 0110\}$ e no segundo $\{000, 001, 010, 011, 100, 101\}$.
+Nesse exemplo \ref{fig:less-than-circuit} foi encodado no primeiro Oracle o set $\{000, 001, 010, 0110\}$ e no segundo $\{000, 001, 010, 011, 100, 101\}$.
 
 \begin{center}
 	\includegraphics[scale=0.5]{less_than_unitary.png}
@@ -248,25 +258,24 @@ Nesse exemplo foi encodado no primeiro oracle o set $\{000, 001, 010, 0110\}$ e 
 	\label{fig:less-than-circuit-unitary}
 \end{center}
 
-Como pode ser visto, apenas os valores $\{100, 101\}$ permaneceram com a fase, representando então a sobreposição delas.
+Como pode ser visto em \ref{fig:less-than-circuit-unitary}, apenas os valores $\{100, 101\}$ permaneceram com a fase, representando então a sobreposição delas.
 
 
-\subsubsection{Solução para o problema}
+\subsubsection{Solução}
 
-Para a solução do problema, podemos criar em uma hash function $C(v)$ da qual recebe o path de um arquivo e retorna uma bit string respectiva. Com essa função em mãos, podemos utilizar o conjunto dos valores retornados e encoda-los em um phase oracle, agindo como uma especie de Look Up Table para os arquivos existentes na máquina.
+Para a solução do problema, foi criado uma hash function $C: v \to c$, da qual $v$ é o path de um arquivo e $c$ uma bit-string respectiva. Com essa função em mãos, podemos utilizar o conjunto dos valores retornados e encodá-los em um Phase Oracle, agindo como uma Look-Up-Table para os arquivos existentes na máquina.
 
-No entando, para ter sucesso na pesquisa, é necessário utilizar um segundo Oracle encondando $S = P-s$, sendo $s$ o conjunto de arquivos do qual estamos procurando e $S$ os arquivos restantes, aproveitando-se então da diferença de conjuntos para encontrar então apenas os valores desejados para a pesquisa.
-
+No entanto, para ter sucesso na pesquisa, é necessário utilizar um segundo Oracle encondando $F = P-f$, sendo $f$ o conjunto de arquivos do qual estamos procurando e $F$ os arquivos restantes, aproveitando-se então da diferença de conjuntos para encontrar apenas os valores desejados na pesquisa.
+Sendo assim, o primeiro Oracle age como o HD da máquina, marcando todos os arquivos existentes, e o segundo age como o mediador da pesquisa.
 
 \begin{center}
 	\includegraphics[scale=0.6]{sets-difference-look-up-table-oracle.png}
-	\captionof{figure}{Diferença de conjuntos com as Look Up Tables}
+	\captionof{figure}{Diferença de conjuntos com as Look-Up-Tables}
 	\label{fig:luts}
 \end{center}
 
-Sendo assim, o primeiro oracle age como o HD da marquina, marcando todos os arquivos existentes, e o segundo age como o mediador da pesquisa.
 
-Com isso, adicionamos a Look Up Table final ao algoritmo de Grover.
+Por fim, é usado o aprimoramento dos ângulos para conseguir melhores probabilidades.
 
 \begin{center}
 	\includegraphics[scale=0.5]{file_explorer.png}
