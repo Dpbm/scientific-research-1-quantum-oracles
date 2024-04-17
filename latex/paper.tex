@@ -16,7 +16,12 @@
 \usepackage[portuguese]{babel}
 \usepackage{caption}
 \usepackage{braket}
+\usepackage{amsmath}
 
+
+\newcommand{\tens}[1]{%
+	\mathbin{\mathop{\otimes}\limits_{#1}}%
+}
 
 
 \title{Quantum Oracles - Como transformar problemas clássicos em quânticos}
@@ -147,6 +152,96 @@ Por fim, o Oracle QFT aplica a versão quântica da transformada de Fourier, pro
 
 \section{Desenvolvimento}
 \subsection{File Explorer}
+
+Imagine um computador quântico com um sistema operacional quântico (semelhante aos computadores convencionais, mas dessa vez seguindo as leis da mecânica quântica). Pensando nas partes desse sistema operacional, como seria possível pegar arquivos da memória usando a computação quântica?
+
+
+\subsubsection{Algoritmos usados}
+
+\subsubsection{Grover}
+Um dos algoritmos mais comuns para a área é o algoritmo de Grover. Esse algoritmo realiza buscas em "bancos de dados"(bit strings) desorganizados em tempo $O(\sqrt{2^n})$ onde $n$ é o número de qubits usados. Nele, usamos um circuito do qual amplifica-se a probabilidade de encontrar os valores marcados no Oracle na saída.
+Tal algoritmo segue o seguinte padrão: \
+\begin{enumerate}
+	\item{Configuramos todas as possíveis bit strings, ou seja aplicamos uma superposição uniforme $H^{\tens{^n}}$}
+	\item{aplicamos o phase oracle $Uf$ do qual implementa uma função que marca os valores que desejamos encontrar}
+	\item{aplicamos o operador de Grover Diffuser, $\mathbb{I} - 2 \ket{s}\bra{s}$}, sendo $s$ o estado com o valor que queremos
+\end{enumerate}
+
+Convertendo para um circuito temos algo semelhante a:
+
+
+\begin{center}
+	\includegraphics[scale=0.3]{Grover.png}
+	\captionof{figure}{Exemplo algoritmo de Grover}
+	\label{fig:grover-default-circuit}
+\end{center}
+
+Para 1 ou 2 valores, podemos usar a configuração acima. Mas maiores quantidade de valores, precisamos adcionar o conjunto Oracle + Diffuser $k$ vezes, sendo $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, sendo $a$ o numero de valores marcados.
+
+\subsubsection{Diferença de conjuntos}
+
+Utilizando os phase oracles, podemos criar dois Oracles distintis com ranges de valores diferentes e sobrepor seus valores, realizando a operação de diferença de conjuntos.
+
+\begin{center}
+	\includegraphics[scale=0.3]{less_than.png}
+	\captionof{figure}{Exemplo de diferença de conjuntos}
+	\label{fig:less-than-circuit}
+\end{center}
+
+Nesse exemplo foi encodado no primeiro oracle o set $\{000, 001, 010, 0110\}$ e no segundo $\{000, 001, 010, 011, 100, 101\}$.
+
+\begin{center}
+	\includegraphics[scale=0.5]{less_than_unitary.png}
+	\captionof{figure}{Resultado da diferença de conjuntos}
+	\label{fig:less-than-circuit-unitary}
+\end{center}
+
+Como pode ser visto, apenas os valores $\{100, 101\}$ permaneceram com a fase, representando então a sobreposição delas.
+
+
+\subsubsection{Solução para o problema}
+
+Para a solução do problema, podemos criar em uma hash function $C(v)$ da qual recebe o path de um arquivo e retorna uma bit string respectiva. Com essa função em mãos, podemos utilizar o conjunto dos valores retornados e encoda-los em um phase oracle, agindo como uma especie de Look Up Table para os arquivos existentes na máquina.
+
+No entando, para ter sucesso na pesquisa, é necessário utilizar um segundo Oracle encondando $S = P-s$, sendo $s$ o conjunto de arquivos do qual estamos procurando e $S$ os arquivos restantes, aproveitando-se então da diferença de conjuntos para encontrar então apenas os valores desejados para a pesquisa.
+
+
+\begin{center}
+	\includegraphics[scale=0.6]{sets-difference-look-up-table-oracle.png}
+	\captionof{figure}{Diferença de conjuntos com as Look Up Tables}
+	\label{fig:luts}
+\end{center}
+
+Sendo assim, o primeiro oracle age como o HD da marquina, marcando todos os arquivos existentes, e o segundo age como o mediador da pesquisa.
+
+Com isso, adicionamos a Look Up Table final ao algoritmo de Grover.
+
+\begin{center}
+	\includegraphics[scale=0.5]{file_explorer.png}
+	\captionof{figure}{File explorer circuito}
+	\label{fig:file-explorer}
+\end{center}
+
+\subsubsection{Resultados}
+
+Para um caso hipotetico de sistema completamente quântico, certamente esse é um das maneiras de encontrar arquivos em meio a todos os outros.
+
+Contudo, como o objetivo dessa pesquisa sugere, para utilizar esse modelo em um sistema clássico tomando proveito da computação quântica, não se mostra como a melhor opção.
+
+Para sistemas convencionais, dos quais utilizam métodos baseados em árvores, não é possivel tirar qualquer proveito aqui, sendo $O$ polinomial contra $O$ quadrático.
+
+Mesmo perante os testes clássicos feitos durante o desenvolvimento, esse protocolo só se mantém util quando a pesquisa era feita de forma linear.
+
+
+\begin{center}
+	\includegraphics[scale=0.5]{algorithms-finding-comparation.png}
+	\captionof{figure}{Comparação algoritmos usados na pesquisa}
+	\label{fig:file-explorer-comparation-O}
+\end{center}
+
+Sendo assim, o algoritmo de Grover deve ser pensando para casos do qual a versão clássica possui complexidade $\ge O(n)$.
+
+
 \subsection{Miles to Kilometers}
 \subsection{Hanoi Tower}
 \subsection{Buckshot Roulette}
