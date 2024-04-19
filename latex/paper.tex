@@ -278,21 +278,22 @@ Sendo assim, o primeiro Oracle age como o HD da máquina, marcando todos os arqu
 Por fim, é usado o aprimoramento dos ângulos para conseguir melhores probabilidades.
 
 \begin{center}
-	\includegraphics[scale=0.5]{file_explorer.png}
-	\captionof{figure}{File explorer circuito}
+	\includegraphics[scale=0.6]{improved_file_explorer.png}
+	\captionof{figure}{Explorador de arquivos implementação}
 	\label{fig:file-explorer}
 \end{center}
 
+Dessa forma, o arquivo procurado tem sua probabilidade maximizada pelo circuito e então a bit-string se apresenta após $n$ medições.
+
+
+%insert image here
+%insert image here(fake backend)
+
 \subsubsection{Resultados}
 
-Para um caso hipotetico de sistema completamente quântico, certamente esse é um das maneiras de encontrar arquivos em meio a todos os outros.
+Para um caso hipotético de um sistema operacional quântico, certamente essa é um das maneiras mais obvias para fazer buscas na imensidão dos arquivos armazenados. Para esse caso, não há escapatória, certamente essa seria, provavelmente, a melhor maneira de realizar essa ação.
 
-Contudo, como o objetivo dessa pesquisa sugere, para utilizar esse modelo em um sistema clássico tomando proveito da computação quântica, não se mostra como a melhor opção.
-
-Para sistemas convencionais, dos quais utilizam métodos baseados em árvores, não é possivel tirar qualquer proveito aqui, sendo $O$ polinomial contra $O$ quadrático.
-
-Mesmo perante os testes clássicos feitos durante o desenvolvimento, esse protocolo só se mantém util quando a pesquisa era feita de forma linear.
-
+Contudo, utilizar esse modelo em um sistema clássico tomando proveito da computação quântica não se mostra como a melhor opção, uma vez utilizar a estrutura linear de uma Look-Up-Table pode ser custoso a medida que a quantidade de arquivos crescem, além de aumentar gradativamente a probabilidade de colisões com relação a hash function. Para sistemas convencionais, dos quais utilizam métodos baseados em árvores, não é possível tirar qualquer proveito aqui, sendo $O$ polinomial contra $O$ quadrático.
 
 \begin{center}
 	\includegraphics[scale=0.5]{algorithms-finding-comparation.png}
