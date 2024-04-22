@@ -61,15 +61,15 @@
 
 \hypersetup{
 	pdftitle={Quantum Oracles - Como transformar problemas classicos em quanticos},
-	pdfsubject={quantum computing, computer science, ciencias da computacao, computacao quantica, algoritmos, algorithms},
+	pdfsubject={quantum computing, computer science, ciências da computação, computação quântica, algoritmos, algorithms, problem solving, problems, solução de problemas, problemas},
 	pdfauthor={Alexandre Silva},
-	pdfkeywords={quantum oracles, quantum, quantum computing, algoritmos, algorithms},
+	pdfkeywords={quantum oracles, quantum, quantum computing, algoritmos, algorithms, problems, problemas},
 }
 
 \begin{document}
 \maketitle
 \begin{abstract}
-	A partir do uso de quantum Oracles e outros fatores quânticos, como a superposição, foram feitos \emph{5 mini-projetos}. O objetivo desses projetos foi tentar responder se é possível transformar certos problemas em quânticos e se realmente tal transformação vale a pena. Após os testes foi possível ver que, há casos em que a versão quântica apresenta um aproveitamento igual ou um pouco superior em alguns casos, contudo ainda é necessário o uso de computadores clássicos para conseguir melhores resultados.
+	A partir do uso de quantum Oracles e outros fatores quânticos, como a superposição, foram feitos \emph{5 mini-projetos}. O objetivo desses projetos foi tentar responder se é possível transformar certos problemas em quânticos e se realmente tal transformação vale a pena. Após os testes foi possível ver que, há casos em que a versão quântica apresenta um aproveitamento igual ou um pouco superior, contudo ainda é necessário o uso de computadores clássicos para conseguir melhores resultados.
 \end{abstract}
 
 
@@ -293,7 +293,7 @@ Dessa forma, o arquivo procurado tem sua probabilidade maximizada pelo circuito 
 
 Para um caso hipotético de um sistema operacional quântico, certamente essa é um das maneiras mais obvias para fazer buscas na imensidão dos arquivos armazenados. Para esse caso, não há escapatória, certamente essa seria, provavelmente, a melhor maneira de realizar essa ação.
 
-Contudo, utilizar esse modelo em um sistema clássico tomando proveito da computação quântica não se mostra como a melhor opção, uma vez utilizar a estrutura linear de uma Look-Up-Table pode ser custoso a medida que a quantidade de arquivos crescem, além de aumentar gradativamente a probabilidade de colisões com relação a hash function. Para sistemas convencionais, dos quais utilizam métodos baseados em árvores, não é possível tirar qualquer proveito aqui, sendo $O$ polinomial contra $O$ quadrático.
+Contudo, utilizar esse modelo em um sistema clássico tomando proveito da computação quântica não se mostra como a melhor opção, uma vez utilizar a estrutura linear de uma Look-Up-Table pode ser custoso a medida que a quantidade de arquivos crescem, além de aumentar gradativamente a probabilidade de colisões com relação a hash function. Para sistemas convencionais, dos quais utilizam métodos baseados em árvores, não é possível tirar qualquer proveito aqui.
 
 \begin{center}
 	\includegraphics[scale=0.5]{algorithms-finding-comparation.png}
@@ -650,14 +650,11 @@ Em suma, mesmo sendo possível criar pequenos circuitos para implementar uma mem
 
 \subsection{Conclusão}
 
-Com isso, foi mostrado que a computação quântica ainda tem muito potencial, contudo é possível ver que certos fatores prejudicam o seu uso no momento, assim como a falta de certos recursos.
+Perante o exposto, foi evidenciado que a computação quântica ainda tem muito potencial. No entanto, é possível ver que certos fatores e a falta de alguns recursos, prejudicam o seu uso, no momento.
 
-No momento, é claro que computadores quânticos são máquinas extremamente úteis para diversos casos, e de fato existem áreas que tomaram extremo proveito com elas, como criptografia, machine learning, química, física, matemática, etc. Mostrando que a computação clássica não está condenada, mas sim uma nova era está surgindo com a junção da computação clássica e computação quântica.
+Como já mostrado pelas inúmeras pesquisas em áreas como, química, machine learning, criptografia, otimização, etc. A computação quântica pode no futuro ser um ponto crucial para conseguir resultados mais precisos e, em certos casos, em menor tempo. No entanto, na era NISQ, para conseguir utilizar todo seu potencial, é necessário ter em conjunto máquinas clássicas para pré e/ou pós processamento. Assim como demonstrado aqui, ao utilizar esse conjunto, é possível ter o melhor dos dois mundos, mesmo que na maioria do casos, esse formato de implementação não se sobressaí as versões já utilizadas, com o tempo, e o aperfeiçoamento das técnicas e do hardware em si darão um novo caminho para novos usos.
 
-Em resumo, é possível tirar proveito da computação quântica para problemas que conhecemos clássicamente. No entanto, é necessário averiguar se há algum fator quântico que pode explorar o problema de uma forma que classicamente seria impossível ou não usuais, como no caso dessa pesquisa os Oracles.
-
-
-
+Em resumo, é possível tirar proveito da computação quântica para problemas que conhecemos classicamente. No entanto, é necessário averiguar se há algum fator quântico que pode ser explorado que em sua forma clássica seria impossível ou não usuais.
 
 \nocite{SOARE2009368}
 \nocite{odonnell_2015_lecture}
