@@ -143,20 +143,13 @@ Como já citado anteriormente, o Minimal Oracle possui uma função que, em sua 
 No exemplo da figura \ref{fig:minimal-oracle}, foram utilizados dois $SWAP$ para inverter a ordem dos valores. Com isso, a matriz final ainda se mantém unitária, com apenas valores invertidos em certas posições.
 
 \subsubsection{QFT(Quantum Fourier Transform)}
-
-O QFT, em suma, é um algoritmo quântico usado para projetar os valores da base computacional para a base $X$ (ou também conhecido como base de Fourier), ou vice-versa usando sua função inversa $QFT^{-1}$. Esse algoritmo, toma como base a transformada discreta de Fourier e aplica essa transformação em estados quânticos.\\
+O QFT, em suma, é um algoritmo quântico usado para projetar os valores da base computacional para a base $X$ (ou também conhecido como base de Fourier). Esse algoritmo, toma como base a transformada discreta de Fourier e aplica essa transformação em estados quânticos.\\
 Mesmo sendo um algoritmo por si só, sua aplicação em circuitos se dá seguindo o formato de Oracles.
 
 \begin{center}
 	\includegraphics[scale=0.3]{QFT_1.png}
 	\captionof{figure}{Exemplo do Oracle de QFT}
 	\label{fig:QFT}
-\end{center}
-
-\begin{center}
-	\includegraphics[scale=0.3]{QFT_1_transpiled.png}
-	\captionof{figure}{Exemplo do Oracle de QFT transpilado usando o simulador AER do Qiskit}
-	\label{fig:QFT-transpiled}
 \end{center}
 
 \begin{center}
