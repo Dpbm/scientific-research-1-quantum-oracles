@@ -20,6 +20,7 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{mathtools}
+\usepackage{titlesec}
 
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
@@ -165,38 +166,33 @@ Além dos Oracles citados, é possível encontrar na literatura citações descr
 
 \section{Desenvolvimento}
 
-Com alguns algoritmos testados e com o uso dos Oracles em mente, os 5 mini-projetos foram desenvolvidos.
-
 \subsection{Explorador de Arquivos} \label{file-explorer}
 
-Imagine um computador quântico, utilizando um sistema operacional quântico (semelhante aos computadores convencionais, mas dessa vez seguindo as leis da mecânica quântica). Pensando nas partes desse sistema operacional, como seria possível pegar arquivos da memória usando a computação quântica?
-
-É importante salientar que nesse suposto computador quântico, temos também acesso à uma máquina clássica, assim como a maioria dos computadores quânticos atuais.
+Imagine um computador quântico, com um sistema operacional quântico, capaz de interagir não apenas com a parte quântica, mas também com uma porção clássica a qualquer momento que for necessário. Essa máquina, possui todas as capacidades de um computador pessoal mais as capacidades de um computador quântico atual.\\
+Pensando nas partes desse sistema, como seria possível pegar arquivos da memória?\\
+Com essa ideia, foram testados alguns modelos de implementação de um circuito para essa finalidade.
 
 \subsubsection{Algoritmos usados}
 
 \subsubsection{Grover}
-
-O algoritmo evidente para esse problema é o algoritmo de Grover. Este realiza buscas em "bancos de dados" (bit strings) desorganizados em tempo $O(\sqrt{2^n})$ onde $n$ é o número de qubits usados. 
-Nele, usamos um circuito do qual amplifica-se as probabilidades de encontrar os valores marcados no Oracle.
+O algoritmo evidente para esse problema é o algoritmo de Grover. Este realiza buscas em "bancos de dados" (bit strings) desorganizados em tempo $O(\sqrt{2^n})$, do qual $n$ é o número de qubits usados. Nele, usamos um circuito do qual amplificam-se as probabilidades de encontrar os valores marcados no Oracle.
 
 \begin{center}
 	\includegraphics[scale=0.3]{Grover.png}
-	\captionof{figure}{Exemplo algoritmo de Grover}
+	\captionof{figure}{Exemplo algoritmo de Grover com $3$ qubits}
 	\label{fig:grover-default-circuit}
 \end{center}
 
-Há ainda uma relação para determinar a quantidade $k$ de vezes necessárias para adicionar o conjunto $Oracle + Diffuser$ sendo essa: $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, do qual $a$ representa o número de valores marcados pelo Oracle. Contudo, para esse projeto, não há necessidade, uma vez que queremos procurar um arquivo único em meio aos inúmeros armazenados na memória.
-
-Mesmo sendo o melhor algoritmo conhecido para buscas em computação quântica, foi testado também hipóteses para possíveis maneiras de melhor os valores das distribuições finais. Para isso, foram testadas inúmeras combinações de rotações $RY$ e comparadas com o convencional usado pelo algoritmo $H$.
+Para esse circuito, é preciso adicionar o conjunto $Oracle + Diffuser$ $k$ vezes, sendo $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, do qual $a$ representa o número de valores marcados pelo Oracle. Como nesse projeto, visamos encontrar apenas $1$ arquivo encodado, não há necessidade de usar tal relação, sendo necessário apenas uma aplicação do conjunto para alcançar bons resultados.\\
+Contudo, mesmo sendo o melhor algoritmo, conhecido, para buscas em computação quântica, foi testado também hipóteses para possíveis maneiras de melhor os valores das distribuições finais. Para isso, foram testadas inúmeras combinações de rotações $RY$ e foram comparadas com o convencional usado pelo algoritmo ($H$).
 
 \begin{center}
 	\includegraphics[scale=0.5]{improvement-grover-algorithm-4bits-0-to-2pi.png}
-	\captionof{figure}{Comparação usando o algoritmo de Grover convencional e o algoritmo modificado usando o melhor ângulo $[0, 2\pi]$ para cada bit-string de quatro bits}
+	\captionof{figure}{Comparação usando o algoritmo de Grover convencional e o algoritmo modificado com o melhor ângulo (entre $[0, 2\pi]$) para cada bit-string de quatro bits}
 	\label{fig:best-angle-grover}
 \end{center}
 
-Com isso, é possível ver que na maior parte das vezes, utilizar ângulos próprios para cada bit-string se sobressai ao valor padrão.
+Ao utilizar as rotações específicas para cada bit-string, é possível conseguir melhores resultados ao medir os valores na saída, se sobressaindo em relação a rotação padrão.
 
 \begin{center}
 	\includegraphics[scale=0.4]{new-grover-test-different-bit-strings-with-optimal-angles.png}
@@ -204,9 +200,8 @@ Com isso, é possível ver que na maior parte das vezes, utilizar ângulos próp
 	\label{fig:best-angles-diff-bit-strings-grover}
 \end{center}
 
-No entanto, ao utilizar esses valores com outras bit-strings, os resultados não conseguem alcançar tal limiar, sendo a rotação padrão  melhor na maioria das vezes.
-
-Além disso, para bit-strings de dois bits, utilizar a superposição dada por $H$ é a melhor alternativa.
+No entanto, ao utilizar esses valores com outras bit-strings, os resultados não conseguem alcançar tal limiar, além modificar as outras probabilidades de forma irregular. Sendo assim, a rotação convencional é a melhor na maioria das vezes.\\
+Além disso, para bit-strings de dois bits, utilizar a superposição dada por $H$ se mostra a melhor alternativa.
 
 \begin{center}
 	\includegraphics[scale=0.5]{classical_grover_for_1_bit_strings_l2_outcomes.png}
@@ -220,13 +215,10 @@ Além disso, para bit-strings de dois bits, utilizar a superposição dada por $
 	\label{fig:l2-grover-new-outcomes}
 \end{center}
 
-
-
-Com isso, para ter o melhor dos dois mundos, foi usado uma versão hibrida do algoritmo. Assim, para criar o circuito, é passado o valor a ser encodado por uma Look-Up-Table com os ângulos otimizados. Dessa forma, é possível maximizar as probabilidades.
+Com isso, para ter o melhor dos dois mundos, foi usado uma versão híbrida do algoritmo. Assim, para criar o circuito, é passado o valor a ser encodado por uma Look-Up-Table com os ângulos otimizados. Dessa forma, é possível maximizar as probabilidades de encontrar, nesse caso, o arquivo que está sendo procurado.
 
 \subsubsection{Diferença de conjuntos}
-
-Utilizando dois Phase Oracles distintos, com ranges de valores diferentes, ao serem sobrepostos, é realizada a operação de diferença de conjuntos \cite{sanchezrivero2023initial}.
+Sobrepondo dois Phase Oracles distintos, com ranges de valores diferentes, é realizada a operação de diferença entre conjuntos \cite{sanchezrivero2023initial}.
 
 \begin{center}
 	\includegraphics[scale=0.3]{less_than.png}
@@ -242,18 +234,16 @@ Nesse exemplo \ref{fig:less-than-circuit} foi encodado no primeiro Oracle o set 
 	\label{fig:less-than-circuit-unitary}
 \end{center}
 
-Como pode ser visto em \ref{fig:less-than-circuit-unitary}, apenas os valores $\{100, 101\}$ permaneceram com a fase, representando então a sobreposição delas.
+Ao sobrepô-los \ref{fig:less-than-circuit-unitary}, apenas os valores $\{100, 101\}$ permaneceram com a fase, representando então a sobreposição delas.
 
 
 \subsubsection{Solução}
 
-Para a solução do problema, foi criado uma hash function $C: v \to c$, da qual $v$ é o path de um arquivo e $c$ uma bit-string respectiva. Com essa função em mãos, podemos utilizar o conjunto dos valores retornados e encodá-los em um Phase Oracle, agindo como uma Look-Up-Table para os arquivos existentes na máquina.
-
-No entanto, para ter sucesso na pesquisa, é necessário utilizar um segundo Oracle encondando $F = P-f$, sendo $f$ o conjunto de arquivos do qual estamos procurando e $F$ os arquivos restantes, aproveitando-se então da diferença de conjuntos para encontrar apenas os valores desejados na pesquisa.
-Sendo assim, o primeiro Oracle age como o HD da máquina, marcando todos os arquivos existentes, e o segundo age como o mediador da pesquisa.
+Para a solução do problema, foi criado uma hash function $C: v \to c$, da qual $v$ é o path de um arquivo e $c$ sua bit-string respectiva. Com essa função em mãos, podemos utilizar o conjunto dos valores retornados e encodá-los em um Phase Oracle, criando então uma Look-Up-Table para os arquivos existentes na máquina (agindo como a memória).\\
+Além disso, é necessário utilizar um segundo Oracle para a pesquisa, encodando todos os valores existentes, menos os que foram requisitados. Assim, ao realizar a diferença entre conjuntos, apenas os valores procurados se manterão marcados.
 
 \begin{center}
-	\includegraphics[scale=0.6]{sets-difference-look-up-table-oracle.png}
+	\includegraphics[scale=0.4]{sets-difference-look-up-table-oracle.png}
 	\captionof{figure}{Diferença de conjuntos com as Look-Up-Tables}
 	\label{fig:luts}
 \end{center}
@@ -262,22 +252,23 @@ Sendo assim, o primeiro Oracle age como o HD da máquina, marcando todos os arqu
 Por fim, é usado o aprimoramento dos ângulos para conseguir melhores probabilidades.
 
 \begin{center}
-	\includegraphics[scale=0.6]{improved_file_explorer.png}
+	\includegraphics[scale=0.4]{improved_file_explorer.png}
 	\captionof{figure}{Explorador de arquivos implementação}
 	\label{fig:file-explorer}
 \end{center}
 
-Dessa forma, o arquivo procurado tem sua probabilidade maximizada pelo circuito e então a bit-string se apresenta após $n$ medições.
+Dessa forma, o arquivo procurado tem sua probabilidade maximizada pelo circuito, sendo apresentada a distribuição após $n$ medições.
 
-
-%insert image here
-%insert image here(fake backend)
+\begin{center}
+	\includegraphics[scale=0.6]{AER-file-explorer-hist-new-grover-mapped-rotations.png}
+	\captionof{figure}{Explorador de arquivos resultados - Qiskit AER ($shots=1000$)}
+	\label{fig:file-explorer-hist}
+\end{center}
 
 \subsubsection{Resultados}
 
-Para um caso hipotético de um sistema operacional quântico, certamente essa é um das maneiras mais obvias para fazer buscas na imensidão dos arquivos armazenados. Para esse caso, não há escapatória, certamente essa seria, provavelmente, a melhor maneira de realizar essa ação.
-
-Contudo, utilizar esse modelo em um sistema clássico tomando proveito da computação quântica não se mostra como a melhor opção, uma vez utilizar a estrutura linear de uma Look-Up-Table pode ser custoso a medida que a quantidade de arquivos crescem, além de aumentar gradativamente a probabilidade de colisões com relação a hash function. Para sistemas convencionais, dos quais utilizam métodos baseados em árvores, não é possível tirar qualquer proveito aqui.
+Para esse caso hipotético, certamente essa é um das melhores maneiras para fazer buscas dentre todos os arquivos armazenados.\\
+Contudo, ao projetar esse modelo para um sistema clássico, tentando tomar proveito da computação quântica, essa não se mostra como a melhor opção. Isso acontece pois, guardar uma Look-Up-Table para os arquivos, e outra para cada ângulo de cada bit-string dentre as $2^{n}$ combinações, pode ser custoso e lento, além de requerer uma hash function com pouca probabilidade de colisão. Para diminuir esse overhead, poderia ser utilizado, simplesmente, o algoritmo de Grover sem maiores alterações, mas ainda assim seria necessário ter mapeado todos os arquivos em disco para a tabela. Assim, tomando como referência sistemas que utilizam o mapeamento de arquivos baseado em árvores ($O(log(n))$), esse método não apresenta ganho algum, além de possuir a probabilidade de não encontrar, ou retornar o arquivo errado.
 
 \begin{center}
 	\includegraphics[scale=0.5]{algorithms-finding-comparation.png}
@@ -285,7 +276,7 @@ Contudo, utilizar esse modelo em um sistema clássico tomando proveito da comput
 	\label{fig:file-explorer-comparation-O}
 \end{center}
 
-Sendo assim, o algoritmo de Grover deve ser pensando para casos do qual a versão clássica possui complexidade $\ge O(n)$.
+Sendo assim, os algoritmos apresentados, são as melhores alternativas para serem utilizadas em um sistema que é, principalmente, quântico. Mas para casos de otimização clássica, deve ser utilizado apenas para complexidades $\ge O(n)$.
 
 
 \subsection{Milhas para Quilômetros} \label{conversion}
