@@ -174,7 +174,7 @@ Com essa ideia, foram testados alguns modelos de implementação de um circuito 
 
 \subsubsection{Algoritmos usados}
 
-\subsubsection{Grover}
+\subsubsubsection{Grover}
 O algoritmo evidente para esse problema é o algoritmo de Grover. Este realiza buscas em "bancos de dados" (bit strings) desorganizados em tempo $O(\sqrt{2^n})$, do qual $n$ é o número de qubits usados. Nele, usamos um circuito do qual amplificam-se as probabilidades de encontrar os valores marcados no Oracle.
 
 \begin{center}
@@ -217,7 +217,7 @@ Além disso, para bit-strings de dois bits, utilizar a superposição dada por $
 
 Com isso, para ter o melhor dos dois mundos, foi usado uma versão híbrida do algoritmo. Assim, para criar o circuito, é passado o valor a ser encodado por uma Look-Up-Table com os ângulos otimizados. Dessa forma, é possível maximizar as probabilidades de encontrar, nesse caso, o arquivo que está sendo procurado.
 
-\subsubsection{Diferença de conjuntos}
+\subsubsubsection{Diferença de conjuntos}
 Sobrepondo dois Phase Oracles distintos, com ranges de valores diferentes, é realizada a operação de diferença entre conjuntos \cite{sanchezrivero2023initial}.
 
 \begin{center}
@@ -280,14 +280,12 @@ Sendo assim, os algoritmos apresentados, são as melhores alternativas para sere
 
 
 \subsection{Milhas para Quilômetros} \label{conversion}
+O segundo problema testado, foi a conversão de milhas para quilômetros. Essa ideia se deu após a descoberta de um algoritmo capaz de calcular a sequência de Fibonacci usando circuitos quânticos, algoritmo essencial para esse projeto.
 
-O segundo problema testado foi a conversão de milhas para quilômetros. Essa ideia se deu após a descoberta de um algoritmo capaz de calcular a sequência de Fibonacci usando circuitos quânticos.
+\subsubsection{Algoritmos usados}
 
-\subsubsection{Algoritmo Quântico de Fibonacci}
-
-A versão quântica usada para calcular Fibonacci foi apresentada em \cite{gilliam2020canonical} e  demonstra que, utilizando um circuito que coloca em superposição todas as bit-strings com $n$ qubits, e então realizando operações para remover valores que possuem $1$s consecutivos, é possível encontrar o valor $n$ na sequência.
-
-Esse circuito pode ser criado da seguinte maneira, como descrito no artigo original \cite{gilliam2020canonical}:
+\subsubsubsection{Algoritmo Quântico de Fibonacci}
+A versão quântica usada para calcular Fibonacci foi apresentada em \cite{gilliam2020canonical} e  demonstra que, utilizando um circuito do qual coloca em superposição todas as bit-strings com $n$ qubits, e então realizando operações para remover valores que possuem $1$s consecutivos, é possível encontrar o valor $n$ na sequência.
 
 \begin{center}
 	\includegraphics[scale=0.3]{fibonacci-circuit.png}
@@ -295,19 +293,16 @@ Esse circuito pode ser criado da seguinte maneira, como descrito no artigo origi
 	\label{fig:fibonacci-circuit}
 \end{center}
 
-Assim, ao executá-lo, temos:
-
 \begin{center}
-	\includegraphics[scale=0.5]{fibonacci-4.png}
-	\captionof{figure}{Resultado exemplo Fibonacci - F(4)}
+	\includegraphics[scale=0.6]{fibonacci-4.png}
+	\captionof{figure}{Resultado Fibonacci - F(4)}
 	\label{fig:fibonacci-circuit-result}
 \end{center}
 
-Aqui, as bit-strings em si não são importantes para o resultado, mas apenas a quantidade de bit-strings diferentes que aparecem com valores não $0$s.\\ 
-No exemplo em \ref{fig:fibonacci-circuit-result}, foram usados $4$ qubits para calcular $F(4)$. Assim, ao contar as bit-strings, temos $F(4) = 8$, retornando então o quarto valor da sequência (nesse caso, a sequência começa do valor $2$, seguindo dessa forma: $F(1)=2, F(2)=3, F(3)=5, F(4)=8, F(5)=13, F(6)=21, ...$). \\
-Com isso, é possível usar esse circuito para computações de $F(n)$ utilizando $n$ qubits para encontrar o valor requisitado na posição $n$.
+Após executar o circuito, é necessário verificar a quantidade de bit-strings únicas que apareceram durante os experimentos. No exemplo em \ref{fig:fibonacci-circuit-result}, foram usados $4$ qubits para calcular $F(4)$. Assim, ao contar as bit-strings, temos $F(4) = 8$, retornando então o quarto valor da sequência (nesse caso, a sequência começa do valor $2$, seguindo dessa forma: $F(1)=2, F(2)=3, F(3)=5, F(4)=8, F(5)=13, F(6)=21, ...$). \\
+Com isso, é possível usar esse circuito para computações de $F(n)$ utilizando $n$ qubits para encontrar o valor requisitado nessa mesma posição $n$.
 
-\subsubsection{Aproximação de Milhas para Quilômetros usando Fibonacci}
+\subsubsubsection{Aproximação de Milhas para Quilômetros usando Fibonacci}
 
 Para aproximar o valor de milhas para quilômetros, podemos utilizar a sequência de Fibonacci com a seguinte relação: $F_{km} = F_{milhas}(n+1)$, sendo aqui $F$ a versão clássica de Fibonacci com $F(1) = 1$ e $F(2) = 2$. Dessa forma, se a posição $n$ é conhecida, valor aproximado em quilômetros será dado em $n+1$.
 
@@ -331,16 +326,13 @@ Para aproximar o valor de milhas para quilômetros, podemos utilizar a sequênci
 	\end{center}
 \end{table}
 
-Valores não presentes na sequência, podem ser aproximados repartindo o valor em partes menores lá presentes. Por exemplo, para transformar $10$ milhas em quilômetros, podemos fazer: $F(4+1) + F(2+1)$, ou seja $13 + 3 \approx 16$, aproximando então do valor mais preciso de $\approx 16.0934$
+Valores não presentes na sequência, podem ser aproximados repartindo o valor em partes menores. Por exemplo, para transformar $10$ milhas em quilômetros, podemos fazer: $8 + 2 = 10miles \to F(5) + F(2) \to F(5+1) + F(2+1) =  13 + 3 = 16km$, aproximando então do valor mais preciso de $\approx 16.0934$
 
 
 \subsubsection{Implementação do circuito}
+Com essa formulação, o algoritmo final segue esse fluxo:
 
-Com essa formulação, foi criado um algoritmo clássico para quebrar um número desejado em partes menores, as quais podem ser calculadas em um circuito quântico, este então retorna tuplas mapeando a entrada para o valor $n_i$ e a quantas vezes que é necessário a sua aplicação $i$ sendo assim : $ f: (n) \to ((n_1, i), (n_2, i), ...)$.
-
-O algoritmo final segue o fluxo:
-
-\begin{algorithm}
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\State{partes = $quebraValor(valorDeEntrada)$}
 		\For{parte in partes}
@@ -350,11 +342,16 @@ O algoritmo final segue o fluxo:
 		\EndFor
 		\State{verifique o resultado de cada bit-string}
 		\State{Multiplique cada resultado com o valor $i$ correspondente}
-		
+			
 	\end{algorithmic}
 	\caption{Algoritmo quântico para a conversão}
 	\label{alg:miles-to-km-quantum-algortihm}
 \end{algorithm}
+
+
+Nesse formato, é necessário pré-processamento utilizando um algoritmo clássico para dividir o número em partes menores. Este então, retorna tuplas mapeando a entrada para o valor $n_i$ e a quantidade de vezes que é necessário a sua aplicação $p$, $(n) \to ((n_1, p_1), (n_2, p_2), ...)$.\\
+A partir disso, a parte quântica segue com a aplicação do algoritmo de Fibonacci em formato de Oracle no circuito para o valor $n_i$, em seguida as medições nos qubits usados pelo Oracle e por fim o reset deles, seguindo esse ciclo para cada valor $n$.\\
+Após terminar, basta pegar os resultados, e, com um pouco de pós-processamento, agrupar as partes e multiplicar pelo seus valores $p$, retornando então o valor aproximado em quilômetros.
 
 \begin{center}
 	\includegraphics[scale=0.15]{number_breakdown_circuit.png}
@@ -363,12 +360,12 @@ O algoritmo final segue o fluxo:
 \end{center}
 
 \subsubsection{Resultados}
-
-Usando esse método é possível alcançar os valores esperados. Contudo existem alguns pontos que tornam esse método inviável:
+Usando esse método, é possível alcançar os valores esperados. Contudo existem alguns pontos que tornam esse método inviável:
 
 \begin{enumerate}
-\item{Quantidade necessária de medições e tempo de execução}\\
-Para cada vez que medirmos o circuito, precisamos de uma quantidade alta de \emph{shots} para alcançar um resultado melhor, aumentando também o tempo necessário para executar.
+
+\item{\textbf{Quantidade necessária de medições e tempo de execução}}\\
+Para cada medição do circuito, é necessária uma quantidade alta de \emph{shots} (valores entre $5000$ e $10000$ foram testados localmente usando o Qiskit AER e, para os testes no hardware da IBM, foram usados apenas $1000$ por questões de extrema demora e erros durante os experimentos) para alcançar melhores resultados, aumentando também o tempo necessário para finalizar a execução.
 
 \begin{center}
 	\includegraphics[scale=0.6]{comparison_miles_to_km.png}
@@ -379,26 +376,24 @@ Para cada vez que medirmos o circuito, precisamos de uma quantidade alta de \emp
 Como mostrado em \ref{fig:comparasion-miles-km-time}, o tempo das versões clássicas, com e sem memoization, possuem tempos praticamente constantes em relação as versões quânticas.
 
 
-\item{Erros}\\
-Como a maioria dos algoritmos Quânticos da era NISQ(noisy intermediate-scale quantum), os erros também estão presentes, e por serem utilizados inúmeros gates multi-qubits, esses erros podem se intensificar de acordo com hardware usado.
+\item{\textbf{Erros}}\\
+Como a maioria dos algoritmos Quânticos da era NISQ(noisy intermediate-scale quantum), os erros também estão presentes, e por serem utilizados inúmeros gates multi-qubits, esses erros podem ainda se intensificar de acordo com hardware usado.
 
-\item{Imprecisão}\\
-
+\item{\textbf{Imprecisão}}\\
 \begin{center}
-	\includegraphics[scale=0.2]{miles_to_km_defiance.png}
+	\includegraphics[scale=0.4]{miles_to_km_defiance.png}
 	\captionof{figure}{Comparação resultados versão clássica e quântica}
 	\label{fig:values-miles-km-quantum}
 \end{center}
 
-Como mostrado em \ref{fig:values-miles-km-quantum}, valores pequenos possuem uma boa precisão com os números esperados(em azul), mas a partir de certo ponto eles começam a se distanciar e perdem totalmente a precisão.
+Como mostrado em \ref{fig:values-miles-km-quantum}, valores pequenos possuem uma boa precisão com os números esperados, mas a partir de certo ponto, eles começam a se distanciar e perdem totalmente a precisão.
 
-\item{Necessidade de intervenção clássica}
-
-Por fim, esse algoritmo requer que primeiro seja verificado quais são os valores de Fibonacci necessários para cada parte(pré-processamento), além de ser necessário pós processamento após as medições. Sendo assim, a maior parte do tempo está sendo realizada computação clássica ao invés de quântica, o que acaba diminuindo a utilidade de um computador quântico aqui.
+\item{\textbf{Necessidade de intervenção clássica}}\\
+Por requisitar pré e pós processamento clássico e apenas uma pequena parcela ser de fato processamento quântico, a necessidade de utilizar esse algoritmo se reduz a zero. 
 
 \end{enumerate}
 
-Sendo assim, esse algoritmo não consegue se sair bem como a versão clássica, além de ser mais custoso na maioria dos casos. Para de fato evoluir essa implementação, será necessário remodelá-lo para um versão independente ou ainda com pouca computação clássica, priorizando a maneira como dados podem ser encodados e transformados no circuito.
+Sendo assim, esse algoritmo não consegue se sair bem como a versão clássica, além de ser mais custoso na maioria dos casos. Para evoluir essa implementação, será necessário remodelá-lo para um versão com pouca, ou nenhuma, computação clássica, priorizando a maneira como dados podem ser encodados e transformados no circuito.
 
 \subsection{Torres de Hanoi} \label{hanoi}
 
