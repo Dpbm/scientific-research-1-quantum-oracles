@@ -424,15 +424,11 @@ Nessa versão, é seguida a mesma sequência do algoritmo clássico, necessitand
 Em uma versão clássica, o movimento de retirar um disco de uma torre e move-lo para a próxima requer também esse pré-processamento, podendo ser realizado um-a-um ou tudo de uma vez antes da partida. Dessa forma, a versão clássica e quântica se igualam, não tendo ganhos ou perdas expressivas.
 
 \subsection{Buckshot Roulette} \label{buckshot}
-
-\emph{Buckshot Roulette} é um jogo de computador feito pelo desenvolvedor \href{https://mikeklubnika.itch.io/}{Mike Klubnika}, tomando como base a premissa de reinventar a infame roleta russa. No jogo, você é desafiado por um demônio (dealer), e caso você ganhe, uma recompensa lhe será dado, caso contrário o jogo reinicia e você pode tentar novamente.
-
-Nesse projeto, foi tomado como objetivo analisar a primeira rodado do jogo e tentar encontrar a melhor estratégia para maximizar os ganhos do jogador. O motivo da escolha da primeira rodada se dá tanto pela sua simplicidade, o que facilitou os testes, como por manter muito bem a essência do jogo.
+\emph{Buckshot Roulette} é um jogo de computador feito pelo desenvolvedor \href{https://mikeklubnika.itch.io/}{Mike Klubnika}, tomando como base a premissa de reinventar a infame roleta russa. No jogo, você é desafiado por um demônio (dealer), e caso você ganhe, uma recompensa lhe será dado, caso contrário o jogo reinicia e você pode tentar novamente.\\
+Nesse projeto, foi tomado como objetivo analisar a primeira rodado do jogo e tentar encontrar a melhor estratégia para maximizar os ganhos do jogador. O motivo da escolha da primeira rodada se dá pela sua simplicidade, sendo direto ao ponto, sem power-ups ou fatores que dificultariam as simulações, mas, ainda assim, mantendo a essência do jogo.
 
 \subsubsection{Dinâmica}
-
-Na rodada, são colocadas $2$ balas falsas e $1$ bala verdadeira na arma, sendo o player o primeiro a jogar. Ambos os jogadores podem escolher entre atirar em si mesmo, ou em seu oponente. Assim, a próxima ação é estritamente depende das probabilidades de ser uma bala real ou falsa. \\
-A partir dai, a dinâmica funciona da seguinte forma: 
+Na rodada, são colocadas $2$ balas falsas e $1$ bala verdadeira na arma, sendo o player o primeiro a jogar. Ambos os jogadores podem escolher entre atirar em si mesmo, ou em seu oponente. Assim, a próxima ação é estritamente depende das probabilidades de ser uma bala real ou falsa. A partir dai, a dinâmica funciona da seguinte forma: 
 
 \begin{algorithm}[H]
 	\begin{algorithmic}
@@ -455,10 +451,10 @@ A partir dai, a dinâmica funciona da seguinte forma:
 	\label{alg:buckshot-roulette}
 \end{algorithm}
 
+Essa dinâmica se repete a cada jogada, sendo válida tanto para o dealer, como para o player.
 
 
 \subsubsection{Versão clássica}
-
 Para entender melhor a dinâmica, é possível representar cada ação e suas consequências em formato de árvore. Dessa forma, cada jogada leva a partida para mais próximo do fim.
 
 
@@ -468,9 +464,7 @@ Para entender melhor a dinâmica, é possível representar cada ação e suas co
 	\label{fig:classical-model-bckr}
 \end{center}
 
-Nessa estrutura, é previsto que o Jogador seja um agente racional e o dealer uma máquina com ações aleatórias. Assim, o jogador sempre visa o seu benefício, enquanto o dealer age pela sorte. \\
-Tal comportamento pode ser visto nas folhas da árvore, do qual sempre que o player é o próximo jogador, sua ação é apenas atirar no adversário, enquanto o dealer ainda possui a possibilidade de entregar o jogo atirando em si próprio, mesmo havendo apenas uma bala na arma e, pela lógica do jogo, ser uma bala verdadeira.
-
+Nessa estrutura, é previsto que o jogador seja um agente racional, e o dealer uma máquina com ações aleatórias. Assim, o jogador sempre visa o seu próprio benefício, enquanto o dealer age pela sorte.Tal comportamento pode ser visto nas folhas da árvore do qual, sempre que o player é o próximo jogador, sua ação é apenas atirar no adversário, enquanto o dealer ainda possui a possibilidade de entregar o jogo atirando em si próprio, mesmo havendo apenas uma bala na arma e, pela lógica do jogo, ser uma bala verdadeira.\\
 Seguindo essa estrutura, podemos simular os possíveis caminhos e verificar a melhor estratégia.
 
 \begin{center}
@@ -479,7 +473,7 @@ Seguindo essa estrutura, podemos simular os possíveis caminhos e verificar a me
 	\label{fig:classical-model-bckr-optimal-strategy}
 \end{center}
 
-Após testar os possíveis caminhos, o melhor resultado obtido foi esse apresentado acima em \ref{fig:classical-model-bckr-optimal-strategy}. Com um pouco de investigação, foi possível entender que essa estratégia se baseia no jogador começar atirando no dealer. Isso acontece, pois, ao seguir tal caminho, ele tem uma chance a menos de perder a rodada, já que a chance de ser eliminado logo no começo desaparece.
+Após testar os caminhos possíveis, o melhor resultado obtido foi esse apresentado acima em \ref{fig:classical-model-bckr-optimal-strategy}. Com um pouco de investigação, foi possível entender que essa estratégia se baseia no jogador começar atirando no dealer. Isso acontece, pois, ao seguir tal caminho, ele tem uma chance a menos de perder a rodada ao atirar em si mesmo logo no começo da partida.
 
 \begin{table}[!h]
 	\begin{center}
@@ -510,11 +504,8 @@ Após testar os possíveis caminhos, o melhor resultado obtido foi esse apresent
 	\end{center}
 \end{table}
 
-Assim, o dealer tem duas chances de ganhar, enquanto o player possui 4.
-
 \subsubsection{Versão quântica}
-
-A partir dessa ideia, um circuito quântico foi modelado imitando o funcionamento do game. Nesse algoritmo, um Oracle foi usado para cada jogador, implementando internamente sua estratégia.
+Para a versão quântica, um circuito foi modelado imitando o funcionamento do game. Nesse algoritmo, um Oracle foi usado para cada jogador, implementando internamente sua estratégia.
 
 \begin{center}
 	\includegraphics[scale=0.3]{quantum_buckshot_roulette.png}
@@ -522,8 +513,7 @@ A partir dessa ideia, um circuito quântico foi modelado imitando o funcionament
 	\label{fig:bckr-circuit}
 \end{center}
 
-Além disso, para encontrar a estratégia, foram inseridos dois parâmetros dentro do Oracle do player, sendo possível configurar qualquer valor $\theta$ e $\phi$ para modificar a rotação na Bloch Sphere.
-
+Além disso, para encontrar a estratégia, foram inseridos dois parâmetros dentro do Oracle do player, sendo possível configurar qualquer valor $\theta$ e $\phi$ para modificar a rotação na Bloch Sphere.\\
 Após verificar os possíveis valores, a rotação que entregou o melhor resultado foi $\theta\approx 3.0853981633974477, \phi\approx3.7853981633974474$. Usando essa estratégia, os resultados foram semelhantes a versão clássica.
 
 \begin{center}
@@ -532,7 +522,7 @@ Após verificar os possíveis valores, a rotação que entregou o melhor resulta
 	\label{fig:bckr-circuit-result}
 \end{center}
 
-Observando a Bloch Sphere do estado gerado por essa rotação, é possível ver também que a estratégia, de fato, se assemelha a versão clássica, com o player preferindo atirar no dealer a maior parte do tempo (o valor $1$ aqui representa atirar no outro jogador e $0$ em si mesmo).
+Observando a Bloch Sphere do estado gerado por essa rotação, é possível ver também que a estratégia se aproxima da versão clássica, com o player preferindo atirar no dealer a maior parte do tempo (o valor $1$ representa atirar no outro jogador e $0$ em si mesmo).
 
 \begin{center}
 	\includegraphics[scale=0.6]{player_optimal_strategy_bloch.png}
@@ -540,20 +530,10 @@ Observando a Bloch Sphere do estado gerado por essa rotação, é possível ver 
 	\label{fig:bckr-bloch-sphere-best-strategy}
 \end{center}
 
+Como uma última nota sobre o circuito, no exemplo \ref{fig:bckr-circuit-result}, o total de partidas ganhas por cada jogador não chega ao total jogado (nesse caso $1000$ partidas foram simuladas). Isso acontece devido ao design do circuito, o qual não é possível verificar a jogada do player anterior, acarretando na continuação do jogo mesmo que um dos players já tenha perdido, o que cria a necessidade do uso de pós processamento para limpar os resultados inválidos.
+
 \subsubsection{Conclusões}
-
-Para esse problema, não há uma competição certa entre as duas versões, já que uma é diretamente inspirada na outra. Além disso, a versão quântica possui ainda a possibilidade de explorar mais valores do que a versão clássica, deixando o player mais aberto a escolha de estratégias, o que pode ser visto como um ponto a favor da versão quântica.
-
-Em relação a erros providos pelo hardware, isso não afetou diretamente os resultados, uma vez que, mesmo com os erros, a proporção se manteve.
-
- \begin{center}
- 	\includegraphics[scale=0.6]{final_buckshot_roulette_quantum_optimal_strategy_Fake20QV1.png}
- 	\captionof{figure}{Resultado Buckshot Roulette quântico - Fake20QV1 Qiskit}
- 	\label{fig:bckr-fake-melbourne}
- \end{center}
-
-Note também, que o total de partidas ganhas não chega ao total jogado, nesse caso $1000$ partidas foram simuladas. Isso acontece, devido ao design do circuito, do qual não é possível verificar a jogada do player anterior, sendo possível continuar jogando, mesmo que um dos players já tenha perdido, o que se fez necessário correções usando pós processamento após receber os resultados.
-
+Para esse problema, não há uma competição certa entre as duas versões, já que uma é diretamente inspirada na outra. Contudo, a versão quântica possui ainda a possibilidade de explorar mais valores do que a versão clássica, deixando o player mais aberto a escolha de novas estratégias, o que pode ser visto como um ponto a favor da versão quântica.\\
 Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar o quantum Oracle como uma representação de um player dentro do circuito.
 
 \subsection{QRAM} \label{qram}
