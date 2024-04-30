@@ -537,16 +537,11 @@ Para esse problema, não há uma competição certa entre as duas versões, já 
 Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar o quantum Oracle como uma representação de um player dentro do circuito.
 
 \subsection{QRAM} \label{qram}
-
-Por fim, o último projeto realizado foi o de uma \emph{QRAM} utilizando os Oracles. Nessa versão, foi testado a criação de \emph{QROMs} (com dados estáticos dentro), e uma possível maneira de utilizar uma QRAM hábil para escrita.
-
-Neste projeto, foi tido como objetivo o armazenamento de estados quânticos(superposições), e não apenas de bit-strings clássicas. Isso pois, para garantir a real eficiência da computação quântica, a superposição é indispensável, e seu armazenamento pode ser um ponto chave para algoritmos melhores.
+Por fim, o último projeto realizado foi o de uma \emph{QRAM} utilizando os Oracles. Nessa versão, foi testado a criação de \emph{QROMs} (com dados estáticos dentro), e uma possível maneira de utilizar uma QRAM hábil para escrita.\\
+Neste projeto, foi tido como objetivo o armazenamento de estados quânticos (superposições), e não apenas de bit-strings clássicas. Isso pois, para garantir a real eficiência da computação quântica, a superposição é indispensável, e seu armazenamento pode ser um ponto chave para algoritmos melhores.
 
 \subsubsection{QROM}
-
-Para a QROM, são utilizados $n$ qubits para o barramento de endereços e $m$ qubits para a o barramento de dados, sem a necessidade desses valores estarem correlacionados, podendo assim ser utilizado $n=3, m=10$. Nessa estrutura, podemos mapear diversas superposições diferentes e aplicá-las quando certo endereço for chamado. Sendo assim, o algoritmo armazena os valores a partir da configuração de gates controlados interiores ao Oracle, criando uma superposição apenas quando certo valor de entrada é inserido.
-
-A entrada do circuito segue o seguinte formato: ${\ket{0}^{\otimes m}} {\ket{a_{n-1} a_{n-2} ... a_0}}$
+Para a QROM, são utilizados $n$ qubits para o barramento de endereços e $m$ qubits para a o barramento de dados, sem a necessidade desses valores estarem correlacionados, podendo assim ser utilizado, por exemplo, $n=3; m=10$. Nessa estrutura, podemos mapear diversas superposições diferentes e aplicá-las quando certo endereço for chamado. Sendo assim, o algoritmo armazena os valores a partir da configuração de gates controlados interiores ao Oracle, criando uma superposição apenas quando certo valor de entrada é inserido, seguindo o formato: ${\ket{0}^{\otimes m}} {\ket{a_{n-1} a_{n-2} ... a_0}}$.
 
 \begin{center}
 	\includegraphics[scale=0.5]{qrom_1.png}
@@ -555,24 +550,21 @@ A entrada do circuito segue o seguinte formato: ${\ket{0}^{\otimes m}} {\ket{a_{
 \end{center}
 
 
-Em \ref{fig:qrom}, $q_{0}$ age como o barramento de endereços, enquanto $q_{1}$ como o barramento de dados. Aqui configuramos para mapear o endereço $0 \to RY({\pi\over{3}})$ e $1 \to H$. Sendo assim, para $n$ qubits no barramento de endereços é possível mapear para $2^{n}$ estados, e com os $m$ qubits é possível criar estados mais complexos aumentando sua quantidade e utilizando outros gates para isso.
-
-A partir desse circuito, basta abstrai-lo para um Oracle e utilizar em um circuito maior, chamando-o novamente sempre que for necessário um certo estado ou ainda colocar os endereços em superposição e ter uma mistura de estados na saída.
+Em \ref{fig:qrom}, $q_{0}$ age como o barramento de endereços, enquanto $q_{1}$ como o barramento de dados. Aqui configuramos para mapear o endereço $0 \to RY({\pi\over{3}})$ e $1 \to H$. Sendo assim, para $n$ qubits no barramento de endereços é possível mapear para $2^{n}$ estados, e com os $m$ qubits é possível criar estados mais complexos aumentando sua quantidade e utilizando outros gates acionados para um mesmo endereço. \\
+A partir da abstração desse circuito para um Oracle,é possível utilizar a QROM em um circuito maior, chamando-o novamente sempre que for necessário um certo estado. Além disso, no formato de Oracle, há a possibilidade de colocar os endereços em superposição e ter uma mistura de estados na saída.
 
 \begin{center}
 	\includegraphics[scale=0.5]{qrom_1_usage.png}
-	\captionof{figure}{Exemplo circuito usando a QROM}
+	\captionof{figure}{Exemplo circuito usando a QROM com endereços em superposição}
 	\label{fig:qrom-usage}
 \end{center}
 
-Nesse exemplo \ref{fig:qrom-usage}, os estados em superposição serão colocados no qubit denominado \emph{out}, sendo possível se aproveitar dela em outros qubits, como nesse caso o qubit \emph{q}.
-
-Contudo, devido ao no-cloning-theorem, não é possível copiar esse estado para outro qubit alvo, então, dessa forma, não é possível ter dois qubits com o mesmo estado a partir do armazenado. Uma opção para isso, é utilizar do teleporte quântico para destruir o estado interno do Oracle e mover para outros qubits desejados, contudo isso influenciária nos estados já aplicados no circuito.
-
+Nesse exemplo \ref{fig:qrom-usage}, os endereços são colocados em superposição no qubit \emph{addr} e assim os estados em internos do Oracle são colocados em uma sobreposição de $50-50$ no qubit \emph{out}. Com isso, pode-se aproveitar do resultado de \emph{out} em outros qubits, como nesse caso o qubit \emph{q}.\\
+Contudo, devido ao no-cloning-theorem, não é possível copiar esse estado para outro qubit alvo. Sendo assim, não é possível ter dois qubits com o mesmo estado a partir daquele armazenado, podemos apenas pegar o resultado de uma superposição e utilizar o valor binário como trigger para outra operação.\\
+Uma opção para solucionar isso, é utilizar o teleporte quântico, destruindo assim o estado interno do Oracle e movendo-o para outro qubit desejado.
 
 \subsubsection{QRAM}
-
-Para criar uma QRAM com a habilidade de escrita, o teleporte quântico já citado antes é um caminho para isso. Com ele, podemos ter $n$ qubits, sendo cada qubit um endereço único, e utilizar do teleporte para mover um estado que estava no circuito, para o domínio da QRAM.
+Para criar uma QRAM com a possibilidade de escrita, o teleporte quântico, já citado anteriormente, é um caminho para isso. Com ele, podemos ter $n$ qubits, sendo cada qubit um endereço único, e utilizar do teleporte para mover um estado que estava no circuito, para o domínio da QRAM.
 
  \begin{center}
  	\includegraphics[scale=0.4]{qram.png}
@@ -580,26 +572,21 @@ Para criar uma QRAM com a habilidade de escrita, o teleporte quântico já citad
  	\label{fig:qram}
  \end{center}
 
-Aqui, são necessários $n$ qubits para $n$ endereços (\emph{data}) também agindo como qubits de data, e $n$ qubits para o teleporte (\emph{t}), crescendo então de forma linear à capacidade de armazenamento de dados deste. 
-Também é possível sobre-escrever valores, assim como interferir com outras superposições apenas teleportando novos valores para o qubit $i$. Dessa forma, podemos criar uma memória menor, e, conforme necessário, remover e adicionar outros valores.
+Aqui, os $n$ qubits agem tanto como endereços quanto dados (qubits \emph{data}). Além disso, são necessários mais $n$ qubits para o teleporte (qubits \emph{t}).\\
+Com isso, é possível ver que o circuito cresce de forma linear a medida que mais endereços são requisitados, sendo assim $O(2*n)$ em relação à quantidade de qubits total.\\
+Na configuração acima \ref{fig:qram}, é possível sobre-escrever valores, assim como interferir com outras superposições apenas teleportando novos valores para o qubit $i$. Dessa forma, podemos criar uma memória menor e, conforme necessário, remover e adicionar outros valores.
 
 \subsubsection{Conclusões}
-
-Com esse projeto, e com a literatura usada \cite{jaques2023qram}\cite{Giovannetti_2008}, é possível entender que criar versões quânticas de memória é uma tarefa desafiadora, e ainda não é possível tomar proveito do todo o seu potencial usando as superposições e estados de outras bases a não ser a base computacional $({0,1})$. Fatores como, complexidade de mapear dados, complexidade de utilizar a memória (já que é necessário reaplica-lá toda vez que for requisitado seu uso), no-cloning-theorem, decorrência, etc. Influenciam diretamente na possibilidade de sua criação.
-
-Mesmo sendo possível implementar pequenos circuitos que agem como memória, como os mostrados aqui, ainda não é usual e muito menos universal para qualquer tipo de máquina quântica.
-
-Assim como mostrado na literatura, o melhor approach para a sua implementação, é a utilização de um hardware especifico para isso, sem a intervenção de circuitos quânticos, mantendo depth do algoritmo implementado constante ajudando assim a manter a coerência do circuito. 
-
+Com esse projeto, e com a literatura usada \cite{jaques2023qram}\cite{Giovannetti_2008}, é possível entender que criar versões quânticas de memória é uma tarefa desafiadora, e ainda não é possível tomar proveito de todo o seu potencial usando as superposições e estados de outras bases a não ser a base computacional $({0,1})$. Fatores como, complexidade de mapear dados, complexidade de utilizar a memória (já que é necessário reaplica-lá toda vez que for requisitado seu uso), no-cloning-theorem, decorrência, etc. Influenciam diretamente na possibilidade de sua criação.Mesmo sendo possível implementar pequenos circuitos que agem como memória, como os mostrados aqui, ainda não é usual e muito menos universal para qualquer tipo de máquina quântica.\\
+Além disso, por esses fatores, a QRAM, pode dificultar a execução de múltiplas tarefas, uma vez que o valor presente nela não pode ser copiado, e ao move-lo para outro qubit, o valor anterior da QRAM é completamente destruído.\\
+Como mostrado na literatura, para resolver esses problemas, o melhor approach para a sua implementação, é a utilização de um hardware especifico para essa finalidade, sem a intervenção de circuitos quânticos.\\ 
 Em suma, mesmo sendo possível criar pequenos circuitos para implementar uma memória, seu uso está longe de se comparar as versões clássicas.
 
 \subsection{Conclusão}
-
-Perante o exposto, foi evidenciado que a computação quântica ainda tem muito potencial. No entanto, é possível ver que certos fatores e a falta de alguns recursos, prejudicam o seu uso, no momento.
-
-Como já mostrado pelas inúmeras pesquisas em áreas como, química, machine learning, criptografia, otimização, etc. A computação quântica pode no futuro ser um ponto crucial para conseguir resultados mais precisos e, em certos casos, em menor tempo. No entanto, na era NISQ, para conseguir utilizar todo seu potencial, é necessário ter em conjunto máquinas clássicas para pré e/ou pós processamento. Assim como demonstrado aqui, ao utilizar esse conjunto, é possível ter o melhor dos dois mundos, mesmo que na maioria do casos, esse formato de implementação não se sobressaí as versões já utilizadas, com o tempo, e o aperfeiçoamento das técnicas e do hardware em si darão um novo caminho para novos usos.
-
-Em resumo, é possível tirar proveito da computação quântica para problemas que conhecemos classicamente. No entanto, é necessário averiguar se há algum fator quântico que pode ser explorado que em sua forma clássica seria impossível ou não usuais.
+Perante o exposto, foi evidenciado que a computação quântica ainda tem muito potencial. No entanto, é possível ver que certos fatores, e a falta de alguns recursos, prejudicam o seu uso no momento.\\
+Como já mostrado pelas inúmeras pesquisas em áreas como, química, machine learning, criptografia, otimização, etc. A computação quântica pode, num futuro próximo, ser um ponto crucial para conseguir resultados mais precisos e, em certos casos, em menor tempo.\\
+No entanto, na era NISQ, para conseguir utilizar todo seu potencial, é necessário ter em conjunto máquinas clássicas para pré e/ou pós processamento, seja para executar alguma tarefa computacionalmente custosa para um computador quântico, ou para o uso de algoritmos de detecção e correção de erros. Como demonstrado aqui, ao utilizar esse conjunto, é possível ter o melhor dos dois mundos, mesmo que na maioria do casos, esse formato de implementação não se sobressaí as versões já utilizadas classicamente, com o tempo e o aperfeiçoamento das técnicas e do hardware darão uma abrangência maior aos usos da computação quântica.\\
+Em resumo, é possível tirar proveito da computação quântica para problemas que conhecemos classicamente. No entanto, é necessário averiguar se há algum fator quântico que pode ser explorado para conseguir alguma vantagem perante a sua versão clássica, se houver, é necessário verificar também se todas as tarefas são mais vantajosas ao serem implementadas usando o algoritmo quântico, ou se ao explorar uma abordagem híbrida os ganhos podem ser maiores.
 
 \nocite{SOARE2009368}
 \nocite{odonnell_2015_lecture}
