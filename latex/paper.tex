@@ -144,7 +144,7 @@ Como já citado anteriormente, o Minimal Oracle possui uma função que, em sua 
 No exemplo da figura \ref{fig:minimal-oracle}, foram utilizados dois $SWAP$ para inverter a ordem dos valores. Com isso, a matriz final ainda se mantém unitária, com apenas valores invertidos em certas posições.
 
 \subsubsection{QFT(Quantum Fourier Transform)}
-O QFT, em suma, é um algoritmo quântico usado para projetar os valores da base computacional para a base $X$ (ou também conhecido como base de Fourier). Esse algoritmo, toma como base a transformada discreta de Fourier e aplica essa transformação em estados quânticos.\\
+O QFT, em suma, é um algoritmo quântico usado para pegar o período de um estado e projeta-lo na base $X$ (ou também conhecido como base de Fourier). Esse algoritmo, toma como base a transformada discreta de Fourier e aplica essa transformação em estados quânticos.\\
 Mesmo sendo um algoritmo por si só, sua aplicação em circuitos se dá seguindo o formato de Oracles.
 
 \begin{center}
@@ -514,7 +514,7 @@ Para a versão quântica, um circuito foi modelado imitando o funcionamento do g
 \end{center}
 
 Além disso, para encontrar a estratégia, foram inseridos dois parâmetros dentro do Oracle do player, sendo possível configurar qualquer valor $\theta$ e $\phi$ para modificar a rotação na Bloch Sphere.\\
-Após verificar os possíveis valores, a rotação que entregou o melhor resultado foi $\theta\approx 3.0853981633974477, \phi\approx3.7853981633974474$. Usando essa estratégia, os resultados foram semelhantes a versão clássica.
+Após verificar os possíveis valores, a rotação que entregou o melhor resultado foi $\theta\approx 3.0853981633974477, \phi\approx3.7853981633974474$ radianos. Usando essa estratégia, os resultados foram semelhantes a versão clássica.
 
 \begin{center}
 	\includegraphics[scale=0.6]{final_buckshot_roulette_quantum_optimal_strategy.png}
