@@ -13,7 +13,6 @@
 \usepackage{graphicx}
 \usepackage{natbib}
 \usepackage{doi}
-\usepackage[portuguese]{babel}
 \usepackage{caption}
 \usepackage{braket}
 \usepackage{amsmath}
@@ -33,7 +32,7 @@
 \makeatother
 
 
-\title{Quantum Oracles - Como transformar problemas clássicos em quânticos}
+\title{Quantum Oracles - How to Transform Classical Problems into Quantum ones}
 
 \date{\today}
 
@@ -41,15 +40,15 @@
 
 \author{ 
 	\href{https://orcid.org/0009-0008-9134-5974}{\includegraphics[scale=0.06]{orcid.pdf}\hspace{1mm}Alexandre Silva}\\
-	Ciências da Computação\\
+	Computer Science\\
 	UNIVEM - Centro Universitário Eurípides de Marília\\
 	\And
 	\href{http://lattes.cnpq.br/5170103189904688}{\hspace{1mm}Luis Hilário Tobler Garcia} \\
-	Ciências da Computação\\
+	Computer Science\\
 	UNIVEM - Centro Universitário Eurípides de Marília\\
 	\And
 	\href{http://lattes.cnpq.br/7265559606596355}{\hspace{1mm}Maúricio Duarte} \\
-	Tecnologia da Informação \\
+	Information Technology \\
 	Fatec Garça – Deputado Julio Julinho Marcondes de Moura\\
 }
 
@@ -70,15 +69,14 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-	A partir do uso de quantum Oracles e outros fatores quânticos, como a superposição, foram feitos \emph{5 mini-projetos}. O objetivo desses projetos foi tentar responder se é possível transformar certos problemas em quânticos e se realmente tal transformação vale a pena. Após os testes foi possível ver que, há casos em que a versão quântica apresenta um aproveitamento igual ou um pouco superior, contudo ainda é necessário o uso de computadores clássicos para conseguir melhores resultados.
+	Using quantum oracles and other effects, like superposition, \emph{5 mini-projects} were done. The main goal of these projects was to answer if it's possible to bring some problems to the quantum realm and if such translation worth it. After finishing the tests, it was possible to see that, some of the implementations show descent results. However, classical computing is still a fundamental part of quantum algorithms.
 \end{abstract}
 
 
-\section{Introdução}
-Hoje, não é difícil ver alguém falando sobre computadores quânticos e como essas máquinas vão mudar o nosso futuro. Contudo, muitas dessas frases acabam se levando por extrapolações e/ou usos indevidos de ficção. Neste artigo, mostrarei que nem tudo é possível ser feito com um computador quântico atual, assim como existem pequenas áreas que se beneficiam ao máximo dessa nova tecnologia.\\
-Para esse feito, serão mostrados \emph{5 mini-projetos} usando o \href{https://www.ibm.com/quantum/qiskit}{qiskit}, framework open source da \href{https://www.ibm.com/}{IBM}, e os resultados obtidos após executar os algoritmos quânticos e seus relativos em computação clássica.\\
-Tais mini-projetos foram os seguintes: Explorador de Arquivos \ref{file-explorer}, conversão de milhas para quilômetros \ref{conversion}, Torres de Hanoi \ref{hanoi}, Buckshot Roulette \ref{buckshot} e QRAM \ref{qram}. Todas as implementações podem ser encontradas nesse  \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{repositório do GitHub}.\\
-Para a criação desses projetos, foram usados os Quantum Oracles em conjunto com alguns algoritmos, explorando efeitos quânticos e algumas outras técnicas, clássicas e quânticas, para cada caso específico.
+\section{Introduction}
+Now days, isn't difficult to hear someone talking about quantum computers, and how these machines will change the world. Nonetheless, the major fraction of these comments come from extrapolations and science fiction present in popular movies and series around the world. In this paper, I'm going to show that quantum computing it's not a magical trick to solve everything, but a tool for solving a distinct group of problems.\\
+To do that, \emph{5 mini-projects} were implemented using \href{https://www.ibm.com/quantum/qiskit}{qiskit}, an open source framework from \href{https://www.ibm.com/}{IBM}, exploiting quantum effects and using classical/quantum algorithms to reach the expected outcomes. After that, the results will be here compared with their classical counterparts.
+Such mini-projects are the following: Quantum File explorer\ref{file-explorer}, miles to kilometers conversion\ref{conversion}, Hanoi towers\ref{hanoi}, Buckshot Roulette \ref{buckshot} and QRAM \ref{qram}. All these implementations can be found at \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{my GitHub repository}.
 
 \section{Oracles}
 Partindo da ideia das \emph{Oracle Turing Machines} \cite{SOARE2009368}\cite{amreen_oracle}\cite{kalyanasyndaram_2021_mod04lec23}\cite{e21080800}, os Oracles são modelos matemáticos ideais, usados para abstrair certas partes de um algoritmo principal, em formato de caixa preta, facilitando a análise do algoritmo, assim como sua descrição matemática. Tais máquinas podem ser vistas, também, como uma função, recebendo uma entrada $x$ e retornando $f(x)$ em tempo $O(1)$. Em computação clássica, esse modelo não possui implementação real, sendo usado apenas descrições formais para problemas de decisão.\\

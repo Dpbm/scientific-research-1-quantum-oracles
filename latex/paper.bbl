@@ -31,6 +31,11 @@ Yale Fan.
 Ryan O’Donnell.
 \newblock Lecture 5: Quantum query complexity, 09 2015.
 
+\bibitem{sanchezrivero2023initial}
+Javier Sanchez-Rivero, Daniel Talaván, Jose Garcia-Alonso, Antonio
+  Ruiz-Cortés, and Juan~Manuel Murillo.
+\newblock Some initial guidelines for building reusable quantum oracles, 2023.
+
 \bibitem{gilliam2020canonical}
 Austin Gilliam, Marco Pistoia, and Constantin Gonciulea.
 \newblock Canonical construction of quantum oracles, 2020.
@@ -94,11 +99,6 @@ Takashi Yamakawa and Mark Zhandry.
 \bibitem{buhrman1998quantum}
 Harry Buhrman, Richard Cleve, and Avi Wigderson.
 \newblock Quantum vs. classical communication and computation, 1998.
-
-\bibitem{sanchezrivero2023initial}
-Javier Sanchez-Rivero, Daniel Talaván, Jose Garcia-Alonso, Antonio
-  Ruiz-Cortés, and Juan~Manuel Murillo.
-\newblock Some initial guidelines for building reusable quantum oracles, 2023.
 
 \bibitem{Kashefi_2002}
 Elham Kashefi, Adrian Kent, Vlatko Vedral, and Konrad Banaszek.
