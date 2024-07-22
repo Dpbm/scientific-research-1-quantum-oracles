@@ -79,21 +79,21 @@ To do that, \emph{5 mini-projects} were implemented using \href{https://www.ibm.
 Such mini-projects are the following: Quantum File explorer\ref{file-explorer}, miles to kilometers conversion\ref{conversion}, Hanoi towers\ref{hanoi}, Buckshot Roulette \ref{buckshot} and QRAM \ref{qram}. All these implementations can be found at \href{https://github.com/Dpbm/scientific-initiation-1-quantum-oracles}{my GitHub repository}.
 
 \section{Oracles}
-Partindo da ideia das \emph{Oracle Turing Machines} \cite{SOARE2009368}\cite{amreen_oracle}\cite{kalyanasyndaram_2021_mod04lec23}\cite{e21080800}, os Oracles são modelos matemáticos ideais, usados para abstrair certas partes de um algoritmo principal, em formato de caixa preta, facilitando a análise do algoritmo, assim como sua descrição matemática. Tais máquinas podem ser vistas, também, como uma função, recebendo uma entrada $x$ e retornando $f(x)$ em tempo $O(1)$. Em computação clássica, esse modelo não possui implementação real, sendo usado apenas descrições formais para problemas de decisão.\\
-Contudo, em computação quântica, é possível implementar esses componentes e tomar proveito de sua estrutura e efeitos quânticos para conseguir um \emph{Speed-up} em relação aos algoritmos clássicos, como mostrado pelo algoritmo de Deutsch–Jozsa \cite{Fan_2007}. Além disso, os Oracles possuem um papel importante ao demonstrar a complexidade de um circuito, alguns dos meios utilizados são: profundidade (\emph{depth}), calculando o maior caminho que uma informação percorre no circuito, ou ainda, a quantidade de gates aplicados. No entanto, essas maneiras acabam se prejudicando ao \emph{transpilar} o circuito para uma outra máquina, variando então a complexidade de acordo com a topologia e com os gates fisicamente implementados. Para solucionar isso, outra maneira de calcular é inserir partes do circuito em um Oracle, e descrever sua complexidade a partir da quantidade de vezes que ele chamado, também conhecido como \emph{query complexity} \cite{odonnell_2015_lecture} \cite{e21080800}.
+Based on the idea of \emph{Oracle Turing Machines} \cite{SOARE2009368}\cite{amreen_oracle}\cite{kalyanasyndaram_2021_mod04lec23}\cite{e21080800}, the Oracles are mathematical modeling tools, used to abstract outlying parts of an algorithms into a black-box, making the algorithm analysis much easier. These machines could also be seen as a function, getting an input $x$ e returning $f(x)$ with time-complexity $O(1)$. Because of these unreachable characteristics for real life, this model can't be implemented, being used only for formal description of decision problems.\\
+However, in quantum computing, it's possible to implement something similar to that, taking advantage of your inner structure and quantum effects to gain a \emph{Speed-up} relative to its classical counterparts, such Speed-up can be seen, for example, in the Deutsch–Jozsa algorithm \cite{Fan_2007}. Furthermore, the Quantum Oracles have a fundamental role determining the circuit complexity. Some approaches for that are: \emph{depth}, calculating the longest path in the circuit that some information must pass through and \emph{gate counting}, summing up how many gates were applied in the final circuit. Nevertheless, these approaches are very dependent of the \emph{QPU} topology, differing from each \emph{backend} used during the \emph{transpilation} process. To solve this problem, a well-known technique is to pack some parts of the circuit into Oracles, and then describing the complexity based on how many times they are called, it's also known as \emph{query complexity} \cite{odonnell_2015_lecture} \cite{e21080800}.
 
-\subsection{Tipos de Oracles}
-A partir da definição dos Quantum Oracles, podemos classificá-los em relação a suas estruturas e maneiras de computar os dados.
+\subsection{Types of Oracles}
+Using the base description of Quantum Oracles, we can classify them based on their structures and how the data is processed.
 
 \subsubsection{Phase Oracle}
-O Phase Oracle, é o formato mais conhecido e usado em circuitos quânticos. Algoritmos como os de  Deutsch–Jozsa, Grover, Simon e Bernstein–Vazirani, tomam proveito desse artifício para se sobressair em relação às soluções clássicas. 
+The Phase Oracle, is the most well-known format. Some Algorithms, like Deutsch–Jozsa, Grover, Simon and Bernstein–Vazirani, use it to take advantage over Classical approaches.
 
-\subsubsubsection{Funcionamento Padrão}
-Seu funcionamento, se baseia em atribuir uma fase global ao circuito, tomando proveito de fatores como \emph{Phase Kickback} (fase passa do target do CNOT e é aplicado no qubit de controle), para  conseguir modificar valores em superposição.
+\subsubsubsection{Default Behavior}
+As its main characteristic, the Phase Oracle adds a global phase to the circuit, using quantum effects like \emph{Phase Kickback} (basically the phase pass all the way through CNOT's target and is applied in the control Qubit), to change values in superposition.
 
 \begin{center}
 	\includegraphics[scale=0.3]{phase_oracle_1.png}
-	\captionof{figure}{Exemplo - Phase Oracle}
+	\captionof{figure}{Phase Oracle using Phase-Kickback Example}
 	\label{fig:phase-oracle-1}
 \end{center}
 
