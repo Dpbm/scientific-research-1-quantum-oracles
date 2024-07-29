@@ -97,70 +97,71 @@ As its main characteristic, the Phase Oracle adds a global phase to the circuit,
 	\label{fig:phase-oracle-1}
 \end{center}
 
-Na Imagem \ref{fig:phase-oracle-1}, foi introduzida uma fase $\pi$ no qubit auxiliar ($q3$) através do estado  $\ket{-}$. Essa fase será responsável por modificar os valores na matriz unitária final. Nessa configuração, os CNOTs agem de uma forma um tanto diferente do convencional, aqui,  ao invés de apenas inverter o valor do qubit no target quando o qubit de controle for $1$, devido a fase, ele também agirá como um gate $Z$ sendo aplicado no estado do qubit de controle. Sendo assim, ao aplicar $CNOT\ket{-}\ket{+}$ (qubit menos significativo à direita), o estado se torna ${\frac{1}{\sqrt{2}}}{(\ket{0}\ket{-} - \ket{1}\ket{-})}$, e ao remover a superposição com o $H$, a saída se torna: ${\frac{1}{\sqrt{2}}}{(\ket{+}\ket{1} - \ket{-}\ket{1})}$. Dessa forma, o qubit que antes estava como controle do gate, sofre a ação do \emph{Phase Kickback}, e seu estado padrão $\ket{0}$ é modificado pela fase e se torna $\ket{1}$. A partir disso, é possível encodar um certo valor binário dentro do Oracle e utilizá-lo para cálculos. 
+In the Figure \ref{fig:phase-oracle-1}, a $\pi$ phase was added in the auxiliary Qubit ($q3$), taking advantage of the phase $\ket{-}$, which will be the responsible to modify the values in the unitary matrix. In this setup, the $CNOT$ gates act slightly different from its default behavior, this way, the gate invert the value of the target Qubit and, due the $\pi$ phase, it also acts like a $Z$ gate applied in the control Qubit. So, after applying $CNOT\ket{-}\ket{+}$ (little-endian), the state becomes ${\frac{1}{\sqrt{2}}}{(\ket{0}\ket{-} - \ket{1}\ket{-})}$, and after removing the superposition, the final state is: ${\frac{1}{\sqrt{2}}}{(\ket{+}\ket{1} - \ket{-}\ket{1})}$. This way, the control Qubit is changed due the \emph{Phase Kickback} and its state is flipped from $\ket{0}$ to $\ket{1}$. Taking this effect as and advantage, we can use it to encode some binary values inside these oracles and use them to do some calculations.
 
-\subsubsubsection{Versão Minimal Oracle}
-Além disso, esse não é o único formato possível de Phase Oracle. Por apenas aplicar uma fase em certas bit-strings, o qubit auxiliar pode ser removido, e a fase pode ser adicionada através de gates $Z$controlados (ou outro gate capaz de aplicar uma fase $\pi$ para certa bit-string), mas ainda assim mantendo a natureza unitária, podendo ser visto também como um Minimal Oracle.
+\subsubsubsection{Minimal Oracle Version}
+
+Furthermore, There's another layout possible for implementing a Phase Oracle. Once this one only applies a phase in some bit-strings, the auxiliary Qubit can be removed, and the phase can be provided by $CZ$ gates (or any other gate which can apply a phase for certain bit-strings). Doing that, it's possible to create a phase oracle keep its unitary and reversible nature, in the format of a minimal Oracle.
 
 \begin{center}
 	\includegraphics[scale=0.3]{phase_oracle_2.png}
-	\captionof{figure}{Exemplo Phase Oracle como um Minimal Oracle}
+	\captionof{figure}{Phase Oracle - Minimal Oracle Layout Example}
 	\label{fig:phase-oracle-2}
 \end{center}
 
-No exemplo da imagem \ref{fig:phase-oracle-2}, foi adicionado um gate $MCP$ com a fase global $\pi$ e dois gates $X$ para inverter os qubits queremos que tenham o valor $0$, codificando assim o valor $011_{2}$ ou $3_{10}$.
+In the example above \ref{fig:phase-oracle-2}, a $MCP$ gate was applied adding a $\pi$ phase and another two $X$ gates were used to invert the Qubits we want to have the value $0$ as a trigger for the $MCP$ phase application. Following the little-endian format the final encoded bit-string is: $011_{2}$ or $3_{10}$.
 
 \begin{center}
 	\includegraphics[scale=0.5]{phase_oracle_unitary.png}
-	\captionof{figure}{Matriz unitária do Phase Oracle da imagem \ref{fig:phase-oracle-2}}
+	\captionof{figure}{Figure \ref{fig:phase-oracle-2} Resulting Unitary Matrix}
 	\label{fig:phase-oracle-unitary}
 \end{center}
 
-Assim, é possível verificar que ao criar esse circuito, é mantida a matriz identidade mas com a fase ($-1$) no valor $1$ na coluna relativa à $011_{2}$ (figura \ref{fig:phase-oracle-unitary}). 
+Looking at its unitary matrix, it's possible to see the $8\times8$ identity matrix with a $-1$ in the column relative to the value $011_{2}$.
 
 
 \subsubsection{Boolean Oracle}
-O Boolean Oracle, por sua vez, apresenta um funcionamento semelhante ao do Phase Oracle. Contudo, neste não é provida uma fase. Dessa forma, o Oracle age como uma função Booleana convencional, mapeando as entradas para valores de saída.
+The Boolean Oracle has a similar structure with the Phase Oracle. However, this time a phase isn't applied, acting this way a regular boolean function, mapping inputs to outputs.
 
 \begin{center}
 	\includegraphics[scale=0.3]{balanced-oracle.png}
-	\captionof{figure}{Exemplo de Oracle Booleano}
+	\captionof{figure}{Boolean Oracle Example}
 	\label{fig:boolean-oracle}
 \end{center}
 
-O Oracle implementado na figura \ref{fig:boolean-oracle}, pode ser reutilizado para o algoritmo de Deutsch-Jozsa, bastando apenas introduzir uma fase, e o Boolean Oracle se comportará como um Phase Oracle.
+The example in the Figure \ref{fig:boolean-oracle}, is a well-known balanced Oracle for the Deutsch-Jozsa's algorithm. Nevertheless, to implement it, the Oracle must be transformed into a Phase Oracle.
 
 \subsubsection{Minimal Oracle}
-Como já citado anteriormente, o Minimal Oracle possui uma função que, em sua essência, é unitária, não requerendo qubits adicionais. Sendo assim, este pode ser tanto Booleano como um Phase Oracle, dependendo de sua implementação.
+As previously mentioned, the Minimal Oracle is a function which its essence is unitary and reversible, so no additional Qubits are required. Therefore, this format can be either Boolean or Phase Oracle, depending on its implementation.
 
 \begin{center}
 	\includegraphics[scale=0.3]{minimal-oracle.png}
-	\captionof{figure}{Exemplo de Minimal Oracle}
+	\captionof{figure}{Boolean Minimal Oracle example}
 	\label{fig:minimal-oracle}
 \end{center}
 
-No exemplo da figura \ref{fig:minimal-oracle}, foram utilizados dois $SWAP$ para inverter a ordem dos valores. Com isso, a matriz final ainda se mantém unitária, com apenas valores invertidos em certas posições.
+In the previous example \ref{fig:minimal-oracle}, two $SWAP$ gates were used to invert the order of the Qubits values. Like this, the final matrix keeps unitary and reversible.
 
 \subsubsection{QFT(Quantum Fourier Transform)}
-O QFT, em suma, é um algoritmo quântico usado para pegar o período de um estado e projeta-lo na base $X$ (ou também conhecido como base de Fourier). Esse algoritmo, toma como base a transformada discreta de Fourier e aplica essa transformação em estados quânticos.\\
-Mesmo sendo um algoritmo por si só, sua aplicação em circuitos se dá seguindo o formato de Oracles.
+The QFT is, in a nutshell, a quantum algorithm based on the Discrete Fourier Transform, used for quantum states period finding, projecting values from the computational basis onto the $X$ basis (also know as Fourier basis).
+
+Even though it's an algorithm by itself, its application is done in the format of Oracles in quantum circuits.
 
 \begin{center}
 	\includegraphics[scale=0.3]{QFT_1.png}
-	\captionof{figure}{Exemplo do Oracle de QFT}
+	\captionof{figure}{QFT Oracle example}
 	\label{fig:QFT}
 \end{center}
 
 \begin{center}
 	\includegraphics[scale=0.3]{QFT_1_bloch.png}
-	\captionof{figure}{Valores mapeados na base de Fourier}
+	\captionof{figure}{Values Mapped onto Fourier basis example (quantum state $\ket{000}$)}
 	\label{fig:QFT-bloch}
 \end{center}
 
 
-\subsubsection{Outros Oracles}
-Além dos Oracles citados, é possível encontrar na literatura citações descrevendo o Oracle de Simon, o de Deutsch-Jozsa, etc. No entanto, esses são implementações de Oracles já mostrados e além disso, para o desenvolvimento deste projeto, os Oracles mais relevantes são o Phase e Boolean. Portanto, não há a necessidade de profundas investigações dessas subcategorias de Oracles.
-
+\subsubsection{Other kinds of Oracles}
+In addition to the oracles mentioned above, it's possible come across with different mentions of Oracles, like the Simons's, Deutsch-Jozsa's, etc. However, these are just implementations of models already shown in this paper. Also, the most relevant for the following projects are the Phase and Boolean ones, due that, there's no use to keep discussing about many others sub-categories of Oracles here.
 
 \section{Desenvolvimento}
 
