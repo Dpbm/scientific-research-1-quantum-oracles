@@ -1,5 +1,4 @@
 \documentclass{article}
-
 \usepackage{arxiv}
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc}    
@@ -20,6 +19,7 @@
 \usepackage{algorithm}
 \usepackage{mathtools}
 \usepackage{titlesec}
+\usepackage[rightcaption]{sidecap}
 
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
@@ -30,6 +30,7 @@
 \renewcommand\subsubsubsection{\@startsection{paragraph}{4}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
 \newcommand\subsubsubsubsection{\@startsection{subparagraph}{5}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
 \makeatother
+
 
 
 \title{Quantum Oracles - How to Transform Classical Problems into Quantum ones}
@@ -162,34 +163,39 @@ Even though it's an algorithm by itself, its application is done in the format o
 
 \subsubsection{Other kinds of Oracles}
 In addition to the oracles mentioned above, it's possible come across with different mentions of Oracles, like the Simons's, Deutsch-Jozsa's, etc. However, these are just implementations of models already shown in this paper. Also, the most relevant for the following projects are the Phase and Boolean ones, due that, there's no use to keep discussing about many others sub-categories of Oracles here.
+\newpage
 
-\section{Desenvolvimento}
+\section{Development}
 
-\subsection{Explorador de Arquivos} \label{file-explorer}
 
-Imagine um computador quântico, com um sistema operacional quântico, capaz de interagir não apenas com a parte quântica, mas também com uma porção clássica a qualquer momento que for necessário. Essa máquina, possui todas as capacidades de um computador pessoal mais as capacidades de um computador quântico atual.\\
-Pensando nas partes desse sistema, como seria possível pegar arquivos da memória?\\
-Com essa ideia, foram testados alguns modelos de implementação de um circuito para essa finalidade.
+\subsection{File Explorer} \label{file-explorer}
+Imagine a quantum computer, but instead of one of those we already have in real life, imagine a different kind, very similar to those we have at home, with a quantum operational system, quantum files, etc. This imaginary version could be thought as a hybrid computer as well, taking advantage of both quantum and classical capabilities. Using this idea, the first project implements a file explorer for this ideal system.
 
-\subsubsection{Algoritmos usados}
+\subsubsection{Algorithms Used}
 
 \subsubsubsection{Grover}
-O algoritmo evidente para esse problema é o algoritmo de Grover. Este realiza buscas em "bancos de dados" (bit strings) desorganizados em tempo $O(\sqrt{2^n})$, do qual $n$ é o número de qubits usados. Nele, usamos um circuito do qual amplificam-se as probabilidades de encontrar os valores marcados no Oracle.
+The Standard algorithm for search problems is the Grover's algorithm. This one, realizes searches on unsorted "databases" (bit-string in this case) with $O(\sqrt{2^n})$, being $n$ the number of Qubits. Its tenets are based on amplitude amplification, using a Phase Oracle to mark some bit-strings and then using a Diffuser to amplify the probability to find these values after measuring it.
+
+
 
 \begin{center}
-	\includegraphics[scale=0.3]{Grover.png}
-	\captionof{figure}{Exemplo algoritmo de Grover com $3$ qubits}
+	\includegraphics[scale=0.25]{Grover.png}
+	\captionof{figure}{Example Grover's algorithm with $3$ Qubits}
 	\label{fig:grover-default-circuit}
 \end{center}
 
-Para esse circuito, é preciso adicionar o conjunto $Oracle + Diffuser$ $k$ vezes, sendo $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, do qual $a$ representa o número de valores marcados pelo Oracle. Como nesse projeto, visamos encontrar apenas $1$ arquivo encodado, não há necessidade de usar tal relação, sendo necessário apenas uma aplicação do conjunto para alcançar bons resultados.\\
-Contudo, mesmo sendo o melhor algoritmo, conhecido, para buscas em computação quântica, foi testado também hipóteses para possíveis maneiras de melhor os valores das distribuições finais. Para isso, foram testadas inúmeras combinações de rotações $RY$ e foram comparadas com o convencional usado pelo algoritmo ($H$).
+For building the circuit, is needed a joint of $Oracle + Diffuser$ applied $k$ time, which $k \approx { {\pi \over {4 \sqrt{a\over{2^n}}}} - {1\over2}  }$, being $a$ the number of values marked by the Oracle. Once we want to find just a single file, the use of this relation is not required, being need to apply the algorithm once to find the bit-string.
 
-\begin{center}
-	\includegraphics[scale=0.5]{improvement-grover-algorithm-4bits-0-to-2pi.png}
-	\captionof{figure}{Comparação usando o algoritmo de Grover convencional e o algoritmo modificado com o melhor ângulo (entre $[0, 2\pi]$) para cada bit-string de quatro bits}
+Even this being the best option for bit-string finding, in this project different rotations were tested trying to find a better superposition which increases the chances to find the value we want.
+
+%FIX THIS IMAGE%
+\begin{SCfigure}[0.45][h]
+	\caption{Comparing the Standard Grover's algorithm with the version modifying the rotation angles $[0, 2\pi]$ for each 4 bits bit-string}
+	\includegraphics[scale=0.45]{improvement-grover-algorithm-4bits-0-to-2pi.png}
 	\label{fig:best-angle-grover}
-\end{center}
+\end{SCfigure}
+
+\newpage
 
 Ao utilizar as rotações específicas para cada bit-string, é possível conseguir melhores resultados ao medir os valores na saída, se sobressaindo em relação a rotação padrão.
 
