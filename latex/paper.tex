@@ -20,6 +20,7 @@
 \usepackage{mathtools}
 \usepackage{titlesec}
 \usepackage[rightcaption]{sidecap}
+\usepackage{wrapfig}
 
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
@@ -176,8 +177,6 @@ Imagine a quantum computer, but instead of one of those we already have in real 
 \subsubsubsection{Grover}
 The Standard algorithm for search problems is the Grover's algorithm. This one, realizes searches on unsorted "databases" (bit-string in this case) with $O(\sqrt{2^n})$, being $n$ the number of Qubits. Its tenets are based on amplitude amplification, using a Phase Oracle to mark some bit-strings and then using a Diffuser to amplify the probability to find these values after measuring it.
 
-
-
 \begin{center}
 	\includegraphics[scale=0.25]{Grover.png}
 	\captionof{figure}{Example Grover's algorithm with $3$ Qubits}
@@ -197,50 +196,54 @@ Even this being the best option for bit-string finding, in this project differen
 
 \newpage
 
-Ao utilizar as rotações específicas para cada bit-string, é possível conseguir melhores resultados ao medir os valores na saída, se sobressaindo em relação a rotação padrão.
+Using specific rotations for each bit-string, it's possible to improve the outcomes, and even stand out the default rotation.
 
 \begin{center}
 	\includegraphics[scale=0.4]{new-grover-test-different-bit-strings-with-optimal-angles.png}
-	\captionof{figure}{Teste utilizando os melhores ângulos de cada bit-string em bit-strings diferentes}
+	\captionof{figure}{Test Using the best angles of each bit-string in different ones}
 	\label{fig:best-angles-diff-bit-strings-grover}
 \end{center}
 
-No entanto, ao utilizar esses valores com outras bit-strings, os resultados não conseguem alcançar tal limiar, além modificar as outras probabilidades de forma irregular. Sendo assim, a rotação convencional é a melhor na maioria das vezes.\\
-Além disso, para bit-strings de dois bits, utilizar a superposição dada por $H$ se mostra a melhor alternativa.
+However, using the best angle of a distinct bit-string as the source of superposition in the algorithm, isn't enough to overcome the classical Grover implementation, and also the probability distribution becomes irregular. So, for a general purpose implementation, the default rotation is the best one for the most part of the cases. This behavior is even weird with $2$ Qubits, being the $H$ gate rotation the best ever for that.
 
 \begin{center}
 	\includegraphics[scale=0.5]{classical_grover_for_1_bit_strings_l2_outcomes.png}
-	\captionof{figure}{Resultado Grover padrão encodado uma bit-string de 2 bits}
+	\captionof{figure}{Results for Grover with 2 Qubits (default rotation)}
 	\label{fig:l2-grover-classical-outcomes}
 \end{center}
 
+\newpage
+
 \begin{center}
 	\includegraphics[scale=0.5]{new_grover_for_1_bit_strings_l2_outcomes.png}
-	\captionof{figure}{Resultado Grover modificado encodado uma bit-string de 2 bits}
+	\captionof{figure}{Results for Grover with 2 Qubits (modified rotation)}
 	\label{fig:l2-grover-new-outcomes}
 \end{center}
 
-Com isso, para ter o melhor dos dois mundos, foi usado uma versão híbrida do algoritmo. Assim, para criar o circuito, é passado o valor a ser encodado por uma Hash-Table com os ângulos otimizados. Dessa forma, é possível maximizar as probabilidades de encontrar, nesse caso, o arquivo que está sendo procurado.
+For our purpose in this project, a hybrid algorithm was done. So during the circuit setup, the searched value pass through a Hash-Table will optimal angles. This way, the algorithm can achieve better outcomes at the end of the execution, finding, this way, the file we want. 
 
-\subsubsubsection{Diferença de conjuntos}
-Sobrepondo dois Phase Oracles distintos, com ranges de valores diferentes, é realizada a operação de diferença entre conjuntos \cite{sanchezrivero2023initial}.
+\subsubsubsection{Sets Difference}
+Overlapping two distinct Phase Oracles, each one with a range of values encoded. The remaining Phases, are the difference of the sets encoded by them \cite{sanchezrivero2023initial}.
+
+%FIX: cut the image a little bit on the left sie
+%FIND A WAY TO PUT THESE TWO IMAGES ON THE SIDES OF THE PAGE
 
 \begin{center}
+	\centering
 	\includegraphics[scale=0.3]{less_than.png}
-	\captionof{figure}{Exemplo - diferença de conjuntos}
+	\captionof{figure}{Sets Difference Algorithm Example}
 	\label{fig:less-than-circuit}
 \end{center}
 
-Nesse exemplo \ref{fig:less-than-circuit} foi encodado no primeiro Oracle o set $\{000, 001, 010, 0110\}$ e no segundo $\{000, 001, 010, 011, 100, 101\}$.
+In the last example \ref{fig:less-than-circuit}, the set $\{000, 001, 010, 0110\}$ was encoded in the first Oracle and $\{000, 001, 010, 011, 100, 101\}$ in the second one.
 
 \begin{center}
-	\includegraphics[scale=0.5]{less_than_unitary.png}
-	\captionof{figure}{Resultado da diferença de conjuntos}
+	\includegraphics[scale=0.4]{less_than_unitary.png}
+	\captionof{figure}{Unitary After applying the Sets Difference algorithm}
 	\label{fig:less-than-circuit-unitary}
 \end{center}
 
-Ao sobrepô-los \ref{fig:less-than-circuit-unitary}, apenas os valores $\{100, 101\}$ permaneceram com a fase, representando então a sobreposição delas.
-
+After Overlapping the phases  \ref{fig:less-than-circuit-unitary}, only the values $\{100, 101\}$ keep the $-1$ value. This way, we can do the set operation just applying some oracles with the values.
 
 \subsubsection{Solução}
 
@@ -269,6 +272,8 @@ Dessa forma, o arquivo procurado tem sua probabilidade maximizada pelo circuito,
 	\captionof{figure}{Explorador de arquivos resultados - Qiskit AER ($shots=1000$)}
 	\label{fig:file-explorer-hist}
 \end{center}
+
+\newpage
 
 \subsubsection{Resultados}
 
