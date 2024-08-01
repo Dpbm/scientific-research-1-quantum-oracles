@@ -19,8 +19,10 @@
 \usepackage{algorithm}
 \usepackage{mathtools}
 \usepackage{titlesec}
-\usepackage[rightcaption]{sidecap}
+%\usepackage[rightcaption]{sidecap}
 \usepackage{wrapfig}
+\usepackage{subfig}
+
 
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
@@ -32,13 +34,9 @@
 \newcommand\subsubsubsubsection{\@startsection{subparagraph}{5}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalfont\normalsize\bfseries}}
 \makeatother
 
-
-
 \title{Quantum Oracles - How to Transform Classical Problems into Quantum ones}
 
 \date{\today}
-
-
 
 \author{ 
 	\href{https://orcid.org/0009-0008-9134-5974}{\includegraphics[scale=0.06]{orcid.pdf}\hspace{1mm}Alexandre Silva}\\
@@ -69,7 +67,9 @@
 }
 
 \begin{document}
+
 \maketitle
+
 \begin{abstract}
 	Using quantum oracles and other effects, like superposition, \emph{5 mini-projects} were done. The main goal of these projects was to answer if it's possible to bring some problems to the quantum realm and if such translation worth it. After finishing the tests, it was possible to see that, some of the implementations show descent results. However, classical computing is still a fundamental part of quantum algorithms.
 \end{abstract}
@@ -93,11 +93,12 @@ The Phase Oracle, is the most well-known format. Some Algorithms, like Deutsch�
 \subsubsubsection{Default Behavior}
 As its main characteristic, the Phase Oracle adds a global phase to the circuit, using quantum effects like \emph{Phase Kickback} (basically the phase pass all the way through CNOT's target and is applied in the control Qubit), to change values in superposition.
 
-\begin{center}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.3]{phase_oracle_1.png}
-	\captionof{figure}{Phase Oracle using Phase-Kickback Example}
+	\caption{Phase Oracle using Phase-Kickback Example}
 	\label{fig:phase-oracle-1}
-\end{center}
+\end{figure}
 
 In the Figure \ref{fig:phase-oracle-1}, a $\pi$ phase was added in the auxiliary Qubit ($q3$), taking advantage of the phase $\ket{-}$, which will be the responsible to modify the values in the unitary matrix. In this setup, the $CNOT$ gates act slightly different from its default behavior, this way, the gate invert the value of the target Qubit and, due the $\pi$ phase, it also acts like a $Z$ gate applied in the control Qubit. So, after applying $CNOT\ket{-}\ket{+}$ (little-endian), the state becomes ${\frac{1}{\sqrt{2}}}{(\ket{0}\ket{-} - \ket{1}\ket{-})}$, and after removing the superposition, the final state is: ${\frac{1}{\sqrt{2}}}{(\ket{+}\ket{1} - \ket{-}\ket{1})}$. This way, the control Qubit is changed due the \emph{Phase Kickback} and its state is flipped from $\ket{0}$ to $\ket{1}$. Taking this effect as and advantage, we can use it to encode some binary values inside these oracles and use them to do some calculations.
 
@@ -105,44 +106,45 @@ In the Figure \ref{fig:phase-oracle-1}, a $\pi$ phase was added in the auxiliary
 
 Furthermore, There's another layout possible for implementing a Phase Oracle. Once this one only applies a phase in some bit-strings, the auxiliary Qubit can be removed, and the phase can be provided by $CZ$ gates (or any other gate which can apply a phase for certain bit-strings). Doing that, it's possible to create a phase oracle keep its unitary and reversible nature, in the format of a minimal Oracle.
 
-\begin{center}
-	\includegraphics[scale=0.3]{phase_oracle_2.png}
-	\captionof{figure}{Phase Oracle - Minimal Oracle Layout Example}
-	\label{fig:phase-oracle-2}
-\end{center}
+\newpage
 
-In the example above \ref{fig:phase-oracle-2}, a $MCP$ gate was applied adding a $\pi$ phase and another two $X$ gates were used to invert the Qubits we want to have the value $0$ as a trigger for the $MCP$ phase application. Following the little-endian format the final encoded bit-string is: $011_{2}$ or $3_{10}$.
+\begin{figure}
+	\centering
+	\subfloat[\centering Phase Oracle - Minimal Oracle Layout Example]{\includegraphics[width=5cm]{phase_oracle_2.png} \label{fig:phase-oracle-2}}
+	\subfloat[\centering Figure \ref{fig:phase-oracle-2} Resulting Unitary Matrix]{\includegraphics[width=5cm]{phase_oracle_unitary.png} \label{fig:phase-oracle-unitary}}
+	\caption{Phase Oracle Minimal Version}
+	\label{fig:phase-oracle-minimal}
+\end{figure}
 
-\begin{center}
-	\includegraphics[scale=0.5]{phase_oracle_unitary.png}
-	\captionof{figure}{Figure \ref{fig:phase-oracle-2} Resulting Unitary Matrix}
-	\label{fig:phase-oracle-unitary}
-\end{center}
+In the example above \ref{fig:phase-oracle-minimal}, a $MCP$ gate was applied adding a $\pi$ phase and another two $X$ gates were used to invert the Qubits we want to have the value $0$ as a trigger for the $MCP$ phase application. Following the little-endian format the final encoded bit-string is: $011_{2}$ or $3_{10}$.
 
-Looking at its unitary matrix, it's possible to see the $8\times8$ identity matrix with a $-1$ in the column relative to the value $011_{2}$.
-
+Looking at its unitary matrix \ref{fig:phase-oracle-unitary}, it's possible to see the $8\times8$ identity matrix with a $-1$ value in the column relative to the bit-string $011_{2}$, representing the encoded value.
 
 \subsubsection{Boolean Oracle}
+
 The Boolean Oracle has a similar structure with the Phase Oracle. However, this time a phase isn't applied, acting this way a regular boolean function, mapping inputs to outputs.
 
-\begin{center}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.3]{balanced-oracle.png}
-	\captionof{figure}{Boolean Oracle Example}
+	\caption{Boolean Oracle Example}
 	\label{fig:boolean-oracle}
-\end{center}
+\end{figure}
 
 The example in the Figure \ref{fig:boolean-oracle}, is a well-known balanced Oracle for the Deutsch-Jozsa's algorithm. Nevertheless, to implement it, the Oracle must be transformed into a Phase Oracle.
 
 \subsubsection{Minimal Oracle}
 As previously mentioned, the Minimal Oracle is a function which its essence is unitary and reversible, so no additional Qubits are required. Therefore, this format can be either Boolean or Phase Oracle, depending on its implementation.
 
-\begin{center}
+\begin{figure}[!ht]
+	\centering
 	\includegraphics[scale=0.3]{minimal-oracle.png}
-	\captionof{figure}{Boolean Minimal Oracle example}
+	\caption{Boolean Minimal Oracle example}
 	\label{fig:minimal-oracle}
-\end{center}
+\end{figure}
 
-In the previous example \ref{fig:minimal-oracle}, two $SWAP$ gates were used to invert the order of the Qubits values. Like this, the final matrix keeps unitary and reversible.
+The example \ref{fig:minimal-oracle} shows an Boolean Oracle which two $SWAP$ gates were used to invert the Qubits values order. Doing this way, the final matrix keeps its unitary and reversible properties, once the  $SWAP$ gates act in both Qubits together, mirroring its action.
+
 
 \subsubsection{QFT(Quantum Fourier Transform)}
 The QFT is, in a nutshell, a quantum algorithm based on the Discrete Fourier Transform, used for quantum states period finding, projecting values from the computational basis onto the $X$ basis (also know as Fourier basis).
@@ -164,6 +166,7 @@ Even though it's an algorithm by itself, its application is done in the format o
 
 \subsubsection{Other kinds of Oracles}
 In addition to the oracles mentioned above, it's possible come across with different mentions of Oracles, like the Simons's, Deutsch-Jozsa's, etc. However, these are just implementations of models already shown in this paper. Also, the most relevant for the following projects are the Phase and Boolean ones, due that, there's no use to keep discussing about many others sub-categories of Oracles here.
+
 \newpage
 
 \section{Development}
@@ -188,11 +191,11 @@ For building the circuit, is needed a joint of $Oracle + Diffuser$ applied $k$ t
 Even this being the best option for bit-string finding, in this project different rotations were tested trying to find a better superposition which increases the chances to find the value we want.
 
 %FIX THIS IMAGE%
-\begin{SCfigure}[0.45][h]
-	\caption{Comparing the Standard Grover's algorithm with the version modifying the rotation angles $[0, 2\pi]$ for each 4 bits bit-string}
-	\includegraphics[scale=0.45]{improvement-grover-algorithm-4bits-0-to-2pi.png}
-	\label{fig:best-angle-grover}
-\end{SCfigure}
+%\begin{SCfigure}[0.45][h]
+%	\caption{Comparing the Standard Grover's algorithm with the version modifying the rotation angles $[0, 2\pi]$ for each 4 bits bit-string}
+%	\includegraphics[scale=0.45]{improvement-grover-algorithm-4bits-0-to-2pi.png}
+%	\label{fig:best-angle-grover}
+%\end{SCfigure}
 
 \newpage
 
@@ -228,12 +231,14 @@ Overlapping two distinct Phase Oracles, each one with a range of values encoded.
 %FIX: cut the image a little bit on the left sie
 %FIND A WAY TO PUT THESE TWO IMAGES ON THE SIDES OF THE PAGE
 
-\begin{center}
-	\centering
-	\includegraphics[scale=0.3]{less_than.png}
-	\captionof{figure}{Sets Difference Algorithm Example}
-	\label{fig:less-than-circuit}
-\end{center}
+
+	\begin{center}
+		\centering
+		\includegraphics[scale=0.3]{less_than.png}
+		\captionof{figure}{Sets Difference Algorithm Example}
+		\label{fig:less-than-circuit}
+	\end{center}
+
 
 In the last example \ref{fig:less-than-circuit}, the set $\{000, 001, 010, 0110\}$ was encoded in the first Oracle and $\{000, 001, 010, 011, 100, 101\}$ in the second one.
 
@@ -244,6 +249,8 @@ In the last example \ref{fig:less-than-circuit}, the set $\{000, 001, 010, 0110\
 \end{center}
 
 After Overlapping the phases  \ref{fig:less-than-circuit-unitary}, only the values $\{100, 101\}$ keep the $-1$ value. This way, we can do the set operation just applying some oracles with the values.
+
+\newpage
 
 \subsubsection{Solução}
 
