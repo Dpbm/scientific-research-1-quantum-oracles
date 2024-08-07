@@ -243,40 +243,42 @@ After Overlapping the phases  \ref{fig:less-than-circuit-unitary}, only the valu
 \subsubsection{Final Solution}
 
 
-As a solution for this problem, a hash function was made, mapping the path of some file $p$ to a specific bit-string $b$ $F: p \to b$
+As a solution for this problem, a hash function was made, mapping the path of some file $p$ to a specific bit-string $b$, $F: p \to b$. With this function, we can use a set returned values and encode them into a Phase Oracle, creating a sort of quantum Look-Up-Table for files in that machine. Moreover, a second Oracle containing all the bit-strings, with the exception of the searched one, is applied for difference of sets algorithm, this way the phases will be overlapped, and only the one we want will pass to the Grover's algorithm.
 
-Para a solução do problema, foi criado uma hash function $C: v \to c$, da qual $v$ é o path de um arquivo e $c$ sua bit-string respectiva. Com essa função em mãos, podemos utilizar o conjunto dos valores retornados e encodá-los em um Phase Oracle, criando então uma Look-Up-Table para os arquivos existentes na máquina (agindo como a memória).\\
-Além disso, é necessário utilizar um segundo Oracle para a pesquisa, encodando todos os valores existentes, menos os que foram requisitados. Assim, ao realizar a diferença entre conjuntos, apenas os valores procurados se manterão marcados.
 
-\begin{center}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.4]{sets-difference-look-up-table-oracle.png}
-	\captionof{figure}{Diferença de conjuntos com as Look-Up-Tables}
+	\caption{Look-up-Tables applied}
 	\label{fig:luts}
-\end{center}
+\end{figure}
 
 
-Por fim, é usado o aprimoramento dos ângulos para conseguir melhores probabilidades.
+Finally, the modified version of the Grover's algorithm is applied.
 
-\begin{center}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.4]{improved_file_explorer.png}
-	\captionof{figure}{Explorador de arquivos implementação}
+	\caption{File explorer final circuit}
 	\label{fig:file-explorer}
-\end{center}
+\end{figure}
 
-Dessa forma, o arquivo procurado tem sua probabilidade maximizada pelo circuito, sendo apresentada a distribuição após $n$ medições.
+This setup, maximizes the probability to find the queried file, presenting the following distribution after $1000$ shots.
 
-\begin{center}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.6]{AER-file-explorer-hist-new-grover-mapped-rotations.png}
-	\captionof{figure}{Explorador de arquivos resultados - Qiskit AER ($shots=1000$)}
+	\caption{ File Explorer Results after running with Qiskit-AER}
 	\label{fig:file-explorer-hist}
-\end{center}
+\end{figure}
 
-\newpage
 
 \subsubsection{Resultados}
 
 Para esse caso hipotético, certamente essa é um das melhores maneiras para fazer buscas dentre todos os arquivos armazenados.\\
 Contudo, ao projetar esse modelo para um sistema clássico, tentando tomar proveito da computação quântica, essa não se mostra como a melhor opção. Isso acontece pois, guardar uma Look-Up-Table para os arquivos, e outra para cada ângulo de cada bit-string dentre as $2^{n}$ combinações, pode ser custoso e lento, além de requerer uma hash function com pouca probabilidade de colisão. Para diminuir esse overhead, poderia ser utilizado, simplesmente, o algoritmo de Grover sem maiores alterações, mas ainda assim seria necessário ter mapeado todos os arquivos em disco para a tabela. Assim, tomando como referência sistemas que utilizam o mapeamento de arquivos baseado em árvores ($O(log(n))$), esse método não apresenta ganho algum, além de possuir a probabilidade de não encontrar, ou retornar o arquivo errado.
+
+\newpage
 
 \begin{center}
 	\includegraphics[scale=0.5]{algorithms-finding-comparation.png}
