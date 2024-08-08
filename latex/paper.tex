@@ -273,28 +273,27 @@ This setup, maximizes the probability to find the queried file, presenting the f
 \end{figure}
 
 
-\subsubsection{Resultados}
+\subsubsection{Results}
 
-Para esse caso hipotético, certamente essa é um das melhores maneiras para fazer buscas dentre todos os arquivos armazenados.\\
-Contudo, ao projetar esse modelo para um sistema clássico, tentando tomar proveito da computação quântica, essa não se mostra como a melhor opção. Isso acontece pois, guardar uma Look-Up-Table para os arquivos, e outra para cada ângulo de cada bit-string dentre as $2^{n}$ combinações, pode ser custoso e lento, além de requerer uma hash function com pouca probabilidade de colisão. Para diminuir esse overhead, poderia ser utilizado, simplesmente, o algoritmo de Grover sem maiores alterações, mas ainda assim seria necessário ter mapeado todos os arquivos em disco para a tabela. Assim, tomando como referência sistemas que utilizam o mapeamento de arquivos baseado em árvores ($O(log(n))$), esse método não apresenta ganho algum, além de possuir a probabilidade de não encontrar, ou retornar o arquivo errado.
+For this specific ideal case, it is, probably, one of the best known ways to do the search between "quantum files".
 
-\newpage
+However, it's not the best alternative as a way to speed-up classical searches. It happens because storing a large Look-Up-Table for encoded files and another one for keeping track of each optimal angle for every bit-string contained between $2^n$ combinations, could be really costly and slow. Also, it would be required a hash function with a tiny probability of collision.
 
-\begin{center}
-	\includegraphics[scale=0.5]{algorithms-finding-comparation.png}
-	\captionof{figure}{Comparação algoritmos usados na pesquisa}
-	\label{fig:file-explorer-comparation-O}
-\end{center}
+An alternative for that could be using the standard Grover's algorithm, but it still the need to encode the hard drive files to a big table. Also, comparing the classical tree approach with Grover's, their worst cases scenarios are $O(log(n))$ and $O(\sqrt{n})$, which implies that the first one still faster than the later. As a last point, the quantum version for this problem, could present the wrong file after searching due errors and the quantum randomness.
 
-Sendo assim, os algoritmos apresentados, são as melhores alternativas para serem utilizadas em um sistema que é, principalmente, quântico. Mas para casos de otimização clássica, deve ser utilizado apenas para complexidades $\ge O(n)$.
+Keeping that in mind, the final algorithm is a right choice for a quantum system as describe at the beginning of this section, but it can't overcome the best algorithm in a classical computer. 
 
 
-\subsection{Milhas para Quilômetros} \label{conversion}
-O segundo problema testado, foi a conversão de milhas para quilômetros. Essa ideia se deu após a descoberta de um algoritmo capaz de calcular a sequência de Fibonacci usando circuitos quânticos, algoritmo essencial para esse projeto.
 
-\subsubsection{Algoritmos usados}
+\subsection{Miles to Kilometers Conversion} \label{conversion}
 
-\subsubsubsection{Algoritmo Quântico de Fibonacci}
+The second problem that was tested here, was the conversion from miles to kilometers. This idea came out after finding a quantum algorithm capable of calculate the Fibonacci sequence, which is an essential piece for this very project.
+ 
+\subsubsection{Used Algorithms}
+
+\subsubsubsection{Quantum Fibonacci}
+The quantum version of Fibonacci was presented in \cite{gilliam2020canonical}. This paper shows that 
+
 A versão quântica usada para calcular Fibonacci foi apresentada em \cite{gilliam2020canonical} e  demonstra que, utilizando um circuito do qual coloca em superposição todas as bit-strings com $n$ qubits, e então realizando operações para remover valores que possuem $1$s consecutivos, é possível encontrar o valor $n$ na sequência.
 
 \begin{center}
