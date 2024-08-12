@@ -140,7 +140,7 @@ As previously mentioned, the Minimal Oracle is a function which its essence is u
 
 \newpage
 
-\begin{figure}
+\begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.3]{minimal-oracle.png}
 	\caption{Boolean Minimal Oracle example}
@@ -168,13 +168,15 @@ Even though it's an algorithm by itself, its application is done in the format o
 \subsubsection{Other kinds of Oracles}
 In addition to the oracles mentioned above, it's possible come across with different mentions of Oracles, like the Simons's, Deutsch-Jozsa's, etc. However, these are just implementations of models already shown in this paper. Also, the most relevant for the following projects are the Phase and Boolean ones, due that, there's no use to keep discussing about many others sub-categories of Oracles here.
 
-\newpage
+
 
 \section{Development}
 
 
 \subsection{File Explorer} \label{file-explorer}
 Imagine a quantum computer, but instead of one of those we already have in real life, imagine a different kind, very similar to those we have at home, with a quantum operational system, quantum files, etc. This imaginary version could be thought as a hybrid computer as well, taking advantage of both quantum and classical capabilities. Using this idea, the first project implements a file explorer for this ideal system.
+
+\newpage
 
 \subsubsection{Algorithms Used}
 
@@ -292,24 +294,30 @@ The second problem that was tested here, was the conversion from miles to kilome
 \subsubsection{Used Algorithms}
 
 \subsubsubsection{Quantum Fibonacci}
-The quantum version of Fibonacci was presented in \cite{gilliam2020canonical}. This paper shows that 
 
-A versão quântica usada para calcular Fibonacci foi apresentada em \cite{gilliam2020canonical} e  demonstra que, utilizando um circuito do qual coloca em superposição todas as bit-strings com $n$ qubits, e então realizando operações para remover valores que possuem $1$s consecutivos, é possível encontrar o valor $n$ na sequência.
+The quantum version of Fibonacci was presented in \cite{gilliam2020canonical}. This paper shows that, using a quantum circuit with all bit-string in superposition, and then apply  controlled rotations to remove values that contains consecutive ones, is possible to approximate the result of the \textit{n}-th Fibonacci sequence value.
 
-\begin{center}
+\newpage
+
+
+\begin{figure}
+	\centering
 	\includegraphics[scale=0.3]{fibonacci-circuit.png}
-	\captionof{figure}{Exemplo Algoritmo Quântico de Fibonacci}
+	\caption{Quantum Fibonacci Example}
 	\label{fig:fibonacci-circuit}
-\end{center}
+\end{figure}
 
-\begin{center}
-	\includegraphics[scale=0.6]{fibonacci-4.png}
-	\captionof{figure}{Resultado Fibonacci - F(4)}
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.4]{fibonacci-4.png}
+	\caption{Quantum Fibonacci result - F(4)}
 	\label{fig:fibonacci-circuit-result}
-\end{center}
+\end{figure}
 
-Após executar o circuito, é necessário verificar a quantidade de bit-strings únicas que apareceram durante os experimentos. No exemplo em \ref{fig:fibonacci-circuit-result}, foram usados $4$ qubits para calcular $F(4)$. Assim, ao contar as bit-strings, temos $F(4) = 8$, retornando então o quarto valor da sequência (nesse caso, a sequência começa do valor $2$, seguindo dessa forma: $F(1)=2, F(2)=3, F(3)=5, F(4)=8, F(5)=13, F(6)=21, ...$). \\
-Com isso, é possível usar esse circuito para computações de $F(n)$ utilizando $n$ qubits para encontrar o valor requisitado nessa mesma posição $n$.
+After running the circuit $k$ times, the amount of unique bit-string that appeared during the experiment represent the \textit{n}-th Fibonacci value, which $n$ is the total of Qubits were used in the circuit. So, for the example \ref{fig:fibonacci-circuit} above, the position $n$ we want, is $4$, and the result after counting the bars of which values are $\neq 0$ give us the result of $F(4) = 8$.
+
+It may seem wrong, however, the quantum setup differ slightly from the classical one, once the first value is $2$ instead of $1$, this way, the sequence is: $F(1)=2, F(2)=3, F(3)=5, F(4)=8, F(5)=13, F(6)=21, ...$, which implies that it worked for this example.
+
 
 \subsubsubsection{Aproximação de Milhas para Quilômetros usando Fibonacci}
 
@@ -334,6 +342,8 @@ Para aproximar o valor de milhas para quilômetros, podemos utilizar a sequênci
 	\caption{valores aproximados de Milhas para Quilômetros}
 	\end{center}
 \end{table}
+
+\newpage
 
 Valores não presentes na sequência, podem ser aproximados repartindo o valor em partes menores. Por exemplo, para transformar $10$ milhas em quilômetros, podemos fazer: $8 + 2 = 10miles \to F(5) + F(2) \to F(5+1) + F(2+1) =  13 + 3 = 16km$, aproximando então do valor mais preciso de $\approx 16.0934$
 
