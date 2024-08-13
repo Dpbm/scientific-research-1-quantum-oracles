@@ -24,6 +24,8 @@
 \usepackage{subfig}
 
 
+\captionsetup[table]{skip=5pt}
+
 \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 \setcounter{secnumdepth}{5}
@@ -133,8 +135,6 @@ The Boolean Oracle has a similar structure with the Phase Oracle. However, this 
 
 The example in the Figure \ref{fig:boolean-oracle}, is a well-known balanced Oracle for the Deutsch-Jozsa's algorithm. Nevertheless, to implement it, the Oracle must be transformed into a Phase Oracle.
 
-
-
 \subsubsection{Minimal Oracle}
 As previously mentioned, the Minimal Oracle is a function which its essence is unitary and reversible, so no additional Qubits are required. Therefore, this format can be either Boolean or Phase Oracle, depending on its implementation.
 
@@ -167,8 +167,6 @@ Even though it's an algorithm by itself, its application is done in the format o
 
 \subsubsection{Other kinds of Oracles}
 In addition to the oracles mentioned above, it's possible come across with different mentions of Oracles, like the Simons's, Deutsch-Jozsa's, etc. However, these are just implementations of models already shown in this paper. Also, the most relevant for the following projects are the Phase and Boolean ones, due that, there's no use to keep discussing about many others sub-categories of Oracles here.
-
-
 
 \section{Development}
 
@@ -319,51 +317,51 @@ After running the circuit $k$ times, the amount of unique bit-string that appear
 It may seem wrong, however, the quantum setup differ slightly from the classical one, once the first value is $2$ instead of $1$, this way, the sequence is: $F(1)=2, F(2)=3, F(3)=5, F(4)=8, F(5)=13, F(6)=21, ...$, which implies that it worked for this example.
 
 
-\subsubsubsection{Aproximação de Milhas para Quilômetros usando Fibonacci}
+\subsubsubsection{Approximating Miles to Kilometers}
 
-Para aproximar o valor de milhas para quilômetros, podemos utilizar a sequência de Fibonacci com a seguinte relação: $F_{km} = F_{milhas}(n+1)$, sendo aqui $F$ a versão clássica de Fibonacci com $F(1) = 1$ e $F(2) = 2$. Dessa forma, se a posição $n$ é conhecida, valor aproximado em quilômetros será dado em $n+1$.
+To approximate the value from miles to kilometers, an old approach for that is using the Fibonacci sequence. This method, uses the relation $F_{km} = F_{milhas}(n+1)$, which $F$ is the classical Fibonacci algorithm ($F(1) = 1$ and $F(2) = 2$), and $n$ is a known position in this very sequence. Following this equation, the relative kilometers values will be given in the next \textit{n} ($n+1$). 
 
-
-\begin{table}[!h]
+\begin{table}[h]
 	\begin{center}
-		\begin{tabular}{ |c|c| } 
+		\begin{tabular}{ |c|c|c| } 
 			\hline
-			milhas & km \\
+			miles & Km & Real(Km) value\\
 			\hline
-			1 & 2 \\
+			1 & 2 & 1.60934\\
 			\hline
-			2 & 3 \\
+			2 & 3 & 3.21869\\
 			\hline
-			3 & 5 \\
+			3 & 5 & 4.82803\\
 			\hline
-			5 & 8 \\
+			5 & 8 & 8.04672\\
 			\hline
 		\end{tabular}
-	\caption{valores aproximados de Milhas para Quilômetros}
+	\caption{Approximated miles-Km values}
 	\end{center}
 \end{table}
 
 \newpage
 
-Valores não presentes na sequência, podem ser aproximados repartindo o valor em partes menores. Por exemplo, para transformar $10$ milhas em quilômetros, podemos fazer: $8 + 2 = 10miles \to F(5) + F(2) \to F(5+1) + F(2+1) =  13 + 3 = 16km$, aproximando então do valor mais preciso de $\approx 16.0934$
+For values that aren't present in the sequence, they can be generated combining multiple values which are there. For example, to transform $10$ miles to kilometers, we could use the values $8$ and $2$, which are known in the sequence, and then used the previous cited method for each part. So, for this example, $8 = F(5)$ and $2 = F(2)$, so $F(5 + 1) + F(2 + 1) = F(6) + F(3) = 13 + 3 = 16Km$ giving a close value of $\approx 16.0934Km$.
 
 
-\subsubsection{Implementação do circuito}
-Com essa formulação, o algoritmo final segue esse fluxo:
+\subsubsection{Implementation}
 
-\begin{algorithm}[H]
+Using the formulation above, the final algorithm takes place using a Hybrid approach, following the structure bellow:
+
+\begin{algorithm}[h]
 	\begin{algorithmic}
-		\State{partes = $quebraValor(valorDeEntrada)$}
-		\For{parte in partes}
-			\State{Aplique o Oracle $F(parte)$}
-			\State{Faça as medições nos qubits}
-			\State{Reset os qubits usados}
+		\State{parts = $BreakInputIntoFibonacciParts(input)$}
+		\For{parte in parts}
+			\State{Apply the Oracle embedding $F(part)$}
+			\State{Measure the Oracle Qubits}
+			\State{Reset these Qubits}
 		\EndFor
-		\State{verifique o resultado de cada bit-string}
-		\State{Multiplique cada resultado com o valor $i$ correspondente}
+		\State{Check the outcomes}
+		\State{Multiply the given result for its relative $i$}
 			
 	\end{algorithmic}
-	\caption{Algoritmo quântico para a conversão}
+	\caption{Quantum Conversion algorithm}
 	\label{alg:miles-to-km-quantum-algortihm}
 \end{algorithm}
 
