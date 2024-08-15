@@ -365,10 +365,10 @@ Using the formulation above, the final algorithm takes place using a Hybrid appr
 	\label{alg:miles-to-km-quantum-algortihm}
 \end{algorithm}
 
-In this algorithm, is needed a pre-processing routine to using a classical algorithm to split the input number into smaller parts that can be calculated using the sequence. Also, to reduce the amount of Oracle applications to decrease the quantum noise, this processing returns a tuple for each number containing $n$ and the total of applications needed $p$, this way, we can apply each Oracle once and after retrieving the outcomes, the final result is giving by: $\sum_{i=0}^{m} {o_{i}p_{i}}$, being $m$ the total of parts and $o$ the given output.
+In this algorithm, is needed a preprocessing routine, using a classical algorithm, to split the input number into smaller parts that can be calculated using the sequence. Also, to reduce the amount of Oracle applications to decrease the quantum noise, this processing returns a tuple for each number containing $n$ and the total of applications needed $p$, this way, we can apply each Oracle once and after retrieving the outcomes, the final result is giving by: $\sum_{i=0}^{m} {o_{i}p_{i}}$, being $m$ the total of parts and $o$ the given output.
 
 
-% fix this one
+% fix this one (put each relative number in the Oracle name)
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.18]{number_breakdown_circuit.png}
@@ -381,38 +381,29 @@ In this algorithm, is needed a pre-processing routine to using a classical algor
 
 With this method, is possible to evaluate some input values. However, there are some points which make it unfeasible.
 
-\begin{enumerate}
+\begin{description}
 
-\item{\textbf{Quantidade necessária de medições e tempo de execução}}\\
-Para cada medição do circuito, é necessária uma quantidade alta de \emph{shots} (valores entre $5000$ e $10000$ foram testados localmente usando o Qiskit AER e, para os testes no hardware da IBM, foram usados apenas $1000$ por questões de extrema demora e erros durante os experimentos) para alcançar melhores resultados, aumentando também o tempo necessário para finalizar a execução.
+\item[Execution Time]{Each part to be calculated, takes too much \emph{shots}, taking around $500-10000$ to get better results, therefore increasing the execution time}
 
-\begin{center}
-	\includegraphics[scale=0.6]{comparison_miles_to_km.png}
-	\captionof{figure}{Comparação tempos de execução}
-	\label{fig:comparasion-miles-km-time}
-\end{center}
+\item[Errors]{Due the high depth of this kind of circuit, this setup is likely to present wrong results due multi-Qubit operations in real hardware}
 
-Como mostrado em \ref{fig:comparasion-miles-km-time}, o tempo das versões clássicas, com e sem memoization, possuem tempos praticamente constantes em relação as versões quânticas.
+\item[Impression]{After running the algorithm for many different values, it's clear that, for large numbers, the output deviates a lot from what the expected was}
 
+\item[Classical Intervention]{Once it requires both pre and post-processing using classical algorithms, the usefulness of the quantum version decreases}
+\end{description}
 
-\item{\textbf{Erros}}\\
-Como a maioria dos algoritmos Quânticos da era NISQ(noisy intermediate-scale quantum), os erros também estão presentes, e por serem utilizados inúmeros gates multi-qubits, esses erros podem ainda se intensificar de acordo com hardware usado.
+\newpage
 
-\item{\textbf{Imprecisão}}\\
-\begin{center}
-	\includegraphics[scale=0.4]{miles_to_km_defiance.png}
-	\captionof{figure}{Comparação resultados versão clássica e quântica}
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.35]{miles_to_km_defiance.png}
+	\caption{Comparing the precision between classical and quantum versions}
 	\label{fig:values-miles-km-quantum}
-\end{center}
+\end{figure}
 
-Como mostrado em \ref{fig:values-miles-km-quantum}, valores pequenos possuem uma boa precisão com os números esperados, mas a partir de certo ponto, eles começam a se distanciar e perdem totalmente a precisão.
+Thus, this protocol can be used for small numbers. However, to be useful as its classical version, it should be more resilient to errors and precision issues, also it needs to be more independent from classical computations, once most of the work is based on classical routines.
 
-\item{\textbf{Necessidade de intervenção clássica}}\\
-Por requisitar pré e pós processamento clássico e apenas uma pequena parcela ser de fato processamento quântico, a necessidade de utilizar esse algoritmo se reduz a zero. 
-
-\end{enumerate}
-
-Sendo assim, esse algoritmo não consegue se sair bem como a versão clássica, além de ser mais custoso na maioria dos casos. Para evoluir essa implementação, será necessário remodelá-lo para um versão com pouca, ou nenhuma, computação clássica, priorizando a maneira como dados podem ser encodados e transformados no circuito.
+Consequently, this final algorithm isn't good as the classical one, and probably isn't useful enough for real applications. Nonetheless, it's possibly a starting point for different approaches for real implementations. 
 
 \subsection{Torres de Hanoi} \label{hanoi}
 Para a criação das torres de Hanoi, foi pensado em uma maneira de encodar a posição dos discos na torre utilizando seus valores binários e o Phase Oracle como meio de armazenamento.
