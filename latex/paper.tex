@@ -405,33 +405,42 @@ Thus, this protocol can be used for small numbers. However, to be useful as its 
 
 Consequently, this final algorithm isn't good as the classical one, and probably isn't useful enough for real applications. Nonetheless, it's possibly a starting point for different approaches for real implementations. 
 
-\subsection{Torres de Hanoi} \label{hanoi}
-Para a criação das torres de Hanoi, foi pensado em uma maneira de encodar a posição dos discos na torre utilizando seus valores binários e o Phase Oracle como meio de armazenamento.
+\subsection{Hanoi Towers} \label{hanoi}
 
-\subsubsection{Implementação}
-Para esse projeto, são necessários $(\floor{\log_2{x}} + 1) * 3$ qubits, sendo $x$ o número de discos. Estes seguem a ordem $\ket{t_{n-1} t_{n-2} ... t_0}\ket{a_{n-1} a_{n-2} ... a_0}\ket{s_{n-1} s_{n-2} ... s_0}$, sendo $s$,$a$,$t$ a primeira, segunda e última torre respectivamente, e $n = {{n \space qubits} \over 3}$.\\
-Com essa configuração, os números de $1$ à $x$ são codificados em seu formato binário nos qubits $s$, utilizando a fase global $\pi$. Em seguida, são realizadas operações de $swap$ bit-a-bit para mover os valores dos $n$ qubits menos significativos para os $n$ mais significativos.\\
-Para realizar essas operações, é necessário pré-calcular, classicamente, a sequência de movimentos usados  \cite{ldiaandr_2021_tower} \cite{diptokarmakar47_2019_how} \cite{a2020_towers}  \cite{geeksforgeeks_2014_program}. Dessa forma, essa versão quântica age como um jogador com uma lista de passos a serem seguidos, executando-os um-a-um.
+For the Hanoi Towers implementation, it was designed a way to encode the discs positions in the tower using their binary values and the Phase Oracle as a storage device.
 
-\begin{center}
+\subsubsection{Implementation}
+This project, requires $(\floor{\log_2{x}} + 1) * 3$ Qubits, being $x$ the number of disks. The Qubits layout follows this sequence: $\ket{t_{n-1} t_{n-2} ... t_0}\ket{a_{n-1} a_{n-2} ... a_0}\ket{s_{n-1} s_{n-2} ... s_0}$, where $s$,$a$,$t$ are the first, second and third towers respectively.
+
+To prepare the state, a Phase Oracle is prepared encoding each disc number (from $1$ to $x$) in the first rod (Qubits $s$) using the global phase $\pi$. After that, $SWAP$ operations are done following the classically preprocessed steps, moving bit-by-bit from one rod to another.
+
+\newpage
+
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.3]{hanoi_3_discs.png}
-	\captionof{figure}{Torre de Hanoi com 3 discos}
+	\caption{Quantum Hanoi Tower with 3 disks}
 	\label{fig:hanoi}
-\end{center}
+\end{figure}
 
-Nesse circuito, pode-se utilizar algoritmos adicionar, como o algoritmo de Grover, para verificar o resultado, ou executar outras operações nos valores.
+As cited previously, the movements are preprocessed before playing. This way,the quantum setup acts like a classical player, executing step-by-step his strategy.
 
-\begin{center}
+Also, as we're playing with phases, it's possible to apply phase amplification algorithm, like Grover's, to evaluate the tower and get the resulting values.
+
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.5]{result_hanoi_3_discs.png}
-	\captionof{figure}{Resultado usando Grover - Torre de Hanoi com 3 discos}
+	\caption{Quantum Hanoi Tower with 3 disks - evaluation using Grover's algorithm}
 	\label{fig:hanoi-result}
-\end{center}
+\end{figure}
 
-Em \ref{fig:hanoi-result}, os $3$ maiores resultados obtidos são as bit-strings com $01$, $10$ e $11$ nos bits mais significativos. Sendo assim, o resultado esperado para uma torre com 3 discos, foi atingido.
+As shown in \ref{fig:hanoi-result}, after evaluating the circuit, it's possible to see $3$ high probability bit-strings, which represent the encoded disks. These bit-string are $010000$, $100000$ and $110000$, so the operations moved successfully the disks from the source rod (rightmost $2$ bits) to the target rod (leftmost $2$ bits).
 
-\subsubsection{Resultados}
-Nessa versão, é seguida a mesma sequência do algoritmo clássico, necessitando, inclusive, de pré-processamento para conseguir a sequência de ações.\\
-Em uma versão clássica, o movimento de retirar um disco de uma torre e move-lo para a próxima requer também esse pré-processamento, podendo ser realizado um-a-um ou tudo de uma vez antes da partida. Dessa forma, a versão clássica e quântica se igualam, não tendo ganhos ou perdas expressivas.
+\subsubsection{Thoughts on the Results}
+
+Once it followed the same sequence of implementation as the classical one, requiring, inclusively, preprocessing. This version is equivalent to the classical algorithm, keeping in mind that for a classical computer, it's also required to precompute a movement, and then play it.
+
+\newpage
 
 \subsection{Buckshot Roulette} \label{buckshot}
 \emph{Buckshot Roulette} é um jogo de computador feito pelo desenvolvedor \href{https://mikeklubnika.itch.io/}{Mike Klubnika}, tomando como base a premissa de reinventar a infame roleta russa. No jogo, você é desafiado por um demônio (dealer), e caso você ganhe, uma recompensa lhe será dado, caso contrário o jogo reinicia e você pode tentar novamente.\\
