@@ -443,8 +443,13 @@ Once it followed the same sequence of implementation as the classical one, requi
 \newpage
 
 \subsection{Buckshot Roulette} \label{buckshot}
-\emph{Buckshot Roulette} é um jogo de computador feito pelo desenvolvedor \href{https://mikeklubnika.itch.io/}{Mike Klubnika}, tomando como base a premissa de reinventar a infame roleta russa. No jogo, você é desafiado por um demônio (dealer), e caso você ganhe, uma recompensa lhe será dado, caso contrário o jogo reinicia e você pode tentar novamente.\\
-Nesse projeto, foi tomado como objetivo analisar a primeira rodado do jogo e tentar encontrar a melhor estratégia para maximizar os ganhos do jogador. O motivo da escolha da primeira rodada se dá pela sua simplicidade, sendo direto ao ponto, sem power-ups ou fatores que dificultariam as simulações, mas, ainda assim, mantendo a essência do jogo.
+\emph{Buckshot Roulette} is a computer game made by \href{https://mikeklubnika.itch.io/}{Mike Klubnika}, based on the idea of modifying the infamous Russian Roulette. 
+
+During the game, you are challenged to play against a demon (dealer). If you win, you'll receive a prize, otherwise the game will restart and you can try again.
+
+In this very project, we analyzed the first game match, trying to find the best strategy to maximize the player's winnings. The reason for choosing the first match, is because of its simplicity, being away from power-ups that could complicate the analysis, and also because this one shows the base dynamics for the entire game, so doing well in this one, is the first step to beat the whole game.
+
+\newpage
 
 \subsubsection{Dinâmica}
 Na rodada, são colocadas $2$ balas falsas e $1$ bala verdadeira na arma, sendo o player o primeiro a jogar. Ambos os jogadores podem escolher entre atirar em si mesmo, ou em seu oponente. Assim, a próxima ação é estritamente depende das probabilidades de ser uma bala real ou falsa. A partir dai, a dinâmica funciona da seguinte forma: 
