@@ -449,44 +449,25 @@ During the game, you are challenged to play against a demon (dealer). If you win
 
 In this very project, we analyzed the first game match, trying to find the best strategy to maximize the player's winnings. The reason for choosing the first match, is because of its simplicity, being away from power-ups that could complicate the analysis, and also because this one shows the base dynamics for the entire game, so doing well in this one, is the first step to beat the whole game.
 
+\subsubsection{Game Dynamics}
+
+In the first round, $2$ fake bullets and $1$ real are put into the shotgun. Then, the player starts his play, choosing between shooting himself or his opponent. If the player shoots himself and it's a real bullet, he loses one life point, otherwise he gets another chance to choose. However, if he chooses to shot his opponent, if it's real he takes away one life point from him, otherwise his opponent receives the gun.
+
+This dynamics is followed in the entire game for both player and dealer, only being slight modified when power-ups are gained.
+
 \newpage
 
-\subsubsection{Dinâmica}
-Na rodada, são colocadas $2$ balas falsas e $1$ bala verdadeira na arma, sendo o player o primeiro a jogar. Ambos os jogadores podem escolher entre atirar em si mesmo, ou em seu oponente. Assim, a próxima ação é estritamente depende das probabilidades de ser uma bala real ou falsa. A partir dai, a dinâmica funciona da seguinte forma: 
+\subsubsection{Modeling the Game Strategies}
+The round dynamics can be modeled as a binary tree, using some game theory ideas to understand it better.
 
-\begin{algorithm}[H]
-	\begin{algorithmic}
-		\If{jogador escolhe atirar no dealer}
-			\If{bala for real}
-				\State{Jogador ganha a rodada}
-			\Else
-				\State{Dealer joga a próxima}
-			\EndIf
-		\Else
-			\If{bala for real}
-				\State{Jogador perde}
-			\Else
-				\State{Player joga a próxima}
-			\EndIf
-		\EndIf
-
-	\end{algorithmic}
-	\caption{Possíveis jogadas}
-	\label{alg:buckshot-roulette}
-\end{algorithm}
-
-Essa dinâmica se repete a cada jogada, sendo válida tanto para o dealer, como para o player.
-
-
-\subsubsection{Versão clássica}
-Para entender melhor a dinâmica, é possível representar cada ação e suas consequências em formato de árvore. Dessa forma, cada jogada leva a partida para mais próximo do fim.
-
-
-\begin{center}
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.2]{buckshot-roulette-diagram.png}
-	\captionof{figure}{Buckshot Roulette diagrama de árvore}
+	\caption{Buckshot Roulette tree diagram}
 	\label{fig:classical-model-bckr}
-\end{center}
+\end{figure}
+
+For this diagram, it's expected that the player is a rational agent, which always plays aiming to win, and the dealer is a random agent, choosing randomly its decisions. 
 
 Nessa estrutura, é previsto que o jogador seja um agente racional, e o dealer uma máquina com ações aleatórias. Assim, o jogador sempre visa o seu próprio benefício, enquanto o dealer age pela sorte.Tal comportamento pode ser visto nas folhas da árvore do qual, sempre que o player é o próximo jogador, sua ação é apenas atirar no adversário, enquanto o dealer ainda possui a possibilidade de entregar o jogo atirando em si próprio, mesmo havendo apenas uma bala na arma e, pela lógica do jogo, ser uma bala verdadeira.\\
 Seguindo essa estrutura, podemos simular os possíveis caminhos e verificar a melhor estratégia.
