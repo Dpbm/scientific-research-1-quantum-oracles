@@ -467,47 +467,51 @@ The round dynamics can be modeled as a binary tree, using some game theory ideas
 	\label{fig:classical-model-bckr}
 \end{figure}
 
-For this diagram, it's expected that the player is a rational agent, which always plays aiming to win, and the dealer is a random agent, choosing randomly its decisions. 
+For this diagram, it's expected that the player is a rational agent, which always plays aiming to win, and the dealer is a random agent, choosing randomly its decisions. Due that, it's possible to see in the image \ref{fig:classical-model-bckr} that the leafs that was reached by the player, has only one possible value, Shoot, but those reached by the dealer, has two, Shoot himself or his opponent, once he's a random agent.
 
-Nessa estrutura, é previsto que o jogador seja um agente racional, e o dealer uma máquina com ações aleatórias. Assim, o jogador sempre visa o seu próprio benefício, enquanto o dealer age pela sorte.Tal comportamento pode ser visto nas folhas da árvore do qual, sempre que o player é o próximo jogador, sua ação é apenas atirar no adversário, enquanto o dealer ainda possui a possibilidade de entregar o jogo atirando em si próprio, mesmo havendo apenas uma bala na arma e, pela lógica do jogo, ser uma bala verdadeira.\\
-Seguindo essa estrutura, podemos simular os possíveis caminhos e verificar a melhor estratégia.
+Using this tree, we can create an algorithm to simulate this game multiple times, and then try to find a possible solution.
 
-\begin{center}
-	\includegraphics[scale=0.6]{optimal_player_strategy.png}
-	\captionof{figure}{Buckshot Roulette clássico - melhor estratégia}
+After testing multiple possible paths, the best one was given by the path which the player starts shooting the dealer. After Analyzing this very strategy, the conclusion is that, this is the best strategy, because the player has less chances to die, once he doesn't have the chance of killing himself right away at the beginning.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{optimal_player_strategy.png}
+	\caption{Classical Buckshot Roulette - Best Strategy}
 	\label{fig:classical-model-bckr-optimal-strategy}
-\end{center}
+\end{figure}
 
-Após testar os caminhos possíveis, o melhor resultado obtido foi esse apresentado acima em \ref{fig:classical-model-bckr-optimal-strategy}. Com um pouco de investigação, foi possível entender que essa estratégia se baseia no jogador começar atirando no dealer. Isso acontece, pois, ao seguir tal caminho, ele tem uma chance a menos de perder a rodada ao atirar em si mesmo logo no começo da partida.
+\newpage
 
 \begin{table}[!h]
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c| } 
 			\hline
-			rodada & ação & resultado da ação & resultado da partida \\
+			Bullet & Action & action result & shoot result \\
 			\hline
-			1 & player atira no dealer  & real & player ganha\\
+			1 & player shoots dealer  & real & player wins\\
 			\hline
-			1 & player atira no dealer  & fake & -\\
+			1 & player shoots dealer  & fake & -\\
 			\hline
-			2 & dealer atira no player  & real & dealer ganha\\
+			2 & dealer shoots player  & real & dealer wins\\
 			\hline
-			2 & dealer atira no player  & fake & -\\
+			2 & dealer shoots player  & fake & -\\
 			\hline
-			2 & dealer atira nele mesmo  & real & player ganha\\
+			2 & dealer shoots himself  & real & player wins\\
 			\hline
-			2 & dealer atira nele mesmo  & fake & -\\
+			2 & dealer shoots himself  & fake & -\\
 			\hline
-			3 & player atira no dealer  & real & player ganha\\
+			3 & player shoots dealer  & real & player wins\\
 			\hline
-			3 & dealer atira no player & real & dealer ganha\\
+			3 & dealer shoots player & real & dealer wins\\
 			\hline
-			3 & dealer atira nele mesmo  & real & player ganha\\
+			3 & dealer shoots himself & real & player wins\\
 			\hline
 		\end{tabular}
-		\caption{melhor estratégia - possíveis resultados}
+		\caption{Best Strategy - Analyzing the possible paths}
 	\end{center}
 \end{table}
+
+%% add the path which the player shoots himself
 
 \subsubsection{Versão quântica}
 Para a versão quântica, um circuito foi modelado imitando o funcionamento do game. Nesse algoritmo, um Oracle foi usado para cada jogador, implementando internamente sua estratégia.
