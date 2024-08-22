@@ -473,6 +473,7 @@ Using this tree, we can create an algorithm to simulate this game multiple times
 
 After testing multiple possible paths, the best one was given by the path which the player starts shooting the dealer. After Analyzing this very strategy, the conclusion is that, this is the best strategy, because the player has less chances to die, once he doesn't have the chance of killing himself right away at the beginning.
 
+% fix this graph
 \begin{figure}[h]
 	\centering
 	\includegraphics[scale=0.5]{optimal_player_strategy.png}
@@ -482,7 +483,37 @@ After testing multiple possible paths, the best one was given by the path which 
 
 \newpage
 
-\begin{table}[!h]
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{ |c|c|c|c| } 
+			\hline
+			Bullet & Action & action result & shoot result \\
+			\hline
+			1 & player shoots himself  & real & dealer wins\\
+			\hline
+			1 & player shoots himself  & fake & -\\
+			\hline
+			2 & dealer shoots player  & real & dealer wins\\
+			\hline
+			2 & dealer shoots player  & fake & -\\
+			\hline
+			2 & dealer shoots himself  & real & player wins\\
+			\hline
+			2 & dealer shoots himself  & fake & -\\
+			\hline
+			3 & player shoots dealer  & real & player wins\\
+			\hline
+			3 & dealer shoots player & real & dealer wins\\
+			\hline
+			3 & dealer shoots himself & real & player wins\\
+			\hline
+		\end{tabular}
+		\caption{Player starts shooting himself path analysis}
+		\label{table:starts-himself}
+	\end{center}
+\end{table}
+
+\begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ |c|c|c|c| } 
 			\hline
@@ -508,42 +539,49 @@ After testing multiple possible paths, the best one was given by the path which 
 			\hline
 		\end{tabular}
 		\caption{Best Strategy - Analyzing the possible paths}
+		\label{table:starts-shooting}
 	\end{center}
 \end{table}
 
-%% add the path which the player shoots himself
+Analyzing these tables, it's possible to see that the path of which the player starts shooting his opponent \ref{table:starts-shooting}, he has one chance more to win than when he shoots himself first \ref{table:starts-himself}. Due this fact, the \ref{table:starts-shooting} shows the best Strategy to beat the dealer.
 
-\subsubsection{Versão quântica}
-Para a versão quântica, um circuito foi modelado imitando o funcionamento do game. Nesse algoritmo, um Oracle foi usado para cada jogador, implementando internamente sua estratégia.
+\subsubsection{Quantum Version}
 
-\begin{center}
+After analyzing the game, a quantum circuit was modeled to mimic the game dynamics. To do that, an Oracle was implemented for each player (player and dealer) internally implementing their strategies based on Bloch Sphere rotations.
+
+Also, a \emph{Shoot} gate was implemented. This one, is a controlled Hadamard gate, which implies that the gun has $50\%$ chance of firing (bit $1$) and $50\%$ of not firing (bit $0$), as well.
+
+\newpage
+
+\begin{figure}[h]
+	\centering
 	\includegraphics[scale=0.3]{quantum_buckshot_roulette.png}
-	\captionof{figure}{Circuito para o Buckshot Roulette}
+	\caption{Buckshot Roulette Circuit}
 	\label{fig:bckr-circuit}
-\end{center}
+\end{figure}
 
-Além disso, para encontrar a estratégia, foram inseridos dois parâmetros dentro do Oracle do player, sendo possível configurar qualquer valor $\theta$ e $\phi$ para modificar a rotação na Bloch Sphere.\\
-Após verificar os possíveis valores, a rotação que entregou o melhor resultado foi $\theta\approx 3.0853981633974477, \phi\approx3.7853981633974474$ radianos. Usando essa estratégia, os resultados foram semelhantes a versão clássica.
+After setting-up the circuit, two parameters were inserted into Player's Oracle. These were used to manipulated the rotations in the Bloch Sphere in relation to both $\theta$ and $\phi$ angles. This way, it was possible to simulate it multiple times and find the best angles which raise the maximum values of player winnings. After running the algorithm, the best values were: $\theta\approx 3.0853981633974477, \phi\approx3.7853981633974474$ radians.
 
-\begin{center}
-	\includegraphics[scale=0.6]{final_buckshot_roulette_quantum_optimal_strategy.png}
-	\captionof{figure}{Resultado Buckshot Roulette quântico - Qiskit AER}
-	\label{fig:bckr-circuit-result}
-\end{center}
+\newpage
 
-Observando a Bloch Sphere do estado gerado por essa rotação, é possível ver também que a estratégia se aproxima da versão clássica, com o player preferindo atirar no dealer a maior parte do tempo (o valor $1$ representa atirar no outro jogador e $0$ em si mesmo).
 
-\begin{center}
-	\includegraphics[scale=0.6]{player_optimal_strategy_bloch.png}
-	\captionof{figure}{Melhor estratégia Buckshot Roulette quântico - Bloch Sphere}
-	\label{fig:bckr-bloch-sphere-best-strategy}
-\end{center}
+\begin{figure}[h]
+	\centering
+	\subfloat[\centering Buckshot Roulette (Qiskit Aer) simulation ($shots=1000$) results]{\includegraphics[scale=0.35]{final_buckshot_roulette_quantum_optimal_strategy.png} \label{fig:bckr-circuit-result}}
+	\subfloat[\centering Best Strategy Bloch Sphere plot]{\includegraphics[scale=0.35]{player_optimal_strategy_bloch.png} \label{fig:bckr-bloch-sphere-best-strategy}}
+	\caption{Buckshot Roulette results}
+	\label{fig:buckshot-results}
+\end{figure}
 
-Como uma última nota sobre o circuito, no exemplo \ref{fig:bckr-circuit-result}, o total de partidas ganhas por cada jogador não chega ao total jogado (nesse caso $1000$ partidas foram simuladas). Isso acontece devido ao design do circuito, o qual não é possível verificar a jogada do player anterior, acarretando na continuação do jogo mesmo que um dos players já tenha perdido, o que cria a necessidade do uso de pós processamento para limpar os resultados inválidos.
+Plotting the simulation results on a histogram \ref{fig:bckr-circuit-result}, it's possible to see that the total sum doesn't reach the total of $1000$ shots which were done. It happened due the layout of the circuit, which doesn't take cares of a "game over" state, and keeps running even if the bullet was already shot. Due that, it needed a post-processing function to handle these cases.
 
-\subsubsection{Conclusões}
-Para esse problema, não há uma competição certa entre as duas versões, já que uma é diretamente inspirada na outra. Contudo, a versão quântica possui ainda a possibilidade de explorar mais valores do que a versão clássica, deixando o player mais aberto a escolha de novas estratégias, o que pode ser visto como um ponto a favor da versão quântica.\\
-Em suma, ambos as simulações atingiram o mesmo resultado e foi demonstrado que é possível usar o quantum Oracle como uma representação de um player dentro do circuito.
+Aside of this detail, the results kept really solid, and, comparing to the classical version, the results seem to be the same, and even the player strategy keeps the same, being the best choice shooting his opponent instead of himself \ref{fig:bckr-bloch-sphere-best-strategy} (in this case, $1$ represents the action of shooting the opponent for both players).
+
+\subsubsection{Conclusions}
+
+For this problem, there are no competition between classical and quantum versions, once the former is highly inspired in the later. However, taking a more game theoretical view, the quantum version can take advantage of more states, consequently it can explore more strategies than its counterpart.
+
+In general, both simulations reached the same result, and it was shown that it's possible to model and simulate a game with quantum circuits using Oracles as player's strategies representations.
 
 \subsection{QRAM} \label{qram}
 Por fim, o último projeto realizado foi o de uma \emph{QRAM} utilizando os Oracles. Nessa versão, foi testado a criação de \emph{QROMs} (com dados estáticos dentro), e uma possível maneira de utilizar uma QRAM hábil para escrita.\\
