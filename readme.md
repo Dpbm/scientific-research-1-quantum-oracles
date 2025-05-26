@@ -2,7 +2,7 @@
 
 In this repo, all the stuff related to my first scientific research is stored. In here, you'll find presentations, other documents, code, tests, results images and the paper as well.
 
-The paper is in review at [springer Acta informatica](https://link.springer.com/journal/236) currently in per-review acceptance proccess. Until its release, you can check the paper [here]()
+The paper is in review at [springer Acta informatica](https://link.springer.com/journal/236) currently in per-review acceptance proccess. Until its release, you can check the paper [here](./paper).
 
 ## The idea
 
